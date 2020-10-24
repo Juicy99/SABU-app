@@ -29,7 +29,7 @@ class TasksScreen extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(
-                top: 10.0, left: 30.0, right: 30.0, bottom: 10.0),
+                top: 20.0, left: 30.0, right: 30.0, bottom: 10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -63,10 +63,6 @@ class TasksScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
               ),
               child: TasksList(),
             ),

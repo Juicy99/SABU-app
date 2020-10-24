@@ -135,7 +135,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     onPressed: () {
                                       Provider.of<TaskData>(context)
                                           .addTask(newTaskTitle ?? '');
-                                      Navigator.push(
+                                      Navigator.pop(context);
+                                      return Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
