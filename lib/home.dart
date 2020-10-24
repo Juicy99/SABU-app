@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'add_task_screen.dart';
+import 'cart_page.dart';
+import 'schedule_page.dart';
+import 'zaiko_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -13,12 +16,18 @@ class _MyHomePageState extends State<MyHomePage>
   // Tabの配列を作成
   List<Widget> _tab = [
     Tab(text: '査定', icon: Icon(Icons.shopping_basket)),
+    Tab(text: '在庫', icon: Icon(Icons.widgets)),
+    Tab(text: '買取履歴', icon: Icon(Icons.shopping_cart)),
+    Tab(text: 'カレンダー', icon: Icon(Icons.perm_contact_calendar)),
   ];
 
   // タブの中身として表示するPageの配列を作成
   List<Widget> _buildTabPages() {
     return [
       AddTaskScreen(),
+      ZaikoPage(),
+      CartPage(),
+      SchedulePage(),
     ];
   }
 
