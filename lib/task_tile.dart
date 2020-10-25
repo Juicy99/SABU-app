@@ -4,16 +4,11 @@ import 'package:provider/provider.dart';
 import 'task_data.dart';
 
 class TaskTile extends StatelessWidget {
-  final bool isChecked;
   final String taskTitle;
-  final Function checkboxCallback;
+  final String taskMessage;
   final Function longPressCallback;
 
-  TaskTile(
-      {this.isChecked,
-      this.taskTitle,
-      this.checkboxCallback,
-      this.longPressCallback});
+  TaskTile({this.taskTitle, this.taskMessage, this.longPressCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +71,7 @@ class TaskTile extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(left: 12.0),
                               child: Text(
-                                'message',
+                                taskMessage,
                                 style: TextStyle(fontSize: 16),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,

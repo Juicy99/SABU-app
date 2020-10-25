@@ -47,6 +47,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     String newTaskTitle;
+    String newTaskMessage;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -100,6 +101,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               TextFormField(
                 decoration: InputDecoration(
                     hintText: '例（限定品）', labelText: '何かメモがあれば記入してください'),
+                onChanged: (value) {
+                  newTaskMessage = value;
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -135,6 +139,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     onPressed: () {
                                       Provider.of<TaskData>(context)
                                           .addTask(newTaskTitle ?? '');
+                                      Provider.of<TaskData>(context)
+                                          .addMessage(newTaskMessage ?? '');
                                       Navigator.pop(context);
                                       return Navigator.push(
                                         context,
