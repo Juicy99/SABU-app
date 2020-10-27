@@ -48,6 +48,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   Widget build(BuildContext context) {
     String newTaskTitle;
     String newTaskMessage;
+    String newTaskPrice;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -99,6 +100,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     incDecFactor: 100),
               ),
               TextFormField(
+                onChanged: (value) {
+                  newTaskPrice = value;
+                },
+              ),
+              TextFormField(
                 decoration: InputDecoration(
                     hintText: '例（限定品）', labelText: '何かメモがあれば記入してください'),
                 onChanged: (value) {
@@ -137,10 +143,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   ),
                                   FlatButton(
                                     onPressed: () {
-                                      Provider.of<TaskData>(context)
-                                          .addTask(newTaskTitle ?? '');
-                                      Provider.of<TaskData>(context)
-                                          .addMessage(newTaskMessage ?? '');
+                                      Provider.of<TaskData>(context).addTask(
+                                          newTaskTitle ?? '',
+                                          newTaskMessage ?? '',
+                                          newTaskPrice ?? '');
                                       Navigator.pop(context);
                                       return Navigator.push(
                                         context,

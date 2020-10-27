@@ -9,22 +9,22 @@ class TasksList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<TaskData>(
       builder: (context, taskData, child) {
-        return taskData.taskCount == null
-            ? Container()
-            : ListView.builder(
-                itemBuilder: (context, index) {
-                  final task = taskData.tasks[index];
-                  final message = taskData.messages[index];
-                  return TaskTile(
-                    taskTitle: task.name,
-                    taskMessage: message.message,
-                    longPressCallback: () {
-                      taskData.deleteTask(task, message);
-                    },
-                  );
-                },
-                itemCount: taskData.taskCount,
-              );
+        return ListView.builder(
+          itemBuilder: (context, index) {
+            final task = taskData.tasks[index];
+            final message = taskData.messages[index];
+            final price = taskData.prices[index];
+            return TaskTile(
+              taskTitle: task.name,
+              taskMessage: task.message,
+              taskPrice: task.price,
+              longPressCallback: () {
+                taskData.deleteTask(task, message, price);
+              },
+            );
+          },
+          itemCount: taskData.taskCount,
+        );
       },
     );
   }

@@ -6,9 +6,14 @@ import 'task_data.dart';
 class TaskTile extends StatelessWidget {
   final String taskTitle;
   final String taskMessage;
+  final String taskPrice;
   final Function longPressCallback;
 
-  TaskTile({this.taskTitle, this.taskMessage, this.longPressCallback});
+  TaskTile(
+      {this.taskTitle,
+      this.taskMessage,
+      this.taskPrice,
+      this.longPressCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +113,7 @@ class TaskTile extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(left: 12.0),
                               child: Text(
-                                'price',
+                                taskPrice,
                                 style: TextStyle(
                                     fontSize: 25, fontWeight: FontWeight.bold),
                                 overflow: TextOverflow.ellipsis,
