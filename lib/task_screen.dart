@@ -62,7 +62,12 @@ class TasksScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        "合計",
+                        "合計: 円 " +
+                            Provider.of<TaskData>(context,
+                                    rebuildOnChange: true)
+                                .totalCartValue
+                                .toString() +
+                            "",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,

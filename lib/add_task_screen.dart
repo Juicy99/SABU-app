@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:number_inc_dec/number_inc_dec.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'task_data.dart';
@@ -44,6 +44,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   List<String> valueList2 = ['新品', '未使用', '動作品', 'ジャンク品'];
   String _selectedValue2;
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     String newTaskTitle;
@@ -53,117 +55,139 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       body: Container(
         width: double.infinity,
         child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              DropdownButton(
-                value: _selectedValue ?? valueList[0],
-                items: valueList.map((String value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value;
-                  });
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: '商品名を記入'),
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  newTaskTitle = value;
-                },
-              ),
-              DropdownButton(
-                value: _selectedValue2 ?? valueList2[0],
-                items: valueList2.map((String value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue2 = value;
-                  });
-                },
-              ),
-              Container(
-                width: 130.0,
-                child: NumberInputWithIncrementDecrement(
-                    controller: TextEditingController(),
-                    min: 0,
-                    incIconColor: Colors.red,
-                    decIconColor: Colors.blue,
-                    incDecFactor: 100),
-              ),
-              TextFormField(
-                onChanged: (value) {
-                  newTaskPrice = value;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                    hintText: '例（限定品）', labelText: '何かメモがあれば記入してください'),
-                onChanged: (value) {
-                  newTaskMessage = value;
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  RaisedButton(
-                      child: Text('カートを確認'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => TasksScreen()),
-                        );
-                      }),
-                  RaisedButton(
-                    child: Text('カートにこの商品を入れる'),
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                                title: Text("確認"),
-                                content: Text("この商品をカートに追加しますか？"),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                      'キャンセル',
-                                      style: TextStyle(color: Colors.redAccent),
-                                    ),
-                                  ),
-                                  FlatButton(
-                                    onPressed: () {
-                                      Provider.of<TaskData>(context).addTask(
-                                          newTaskTitle ?? '',
-                                          newTaskMessage ?? '',
-                                          newTaskPrice ?? '');
-                                      Navigator.pop(context);
-                                      return Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                TasksScreen()),
-                                      );
-                                    },
-                                    child: Text('追加'),
-                                  ),
-                                ],
-                              ));
-                    },
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                DropdownButton(
+                  value: _selectedValue ?? valueList[0],
+                  items: valueList.map((String value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedValue = value;
+                    });
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: '商品名を記入'),
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    newTaskTitle = value;
+                  },
+                  validator: (value) {
+                    // 入力内容が空でないかチェック
+                    if (value.isEmpty) {
+                      return 'テキストを入力してください。';
+                    }
+                    return null;
+                  },
+                ),
+                DropdownButton(
+                  value: _selectedValue2 ?? valueList2[0],
+                  items: valueList2.map((String value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedValue2 = value;
+                    });
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: '査定金額を記入してください'),
+                  obscureText: false,
+                  maxLines: 1,
+                  maxLength: 10,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.0,
                   ),
-                ],
-              ),
-            ],
+                  inputFormatters: <TextInputFormatter>[
+                    WhitelistingTextInputFormatter.digitsOnly,
+                  ],
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    newTaskPrice = value;
+                  },
+                  validator: (value) {
+                    if (value.length == 0 || int.parse(value) <= 0) {
+                      return ('0円以上の金額を記入してください');
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: '例（限定品）', labelText: '何かメモがあれば記入してください'),
+                  onChanged: (value) {
+                    newTaskMessage = value;
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    RaisedButton(
+                        child: Text('カートを確認'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TasksScreen()),
+                          );
+                        }),
+                    RaisedButton(
+                      child: Text('カートにこの商品を入れる'),
+                      onPressed: () {
+                        if (_formKey.currentState.validate())
+                          showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                    title: Text("確認"),
+                                    content: Text("この商品をカートに追加しますか？"),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          'キャンセル',
+                                          style: TextStyle(
+                                              color: Colors.redAccent),
+                                        ),
+                                      ),
+                                      FlatButton(
+                                        onPressed: () {
+                                          Provider.of<TaskData>(context)
+                                              .addTask(
+                                                  newTaskTitle ?? '',
+                                                  newTaskMessage ?? '',
+                                                  newTaskPrice ?? '');
+                                          Navigator.pop(context);
+                                          return Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TasksScreen()),
+                                          );
+                                        },
+                                        child: Text('追加'),
+                                      ),
+                                    ],
+                                  ));
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
