@@ -46,6 +46,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  var _controller = TextEditingController();
+  var _controller2 = TextEditingController();
+  var _controller3 = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     String newTaskTitle;
@@ -74,6 +78,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   },
                 ),
                 TextFormField(
+                  controller: _controller,
                   decoration: InputDecoration(labelText: '商品名を記入'),
                   textAlign: TextAlign.center,
                   onChanged: (value) {
@@ -82,7 +87,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   validator: (value) {
                     // 入力内容が空でないかチェック
                     if (value.isEmpty) {
-                      return 'テキストを入力してください。';
+                      return '商品名を入力してください。';
                     }
                     return null;
                   },
@@ -102,6 +107,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   },
                 ),
                 TextFormField(
+                  controller: _controller2,
                   decoration: InputDecoration(labelText: '査定金額を記入してください'),
                   obscureText: false,
                   maxLines: 1,
@@ -119,12 +125,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   },
                   validator: (value) {
                     if (value.length == 0 || int.parse(value) <= 0) {
-                      return ('0円以上の金額を記入してください');
+                      return ('金額を記入してください');
                     }
                     return null;
                   },
                 ),
                 TextFormField(
+                  controller: _controller3,
                   decoration: InputDecoration(
                       hintText: '例（限定品）', labelText: '何かメモがあれば記入してください'),
                   onChanged: (value) {
@@ -165,6 +172,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       ),
                                       FlatButton(
                                         onPressed: () {
+                                          _controller.clear();
+                                          _controller2.clear();
+                                          _controller3.clear();
                                           Provider.of<TaskData>(context)
                                               .addTask(
                                                   newTaskTitle ?? '',

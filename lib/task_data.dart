@@ -53,13 +53,4 @@ class TaskData extends ChangeNotifier {
     shoppingCartCount--;
     notifyListeners();
   }
-
-  void calculateTotal() {
-    totalCartValue = 0;
-    prices.forEach((f) {
-      totalCartValue += f.price * f.qty;
-    });
-  }
-}
-
 }
