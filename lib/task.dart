@@ -2,12 +2,12 @@ class Task {
   final String name;
   final String message;
   final String price;
-  int qty;
+  final int quantity;
 
   Task({
     this.name,
     this.message,
     this.price,
-    this.qty,
+    this.quantity,
   });
 }

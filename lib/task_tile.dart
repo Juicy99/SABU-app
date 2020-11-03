@@ -62,8 +62,36 @@ class TaskTile extends StatelessWidget {
                               Icons.close,
                               size: 26,
                             ),
-                            onPressed: () {
-                              longPressCallback();
+                            onPressed: () async {
+                              // ダイアログを表示------------------------------------
+                              var result = await showDialog<int>(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return SimpleDialog(
+                                    title: Text("本当に削除しますか？"),
+                                    children: <Widget>[
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          'キャンセル',
+                                          style: TextStyle(
+                                              color: Colors.redAccent),
+                                        ),
+                                      ),
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          longPressCallback();
+                                        },
+                                        child: Text('削除'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                           ),
                         ],
