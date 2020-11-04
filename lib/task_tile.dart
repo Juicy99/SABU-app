@@ -63,7 +63,6 @@ class TaskTile extends StatelessWidget {
                               size: 26,
                             ),
                             onPressed: () async {
-                              // ダイアログを表示------------------------------------
                               var result = await showDialog<int>(
                                 context: context,
                                 barrierDismissible: false,
