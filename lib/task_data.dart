@@ -29,28 +29,31 @@ class TaskData extends ChangeNotifier {
     return _tasks.length;
   }
 
-  void addTask(
-      String newTaskTitle, String newTaskMessage, String newTaskPrice) {
-    _tasks.add(
-      Task(name: newTaskTitle, message: newTaskMessage, price: newTaskPrice),
-    );
-    notifyListeners();
-  }
-
   void deleteTask(Task task, message, price) {
     _tasks.remove(task);
     notifyListeners();
   }
 
-  int shoppingCartCount = 1;
-
-  void incrementCounter() {
-    shoppingCartCount++;
+  void incrementCounter(task) {
+    tasks[tasks.indexOf(task)].qty += 1;
     notifyListeners();
   }
 
-  void decrementCounter() {
-    shoppingCartCount--;
+  void decrementCounter(task) {
+    final i = tasks.indexWhere((e) => e.name == task.product);
+    if (tasks[i].qty == 1) {
+      _tasks.remove(task);
+    } else {
+      tasks[i].qty -= 1;
+      notifyListeners();
+    }
+  }
+
+  void addTask(
+      String newTaskTitle, String newTaskMessage, String newTaskPrice) {
+    _tasks.add(
+      Task(name: newTaskTitle, message: newTaskMessage, price: newTaskPrice),
+    );
     notifyListeners();
   }
 }

@@ -122,7 +122,7 @@ class TaskTile extends StatelessWidget {
                                   ),
                                   Text(
                                     Provider.of<TaskData>(context)
-                                        .shoppingCartCount
+                                        .qty
                                         .toString(),
                                     style: TextStyle(
                                         fontSize: 18,
