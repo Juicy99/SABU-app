@@ -6,10 +6,11 @@ import 'task.dart';
 
 class TaskData extends ChangeNotifier {
   List<Task> _tasks = [
-    Task(name: 'Buy milk', message: 'Buy milk', price: '10'),
-    Task(name: 'Buy eggs', message: 'Buy eggs', price: '100'),
-    Task(name: 'Buy bread', message: 'Buy bread', price: '1000'),
+    Task(name: 'Buy milk', message: 'Buy milk', addprice: '10'),
+    Task(name: 'Buy eggs', message: 'Buy eggs', addprice: '100'),
+    Task(name: 'Buy bread', message: 'Buy bread', addprice: '1000'),
   ];
+
 
   double totalCartValue = 0;
 
@@ -52,8 +53,15 @@ class TaskData extends ChangeNotifier {
   void addTask(
       String newTaskTitle, String newTaskMessage, String newTaskPrice) {
     _tasks.add(
-      Task(name: newTaskTitle, message: newTaskMessage, price: newTaskPrice),
+      Task(name: newTaskTitle, message: newTaskMessage, addprice: newTaskPrice),
     );
     notifyListeners();
+  }
+
+  void calculateTotal() {
+    totalCartValue = 0;
+    tasks.forEach((f) {
+      totalCartValue += f.price * f.qty;
+    });
   }
 }

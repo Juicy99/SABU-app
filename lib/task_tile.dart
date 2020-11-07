@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sateiv2_app/task.dart';
 
 import 'task_data.dart';
 
@@ -8,15 +9,18 @@ class TaskTile extends StatelessWidget {
   final String taskMessage;
   final String taskPrice;
   final Function longPressCallback;
+  final String task;
 
   TaskTile(
       {this.taskTitle,
       this.taskMessage,
       this.taskPrice,
-      this.longPressCallback});
+      this.longPressCallback,
+      this.task});
 
   @override
   Widget build(BuildContext context) {
+    final po = Provider.of<TaskData>(context);
     return Consumer<TaskData>(
       builder: (context, taskData, child) {
         return Container(
@@ -117,13 +121,11 @@ class TaskTile extends StatelessWidget {
                                   IconButton(
                                     icon: Icon(Icons.remove_circle_outline),
                                     onPressed: () {
-                                      taskData.decrementCounter();
+                                      po.decrementCounter(task);
                                     },
                                   ),
                                   Text(
-                                    Provider.of<TaskData>(context)
-                                        .qty
-                                        .toString(),
+                                    Task.qty.toString(),
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
@@ -131,7 +133,7 @@ class TaskTile extends StatelessWidget {
                                   IconButton(
                                     icon: Icon(Icons.add_circle_outline),
                                     onPressed: () {
-                                      taskData.incrementCounter();
+                                      po.incrementCounter(task);
                                     },
                                   ),
                                 ],
@@ -140,7 +142,7 @@ class TaskTile extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(left: 12.0),
                               child: Text(
-                                taskPrice,
+                                '\円 ' + (Task.qty * taskPrice).toString(),
                                 style: TextStyle(
                                     fontSize: 25, fontWeight: FontWeight.bold),
                                 overflow: TextOverflow.ellipsis,
