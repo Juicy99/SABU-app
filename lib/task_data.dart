@@ -6,11 +6,10 @@ import 'task.dart';
 
 class TaskData extends ChangeNotifier {
   List<Task> _tasks = [
-    Task(name: 'Buy milk', message: 'Buy milk', addprice: '10'),
-    Task(name: 'Buy eggs', message: 'Buy eggs', addprice: '100'),
-    Task(name: 'Buy bread', message: 'Buy bread', addprice: '1000'),
+    Task(name: 'Buy milk', message: 'Buy milk', price: '10'),
+    Task(name: 'Buy eggs', message: 'Buy eggs', price: '100'),
+    Task(name: 'Buy bread', message: 'Buy bread', price: '1000'),
   ];
-
 
   double totalCartValue = 0;
 
@@ -30,38 +29,28 @@ class TaskData extends ChangeNotifier {
     return _tasks.length;
   }
 
+  void addTask(
+      String newTaskTitle, String newTaskMessage, String newTaskPrice) {
+    _tasks.add(
+      Task(name: newTaskTitle, message: newTaskMessage, price: newTaskPrice),
+    );
+    notifyListeners();
+  }
+
   void deleteTask(Task task, message, price) {
     _tasks.remove(task);
     notifyListeners();
   }
 
-  void incrementCounter(task) {
-    tasks[tasks.indexOf(task)].qty += 1;
+  int shoppingCartCount = 1;
+
+  void incrementCounter() {
+    shoppingCartCount++;
     notifyListeners();
   }
 
-  void decrementCounter(task) {
-    final i = tasks.indexWhere((e) => e.name == task.product);
-    if (tasks[i].qty == 1) {
-      _tasks.remove(task);
-    } else {
-      tasks[i].qty -= 1;
-      notifyListeners();
-    }
-  }
-
-  void addTask(
-      String newTaskTitle, String newTaskMessage, String newTaskPrice) {
-    _tasks.add(
-      Task(name: newTaskTitle, message: newTaskMessage, addprice: newTaskPrice),
-    );
+  void decrementCounter() {
+    shoppingCartCount--;
     notifyListeners();
-  }
-
-  void calculateTotal() {
-    totalCartValue = 0;
-    tasks.forEach((f) {
-      totalCartValue += f.price * f.qty;
-    });
   }
 }
