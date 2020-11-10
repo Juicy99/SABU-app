@@ -50,11 +50,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   var _controller2 = TextEditingController();
   var _controller3 = TextEditingController();
 
+  int sum = 0;
+
   @override
   Widget build(BuildContext context) {
     String newTaskTitle;
     String newTaskMessage;
-    String newTaskPrice;
+    double newTaskPrice;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -121,7 +123,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ],
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    newTaskPrice = value;
+                    newTaskPrice = value as double;
                   },
                   validator: (value) {
                     if (value.length == 0 || int.parse(value) <= 0) {

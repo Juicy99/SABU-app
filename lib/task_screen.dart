@@ -76,7 +76,7 @@ class TasksScreen extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        "\$308.78",
+                        "\$${Provider.of<TaskData>(context).totalCartValue}",
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,

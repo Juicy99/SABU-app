@@ -13,11 +13,11 @@ class TasksList extends StatelessWidget {
           itemBuilder: (context, index) {
             final task = taskData.tasks[index];
             final message = taskData.messages[index];
-            final price = taskData.prices[index];
+            final price = taskData.tasks[index];
             return TaskTile(
               taskTitle: task.name,
               taskMessage: task.message,
-              taskPrice: task.price,
+              taskPrice: task.price.toString(),
               longPressCallback: () {
                 taskData.deleteTask(task, message, price);
               },

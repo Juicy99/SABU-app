@@ -1,7 +1,7 @@
 class Task {
-  final String name;
-  final String message;
-  final String price;
+  String name;
+  String message;
+  double price;
 
   Task({
     this.name,
