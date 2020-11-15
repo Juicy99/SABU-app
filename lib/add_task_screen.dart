@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'task_data.dart';
+import 'order.dart';
+import 'order_notify.dart';
+import 'product.dart';
 import 'task_screen.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -50,13 +52,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   var _controller2 = TextEditingController();
   var _controller3 = TextEditingController();
 
-  int sum = 0;
-
   @override
   Widget build(BuildContext context) {
     String newTaskTitle;
     String newTaskMessage;
     double newTaskPrice;
+    Product product;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -123,10 +124,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ],
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    newTaskPrice = value as double;
+                    newTaskPrice.toString();
                   },
                   validator: (value) {
-                    if (value.length == 0 || int.parse(value) <= 0) {
+                    if (value.length == 0 || double.parse(value) <= 0) {
                       return ('金額を記入してください');
                     }
                     return null;
@@ -149,7 +150,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => TasksScreen()),
+                                builder: (context) => ScreenOrder()),
                           );
                         }),
                     RaisedButton(
@@ -174,10 +175,21 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       ),
                                       FlatButton(
                                         onPressed: () {
+                                          setState(() {
+                                            newTaskPrice =
+                                                double.parse(_controller2.text);
+                                          });
+                                          var o = Order(
+                                              product: product,
+                                              qty: 1,
+                                              price: product.price);
+                                          context
+                                              .read<OrderNotify>()
+                                              .addOrder(o);
                                           _controller.clear();
                                           _controller2.clear();
                                           _controller3.clear();
-                                          Provider.of<TaskData>(context)
+                                          Provider.of<OrderNotify>(context)
                                               .addTask(
                                                   newTaskTitle ?? '',
                                                   newTaskMessage ?? '',
@@ -187,7 +199,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    TasksScreen()),
+                                                    ScreenOrder()),
                                           );
                                         },
                                         child: Text('追加'),

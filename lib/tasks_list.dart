@@ -1,31 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'task_data.dart';
-import 'task_tile.dart';
+import 'order_card.dart';
+import 'order_notify.dart';
 
 class TasksList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<TaskData>(
-      builder: (context, taskData, child) {
-        return ListView.builder(
-          itemBuilder: (context, index) {
-            final task = taskData.tasks[index];
-            final message = taskData.messages[index];
-            final price = taskData.tasks[index];
-            return TaskTile(
-              taskTitle: task.name,
-              taskMessage: task.message,
-              taskPrice: task.price.toString(),
-              longPressCallback: () {
-                taskData.deleteTask(task, message, price);
-              },
-            );
-          },
-          itemCount: taskData.taskCount,
-        );
-      },
+    final order = Provider.of<OrderNotify>(context);
+    return Scaffold(
+      body: ListView(
+        children: order.items
+            .map(
+              (e) => Container(
+                child: OrderCard(e),
+                key: Key(UniqueKey().toString()),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }

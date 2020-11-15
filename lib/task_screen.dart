@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'task_data.dart';
+import 'order_notify.dart';
 import 'tasks_list.dart';
 
-class TasksScreen extends StatelessWidget {
+class ScreenOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final order = Provider.of<OrderNotify>(context);
     return Scaffold(
       backgroundColor: Colors.red,
       body: Column(
@@ -34,7 +35,7 @@ class TasksScreen extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  '${Provider.of<TaskData>(context).taskCount} 点の商品がカートに入っています。',
+                  order.items.length.toString() + '点の商品がカートに入っています。',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -69,14 +70,14 @@ class TasksScreen extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        "${Provider.of<TaskData>(context).taskCount} 点",
+                        order.items.length.toString() + "点",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
                       Text(
-                        "\$${Provider.of<TaskData>(context).totalCartValue}",
+                        "a",
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
