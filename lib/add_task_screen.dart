@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'order.dart';
 import 'order_notify.dart';
-import 'product.dart';
-import 'task_screen.dart';
+import 'screen_order.dart';
 
 class AddTaskScreen extends StatefulWidget {
   @override
@@ -48,16 +46,19 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  var _controller = TextEditingController();
-  var _controller2 = TextEditingController();
-  var _controller3 = TextEditingController();
+  var _nameController = TextEditingController();
+  var _priceController2 = TextEditingController();
+  var _messageController3 = TextEditingController();
+
+  double newTaskPrice = 0;
+
+  int qty = 1;
 
   @override
   Widget build(BuildContext context) {
     String newTaskTitle;
     String newTaskMessage;
     double newTaskPrice;
-    Product product;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -81,7 +82,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   },
                 ),
                 TextFormField(
-                  controller: _controller,
+                  controller: _nameController,
                   decoration: InputDecoration(labelText: '商品名を記入'),
                   textAlign: TextAlign.center,
                   onChanged: (value) {
@@ -110,7 +111,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   },
                 ),
                 TextFormField(
-                  controller: _controller2,
+                  controller: _priceController2,
                   decoration: InputDecoration(labelText: '査定金額を記入してください'),
                   obscureText: false,
                   maxLines: 1,
@@ -134,7 +135,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   },
                 ),
                 TextFormField(
-                  controller: _controller3,
+                  controller: _messageController3,
                   decoration: InputDecoration(
                       hintText: '例（限定品）', labelText: '何かメモがあれば記入してください'),
                   onChanged: (value) {
@@ -174,26 +175,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                         ),
                                       ),
                                       FlatButton(
+                                        child: Text('追加'),
                                         onPressed: () {
-                                          setState(() {
-                                            newTaskPrice =
-                                                double.parse(_controller2.text);
-                                          });
-                                          var o = Order(
-                                              product: product,
-                                              qty: 1,
-                                              price: product.price);
-                                          context
-                                              .read<OrderNotify>()
-                                              .addOrder(o);
-                                          _controller.clear();
-                                          _controller2.clear();
-                                          _controller3.clear();
-                                          Provider.of<OrderNotify>(context)
+                                          newTaskPrice = double.parse(
+                                              _priceController2.text);
+                                          Provider.of<OrderNotify>(context,
+                                                  listen: false)
                                               .addTask(
                                                   newTaskTitle ?? '',
                                                   newTaskMessage ?? '',
-                                                  newTaskPrice ?? '');
+                                                  newTaskPrice ?? '',
+                                                  qty = 1);
+                                          _nameController.clear();
+                                          _priceController2.clear();
+                                          _messageController3.clear();
                                           Navigator.pop(context);
                                           return Navigator.push(
                                             context,
@@ -202,7 +197,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                                     ScreenOrder()),
                                           );
                                         },
-                                        child: Text('追加'),
                                       ),
                                     ],
                                   ));

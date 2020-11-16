@@ -1,41 +1,24 @@
 import 'package:flutter/material.dart';
 
 import 'order.dart';
-import 'product.dart';
 
-List<Product> items = [
-  Product(
-      image:
-          'https://upl.stack.com/wp-content/uploads/2015/01/How-to-Build-Your-Meal-Plan-According-to-Body-Type_STACK.jpg',
-      name: 'Food & xxx',
-      message: 'Food & xx....',
-      price: 100),
-  Product(
-      image:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ02o6hJho_3k3Rhbow9IL6pToV1JVqi2OHXFprdFV2GoHJQWEy&usqp=CAU',
-      name: 'Food & Wine Magazine',
-      message: 'Food & Wine Magazine....',
-      price: 1000)
+List<Order> items = [
+  Order(name: 'Buy milk', message: 'Buy milk', price: 10),
+  Order(name: 'Buy eggs', message: 'Buy eggs', price: 100),
+  Order(name: 'Buy bread', message: 'Buy bread', price: 1000),
 ];
 
 class OrderNotify extends ChangeNotifier {
   List<Order> items = [];
 
-  void addOrder(Order order) {
-    // check list product in item
-    final i = items.indexWhere((e) => e.product == order.product);
-    if (i > -1) {
-      items[i].qty += order.qty;
-    } else {
-      this.items.add(order);
-    }
-    notifyListeners();
-  }
-
-  void addTask(
-      String newTaskTitle, String newTaskMessage, double newTaskPrice) {
+  void addTask(String newTaskTitle, String newTaskMessage, double newTaskPrice,
+      int qty) {
     items.add(
-      Order(name: newTaskTitle, message: newTaskMessage, price: newTaskPrice),
+      Order(
+          name: newTaskTitle,
+          message: newTaskMessage,
+          price: newTaskPrice,
+          qty: 1),
     );
     notifyListeners();
   }
@@ -62,5 +45,14 @@ class OrderNotify extends ChangeNotifier {
 
   int get itemCount {
     return items.length;
+  }
+
+  double totalCartValue = 0;
+
+  void calculateTotal() {
+    totalCartValue = 0;
+    items.forEach((f) {
+      totalCartValue += f.price * f.qty;
+    });
   }
 }

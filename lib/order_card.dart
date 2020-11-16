@@ -10,7 +10,7 @@ class OrderCard extends StatelessWidget {
   OrderCard(this.order);
   @override
   Widget build(BuildContext context) {
-    final po = Provider.of<OrderNotify>(context);
+    final po = Provider.of<OrderNotify>(context, listen: false);
     return Container(
       padding: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
       height: 200,
@@ -25,8 +25,7 @@ class OrderCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image.network(
-                    order.product.image,
-                  ),
+                      'https://i.gyazo.com/c9ba1b20aa2689694a7314ddd06f1202.jpg'),
                 ],
               ),
             ),
@@ -43,7 +42,7 @@ class OrderCard extends StatelessWidget {
                         padding: EdgeInsets.only(left: 1.0),
                         width: 150,
                         child: Text(
-                          order.product.name,
+                          order.name,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
@@ -95,7 +94,7 @@ class OrderCard extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: 12.0),
                           child: Text(
-                            order.product.message,
+                            order.message,
                             style: TextStyle(fontSize: 16),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
