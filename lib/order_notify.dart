@@ -20,11 +20,13 @@ class OrderNotify extends ChangeNotifier {
           price: newTaskPrice,
           qty: 1),
     );
+    calculateTotal();
     notifyListeners();
   }
 
   removeOrder(o) {
     items.remove(o);
+    calculateTotal();
     notifyListeners();
   }
 
@@ -34,12 +36,14 @@ class OrderNotify extends ChangeNotifier {
       removeOrder(order);
     } else {
       items[i].qty -= 1;
+      calculateTotal();
       notifyListeners();
     }
   }
 
   incrementQty(order) {
     items[items.indexOf(order)].qty += 1;
+    calculateTotal();
     notifyListeners();
   }
 

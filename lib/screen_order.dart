@@ -77,7 +77,11 @@ class ScreenOrder extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        "a",
+                        "Total: \$ " +
+                            Provider.of<OrderNotify>(context)
+                                .totalCartValue
+                                .toString() +
+                            "",
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
