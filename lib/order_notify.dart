@@ -30,21 +30,20 @@ class OrderNotify extends ChangeNotifier {
     notifyListeners();
   }
 
-  decrementQty(order) {
-    final i = items.indexWhere((e) => e.product == order.product);
-    if (items[i].qty == 1) {
-      removeOrder(order);
-    } else {
-      items[i].qty -= 1;
-      calculateTotal();
-      notifyListeners();
-    }
-  }
-
   incrementQty(order) {
     items[items.indexOf(order)].qty += 1;
     calculateTotal();
     notifyListeners();
+  }
+
+  decrementQty(order) {
+    if (items[items.indexOf(order)].qty == 1) {
+      removeOrder(order);
+    } else {
+      items[items.indexOf(order)].qty -= 1;
+      calculateTotal();
+      notifyListeners();
+    }
   }
 
   int get itemCount {
