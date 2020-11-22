@@ -4,6 +4,102 @@ import 'package:provider/provider.dart';
 import 'order.dart';
 import 'order_notify.dart';
 
+class IndividualCart extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final order = Provider.of<OrderNotify>(context);
+    return Scaffold(
+      backgroundColor: Colors.red,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(
+                top: 20.0, left: 30.0, right: 30.0, bottom: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    IconButton(
+                        iconSize: 40,
+                        color: Colors.white,
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }),
+                    Text(
+                      "日付",
+                      style: TextStyle(color: Colors.white, fontSize: 30),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "合計: ",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      order.items.length.toString() + "点",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      Provider.of<OrderNotify>(context)
+                              .totalCartValue
+                              .toString() +
+                          "円",
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: TasksList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TasksList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final order = Provider.of<OrderNotify>(context);
+    return Scaffold(
+      body: ListView(
+        children: order.items
+            .map(
+              (e) => Container(
+                child: OrderCard(e),
+                key: Key(UniqueKey().toString()),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+}
+
 // ignore: must_be_immutable
 class OrderCard extends StatelessWidget {
   Order order;
@@ -106,22 +202,10 @@ class OrderCard extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.remove_circle_outline),
-                                onPressed: () {
-                                  po.decrementQty(order);
-                                },
-                              ),
                               Text(
-                                order.qty.toString(),
+                                order.qty.toString() + "個",
                                 style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.add_circle_outline),
-                                onPressed: () {
-                                  po.incrementQty(order);
-                                },
+                                    fontSize: 25, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),

@@ -1,40 +1,60 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(CartPage());
-}
+import 'individual_cart.dart';
 
-class CartPage extends StatefulWidget {
-  @override
-  _CartPageState createState() => _CartPageState();
-}
+class CartPage extends StatelessWidget {
+  final carts = [
+    '日付',
+    'アイテム2',
+    'アイテム3',
+    'アイテム4',
+    'アイテム5',
+    'アイテム6',
+    'アイテム7',
+    'アイテム8',
+    'アイテム9',
+    'アイテム10',
+    'アイテム11',
+    'アイテム12',
+    'アイテム13',
+    'アイテム14',
+    'アイテム15',
+  ];
 
-class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.white),
-      home: Scaffold(
-        appBar: AppBar(
-          leading: Icon(Icons.search),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.settings),
-            ),
-          ],
-          title: Text(
-            'カート履歴',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
-          backgroundColor: Colors.teal,
-        ),
-        body: Container(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('買取履歴'),
       ),
-    ); // MaterialApp
+      body: ListView.separated(
+        itemCount: carts.length,
+        itemBuilder: (context, int position) {
+          return Card(
+            child: ListTile(
+              leading: Image.network(
+                'https://i.gyazo.com/c9ba1b20aa2689694a7314ddd06f1202.jpg',
+                width: 70,
+              ),
+              title: Text(carts[position]),
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.close,
+                  size: 26,
+                ),
+                onPressed: () {},
+              ),
+              onTap: () {
+                return Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => IndividualCart()),
+                );
+              },
+            ),
+          );
+        },
+        separatorBuilder: (context, _) => const Divider(),
+      ),
+    );
   }
 }
