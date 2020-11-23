@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "671466060912",
+    "firebase_url": "https://satei-d8f8a.firebaseio.com",
+    "project_id": "satei-d8f8a",
+    "storage_bucket": "satei-d8f8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671466060912:android:c2dfc64f2e8641cff508b5",
+        "android_client_info": {
+          "package_name": "com.example.sateiv2_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671466060912-bfujmkrg4mftdh4bsdgb36oj331eusdf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmoauSHsc-uMc8DrAYosxTBBn4LjHVlW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671466060912-bfujmkrg4mftdh4bsdgb36oj331eusdf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671466060912:android:6ad3ba62b158cc75f508b5",
+        "android_client_info": {
+          "package_name": "satei.v2_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671466060912-bfujmkrg4mftdh4bsdgb36oj331eusdf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmoauSHsc-uMc8DrAYosxTBBn4LjHVlW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671466060912-bfujmkrg4mftdh4bsdgb36oj331eusdf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
