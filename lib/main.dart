@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       builder: (context) => OrderNotify(),
+      create: (_) => OrderNotify()..getTodoListRealtime(),
       child: MaterialApp(
         home: MyHomePage(),
       ),

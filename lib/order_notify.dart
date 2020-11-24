@@ -1,15 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'order.dart';
 
-List<Order> items = [
-  Order(name: 'Buy milk', message: 'Buy milk', price: 10),
-  Order(name: 'Buy eggs', message: 'Buy eggs', price: 100),
-  Order(name: 'Buy bread', message: 'Buy bread', price: 1000),
-];
-
 class OrderNotify extends ChangeNotifier {
   List<Order> items = [];
+  String newTaskTitle = '';
+  String newTaskMessage = '';
+  double newTaskPrice = 0;
+  int qty = 1;
+
+  Future getTodoList() async {
+    final snapshot = await FirebaseFirestore.instance.collection('items').get();
+    final docs = snapshot.docs;
+    final items = docs.map((doc) => Order2(doc)).toList();
+    this.items = items.cast<Order>();
+    notifyListeners();
+  }
+
+  void getTodoListRealtime() {
+    final snapshots =
+        FirebaseFirestore.instance.collection('items').snapshots();
+    snapshots.listen((snapshot) {
+      final docs = snapshot.docs;
+      final items = docs.map((doc) => Order2(doc)).toList();
+      this.items = items.cast<Order>();
+      notifyListeners();
+    });
+  }
+
+  Future add() async {
+    final collection = FirebaseFirestore.instance.collection('todoList');
+    await collection.add({
+      'name': newTaskTitle,
+      'message': newTaskMessage,
+      'price': newTaskPrice,
+      'qty': 1
+    });
+  }
 
   void addTask(String newTaskTitle, String newTaskMessage, double newTaskPrice,
       int qty) {
