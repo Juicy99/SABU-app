@@ -27,3 +27,15 @@ class Order2 {
   double price;
   Product product;
 }
+
+class History {
+  History(DocumentSnapshot doc) {
+    this.title = doc.data()['title'];
+
+    final Timestamp timestamp = doc.data()['createdAt'];
+    this.createdAt = timestamp.toDate();
+  }
+
+  String title;
+  DateTime createdAt;
+}

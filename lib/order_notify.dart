@@ -10,33 +10,38 @@ class OrderNotify extends ChangeNotifier {
   double newTaskPrice = 0;
   int qty = 1;
 
+  List<History> cartHistory = [];
+
   Future getTodoList() async {
-    final snapshot = await FirebaseFirestore.instance.collection('items').get();
+    final snapshot =
+        await FirebaseFirestore.instance.collection('cartHistory').get();
     final docs = snapshot.docs;
-    final items = docs.map((doc) => Order2(doc)).toList();
-    this.items = items.cast<Order>();
+    final cartHistory = docs.map((doc) => History(doc)).toList();
+    this.cartHistory = cartHistory;
     notifyListeners();
   }
 
   void getTodoListRealtime() {
     final snapshots =
-        FirebaseFirestore.instance.collection('items').snapshots();
+        FirebaseFirestore.instance.collection('cartHistory').snapshots();
     snapshots.listen((snapshot) {
       final docs = snapshot.docs;
-      final items = docs.map((doc) => Order2(doc)).toList();
-      this.items = items.cast<Order>();
+      final cartHistory = docs.map((doc) => History(doc)).toList();
+      cartHistory.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      this.cartHistory = cartHistory;
       notifyListeners();
     });
   }
 
   Future add() async {
-    final collection = FirebaseFirestore.instance.collection('todoList');
+    final collection = FirebaseFirestore.instance.collection('cartHistory');
     await collection.add({
-      'name': newTaskTitle,
-      'message': newTaskMessage,
-      'price': newTaskPrice,
-      'qty': 1
+      'createdAt': Timestamp.now(),
     });
+  }
+
+  void reload() {
+    notifyListeners();
   }
 
   void addTask(String newTaskTitle, String newTaskMessage, double newTaskPrice,
