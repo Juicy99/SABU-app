@@ -12,7 +12,7 @@ class OrderNotify extends ChangeNotifier {
 
   List<History> cartHistory = [];
 
-  Future getTodoList() async {
+  Future getHistory() async {
     final snapshot =
         await FirebaseFirestore.instance.collection('cartHistory').get();
     final docs = snapshot.docs;
@@ -21,7 +21,7 @@ class OrderNotify extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getTodoListRealtime() {
+  void getHistoryRealtime() {
     final snapshots =
         FirebaseFirestore.instance.collection('cartHistory').snapshots();
     snapshots.listen((snapshot) {

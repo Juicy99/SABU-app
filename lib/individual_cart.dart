@@ -86,7 +86,7 @@ class TasksList extends StatelessWidget {
   Widget build(BuildContext context) {
     final order = Provider.of<OrderNotify>(context);
     return ChangeNotifierProvider<OrderNotify>(
-      create: (_) => OrderNotify()..getTodoListRealtime(),
+      create: (_) => OrderNotify()..getHistoryRealtime(),
       child: Scaffold(
         body: ListView(
           children: order.items
@@ -112,7 +112,7 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final po = Provider.of<OrderNotify>(context, listen: false);
     return ChangeNotifierProvider<OrderNotify>(
-      create: (_) => OrderNotify()..getTodoListRealtime(),
+      create: (_) => OrderNotify()..getHistoryRealtime(),
       child: Container(
         padding: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
         height: 200,
