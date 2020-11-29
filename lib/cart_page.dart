@@ -26,8 +26,8 @@ class CartPage extends StatelessWidget {
                       width: 70,
                     ),
                     title: Text(
-                      DateFormat('yyyy-MM-dd')
-                          .format(DateTime.now())
+                      DateFormat("yyyy年MM月dd日")
+                          .format(cart.createdAt)
                           .toString(),
                     ),
                     trailing: IconButton(
