@@ -37,6 +37,7 @@ class OrderNotify extends ChangeNotifier {
     final collection = FirebaseFirestore.instance.collection('cartHistory');
     await collection.add({
       'createdAt': Timestamp.now(),
+      'total': total,
     });
   }
 
@@ -53,19 +54,16 @@ class OrderNotify extends ChangeNotifier {
           price: newTaskPrice,
           qty: 1),
     );
-    calculateTotal();
     notifyListeners();
   }
 
   removeOrder(o) {
     items.remove(o);
-    calculateTotal();
     notifyListeners();
   }
 
   incrementQty(order) {
     items[items.indexOf(order)].qty += 1;
-    calculateTotal();
     notifyListeners();
   }
 
@@ -74,7 +72,6 @@ class OrderNotify extends ChangeNotifier {
       removeOrder(order);
     } else {
       items[items.indexOf(order)].qty -= 1;
-      calculateTotal();
       notifyListeners();
     }
   }
@@ -83,12 +80,11 @@ class OrderNotify extends ChangeNotifier {
     return items.length;
   }
 
-  double totalCartValue = 0;
-
-  void calculateTotal() {
-    totalCartValue = 0;
+  double get totalPriceAmount {
+    var total = 0.0;
     items.forEach((f) {
-      totalCartValue += f.price * f.qty;
+      total += f.price * f.qty;
     });
+    return total;
   }
 }

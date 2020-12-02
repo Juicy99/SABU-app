@@ -78,10 +78,7 @@ class ScreenOrder extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        Provider.of<OrderNotify>(context)
-                                .totalCartValue
-                                .toString() +
-                            "円",
+                        order.totalPriceAmount.toString() + "円",
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
