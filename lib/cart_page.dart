@@ -25,7 +25,7 @@ class CartPage extends StatelessWidget {
                       'https://i.gyazo.com/c9ba1b20aa2689694a7314ddd06f1202.jpg',
                       width: 70,
                     ),
-                    title: Text('\$${cart.total}'),
+                    title: Text('${cart.total}円'),
                     subtitle: Text(
                       DateFormat("yyyy年MM月dd日").format(cart.createdAt),
                     ),

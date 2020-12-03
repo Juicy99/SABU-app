@@ -78,7 +78,7 @@ class ScreenOrder extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        order.totalPriceAmount.toString() + "円",
+                        order.totalPriceAmount.toStringAsFixed(0) + "円",
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
@@ -89,7 +89,8 @@ class ScreenOrder extends StatelessWidget {
                           Icons.shopping_cart,
                           color: Colors.white,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
+                          await order.fireAdd();
                           return Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => CartPage()),

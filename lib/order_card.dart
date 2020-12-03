@@ -129,7 +129,8 @@ class OrderCard extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: 12.0),
                           child: Text(
-                            (order.qty * order.price).toString() + '\円 ',
+                            (order.qty * order.price).toStringAsFixed(0) +
+                                '\円 ',
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold),
                             overflow: TextOverflow.ellipsis,

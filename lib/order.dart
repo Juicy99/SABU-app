@@ -16,7 +16,9 @@ class Order {
 class History {
   History(DocumentSnapshot doc) {
     this.title = doc.data()['title'];
-    this.total = doc.data()['amount'];
+
+    final totalPriceAmount = doc.data()['total'];
+    this.total = totalPriceAmount;
     this.products = doc.data()['products'];
 
     final Timestamp timestamp = doc.data()['createdAt'];

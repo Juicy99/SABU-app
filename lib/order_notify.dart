@@ -33,11 +33,11 @@ class OrderNotify extends ChangeNotifier {
     });
   }
 
-  Future add() async {
+  Future fireAdd() async {
     final collection = FirebaseFirestore.instance.collection('cartHistory');
     await collection.add({
       'createdAt': Timestamp.now(),
-      'total': total,
+      'total': totalPriceAmount,
     });
   }
 
