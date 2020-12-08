@@ -12,6 +12,30 @@ class OrderNotify extends ChangeNotifier {
 
   List<History> cartHistory = [];
 
+  List<OrderHistory> orderHistory = [];
+
+  Future getOrderHistory() async {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('orderHistory').get();
+    final docs = snapshot.docs;
+    final orderHistory = docs.map((doc) => OrderHistory(doc)).toList();
+    this.orderHistory = orderHistory;
+    notifyListeners();
+  }
+
+  void getOrderHistoryRealtime() {
+    final snapshots =
+        FirebaseFirestore.instance.collection('orderHistory').snapshots();
+    snapshots.listen((snapshot) {
+      final docs = snapshot.docs;
+      final orderHistory = docs.map((doc) => OrderHistory(doc)).toList();
+      this.orderHistory = orderHistory;
+      notifyListeners();
+    });
+  }
+
+  Future orderFireAdd() async {}
+
   Future getHistory() async {
     final snapshot =
         await FirebaseFirestore.instance.collection('cartHistory').get();
