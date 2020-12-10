@@ -1,24 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'cart_page.dart';
-import 'order.dart';
 import 'order_notify.dart';
 import 'tasks_list.dart';
 
-// ignore: must_be_immutable
 class ScreenOrder extends StatelessWidget {
-  List<Order> items = <Order>[];
-  List<String> _items = [];
-  List<String> toList1() {
-    items.forEach((item) {
-      _items.add(item.toString());
-    });
-
-    return _items.toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     final order = Provider.of<OrderNotify>(context);
@@ -104,9 +91,6 @@ class ScreenOrder extends StatelessWidget {
                         ),
                         onPressed: () async {
                           await order.fireAdd();
-                          await FirebaseFirestore.instance
-                              .collection('items')
-                              .add({"orderHistory": toList1()});
                           return Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => CartPage()),

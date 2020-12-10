@@ -22,14 +22,14 @@ class OrderHistory {
 
     final Timestamp timestamp = doc.data()['createdAt'];
     this.createdAt = timestamp.toDate();
-    id = doc.id;
+    documentId = doc.id;
   }
 
   String name;
   String message;
   int qty = 1;
   double price;
-  String id;
+  String documentId;
   DateTime createdAt;
   DocumentReference documentReference;
 }
@@ -43,10 +43,10 @@ class History {
 
     final Timestamp timestamp = doc.data()['createdAt'];
     this.createdAt = timestamp.toDate();
-    id = doc.id;
+    documentId = doc.id;
   }
 
-  String id;
+  String documentId;
   double total;
   List<Order> products;
   DateTime createdAt;

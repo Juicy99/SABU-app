@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'order.dart';
+import 'order_card.dart';
 
 class OrderNotify extends ChangeNotifier {
   List<Order> items = [];
@@ -34,8 +35,6 @@ class OrderNotify extends ChangeNotifier {
     });
   }
 
-  Future orderFireAdd() async {}
-
   Future getHistory() async {
     final snapshot =
         await FirebaseFirestore.instance.collection('cartHistory').get();
@@ -58,10 +57,17 @@ class OrderNotify extends ChangeNotifier {
   }
 
   Future fireAdd() async {
-    final collection = FirebaseFirestore.instance.collection('cartHistory');
-    await collection.add({
+    final docRef =
+        await FirebaseFirestore.instance.collection('cartHistory').add({
       'createdAt': Timestamp.now(),
       'total': totalPriceAmount,
+    });
+    docRef.collection('orderHistory').add({
+      'name': newTaskTitle,
+      'message': newTaskMessage,
+      'price': newTaskPrice,
+      'qty': qty,
+      'createdAt': Timestamp.now(),
     });
   }
 
