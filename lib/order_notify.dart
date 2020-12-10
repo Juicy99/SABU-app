@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'order.dart';
-import 'order_card.dart';
 
 class OrderNotify extends ChangeNotifier {
   List<Order> items = [];
