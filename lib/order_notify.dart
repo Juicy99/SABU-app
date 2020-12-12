@@ -10,35 +10,13 @@ class OrderNotify extends ChangeNotifier {
   double newTaskPrice = 0;
   int qty = 1;
 
-  List<History> cartHistory = [];
-
-  List<OrderHistory> orderHistory = [];
-
-  Future getOrderHistory() async {
-    final snapshot =
-        await FirebaseFirestore.instance.collection('orderHistory').get();
-    final docs = snapshot.docs;
-    final orderHistory = docs.map((doc) => OrderHistory(doc)).toList();
-    this.orderHistory = orderHistory;
-    notifyListeners();
-  }
-
-  void getOrderHistoryRealtime() {
-    final snapshots =
-        FirebaseFirestore.instance.collection('orderHistory').snapshots();
-    snapshots.listen((snapshot) {
-      final docs = snapshot.docs;
-      final orderHistory = docs.map((doc) => OrderHistory(doc)).toList();
-      this.orderHistory = orderHistory;
-      notifyListeners();
-    });
-  }
+  List<CartHistory> cartHistory = [];
 
   Future getHistory() async {
     final snapshot =
         await FirebaseFirestore.instance.collection('cartHistory').get();
     final docs = snapshot.docs;
-    final cartHistory = docs.map((doc) => History(doc)).toList();
+    final cartHistory = docs.map((doc) => CartHistory(doc)).toList();
     this.cartHistory = cartHistory;
     notifyListeners();
   }
@@ -48,7 +26,7 @@ class OrderNotify extends ChangeNotifier {
         FirebaseFirestore.instance.collection('cartHistory').snapshots();
     snapshots.listen((snapshot) {
       final docs = snapshot.docs;
-      final cartHistory = docs.map((doc) => History(doc)).toList();
+      final cartHistory = docs.map((doc) => CartHistory(doc)).toList();
       cartHistory.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       this.cartHistory = cartHistory;
       notifyListeners();
@@ -56,17 +34,10 @@ class OrderNotify extends ChangeNotifier {
   }
 
   Future fireAdd() async {
-    final docRef =
-        await FirebaseFirestore.instance.collection('cartHistory').add({
+    await FirebaseFirestore.instance.collection('cartHistory').add({
       'createdAt': Timestamp.now(),
       'total': totalPriceAmount,
-    });
-    docRef.collection('orderHistory').add({
-      'name': newTaskTitle,
-      'message': newTaskMessage,
-      'price': newTaskPrice,
-      'qty': qty,
-      'createdAt': Timestamp.now(),
+      'orderHistory': items.map((i) => i.toMap()).toList(),
     });
   }
 

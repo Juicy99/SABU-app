@@ -9,37 +9,29 @@ class Order {
   double price;
   Product product;
 
+  Order.fromMap(Map<String, dynamic> data) {
+    name = data['name'];
+    message = data['message'];
+    price = data['price'];
+    qty = data['qty'];
+  }
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'message': message,
+      'price': price,
+      'qty': qty,
+    };
+  }
+
   Order({this.qty, this.product, this.price, this.message, this.name});
 }
 
-class OrderHistory {
-  OrderHistory(DocumentSnapshot doc) {
-    this.name = doc.data()['name'];
-    this.message = doc.data()['message'];
-    this.price = doc.data()['price'];
-    this.qty = doc.data()['qty'];
-    this.documentReference = doc.reference;
-
-    final Timestamp timestamp = doc.data()['createdAt'];
-    this.createdAt = timestamp.toDate();
-    documentId = doc.id;
-  }
-
-  String name;
-  String message;
-  int qty = 1;
-  double price;
-  String documentId;
-  DateTime createdAt;
-  DocumentReference documentReference;
-}
-
-class History {
-  History(DocumentSnapshot doc) {
+class CartHistory {
+  CartHistory(DocumentSnapshot doc) {
     this.documentReference = doc.reference;
     final totalPriceAmount = doc.data()['total'];
     this.total = totalPriceAmount;
-    this.products = doc.data()['products'];
 
     final Timestamp timestamp = doc.data()['createdAt'];
     this.createdAt = timestamp.toDate();
@@ -48,7 +40,6 @@ class History {
 
   String documentId;
   double total;
-  List<Order> products;
   DateTime createdAt;
   bool isDone = false;
   DocumentReference documentReference;
