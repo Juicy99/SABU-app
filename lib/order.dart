@@ -27,6 +27,30 @@ class Order {
   Order({this.qty, this.product, this.price, this.message, this.name});
 }
 
+class OrderHistory {
+  OrderHistory(DocumentSnapshot doc) {
+    this.documentReference = doc.reference;
+    this.name = doc.data()['name'];
+    this.price = doc.data()['price'];
+    this.message = doc.data()['message'];
+    final totalPriceAmount = doc.data()['total'];
+    this.total = totalPriceAmount;
+    this.qty = doc.data()['qty'];
+    final Timestamp timestamp = doc.data()['createdAt'];
+    this.createdAt = timestamp.toDate();
+    documentId = doc.id;
+  }
+
+  String documentId;
+  String name;
+  String message;
+  int qty = 1;
+  double price;
+  double total;
+  DateTime createdAt;
+  DocumentReference documentReference;
+}
+
 class CartHistory {
   CartHistory(DocumentSnapshot doc) {
     this.documentReference = doc.reference;

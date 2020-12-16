@@ -11,6 +11,28 @@ class OrderNotify extends ChangeNotifier {
   int qty = 1;
 
   List<CartHistory> cartHistory = [];
+  List<OrderHistory> orderHistory = [];
+
+  Future getOrderHistory() async {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('orderHistory').get();
+    final docs = snapshot.docs;
+    final orderHistory = docs.map((doc) => OrderHistory(doc)).toList();
+    this.orderHistory = orderHistory;
+    notifyListeners();
+  }
+
+  void getOrderHistoryRealtime() {
+    final snapshots =
+        FirebaseFirestore.instance.collection('orderHistory').snapshots();
+    snapshots.listen((snapshot) {
+      final docs = snapshot.docs;
+      final orderHistory = docs.map((doc) => OrderHistory(doc)).toList();
+      orderHistory.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      this.orderHistory = orderHistory;
+      notifyListeners();
+    });
+  }
 
   Future getHistory() async {
     final snapshot =
@@ -34,10 +56,13 @@ class OrderNotify extends ChangeNotifier {
   }
 
   Future fireAdd() async {
-    await FirebaseFirestore.instance.collection('cartHistory').add({
+    final docRef =
+        await FirebaseFirestore.instance.collection('cartHistory').add({
       'createdAt': Timestamp.now(),
       'total': totalPriceAmount,
-      'orderHistory': items.map((i) => i.toMap()).toList(),
+    });
+    docRef.collection('orderHistory').add({
+      'itemHistory': items.map((i) => i.toMap()).toList(),
     });
   }
 

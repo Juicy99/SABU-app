@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,72 +8,165 @@ import 'order_notify.dart';
 class IndividualCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('cartHistory').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+
+        return _buildList(context, snapshot.data.docs);
+      },
+    );
+  }
+
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+    return ListView(
+      padding: const EdgeInsets.only(top: 20.0),
+      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+    );
+  }
+
+  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+    final record = Record.fromSnapshot(data);
+
+    return Padding(
+      key: ValueKey(record.name),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: ListTile(
+          title: Text(record.name),
+          trailing: Text(record.votes.toString()),
+          onTap: () =>
+              record.reference.update({'votes': FieldValue.increment(1)}),
+        ),
+      ),
+    );
+  }
+}
+
+class Record {
+  final String name;
+  final int votes;
+  final DocumentReference reference;
+
+  Record.fromMap(Map<String, dynamic> map(), {this.reference})
+      : assert(map()['name'] != null),
+        assert(map()['votes'] != null),
+        name = map()['name'],
+        votes = map()['votes'];
+
+  Record.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
+
+  @override
+  String toString() => "Record<$name:$votes>";
+}
+
+class IndividualCart2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // get the course document using a stream
+    Stream<DocumentSnapshot> courseDocStream =
+        FirebaseFirestore.instance.collection('orderHistory').doc().snapshots();
+
+    return StreamBuilder<DocumentSnapshot>(
+        stream: courseDocStream,
+        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            // get course document
+            var sections = snapshot.data['orderHistory'];
+
+            // build list using names from sections
+            return ListView.builder(
+              itemCount: sections != null ? sections.length : 0,
+              itemBuilder: (_, int index) {
+                print(sections[index]()['itemHistory']);
+                return ListTile(title: Text(sections[index]()['itemHistory']));
+              },
+            );
+          } else {
+            return Container();
+          }
+        });
+  }
+}
+
+class IndividualCart5442 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     final order = Provider.of<OrderNotify>(context);
     return Scaffold(
       backgroundColor: Colors.red,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(
-                top: 20.0, left: 30.0, right: 30.0, bottom: 10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
+      body: Consumer<OrderNotify>(
+        builder: (context, model, child) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(
+                    top: 20.0, left: 30.0, right: 30.0, bottom: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    IconButton(
-                        iconSize: 40,
-                        color: Colors.white,
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        }),
-                    Text(
-                      "日付",
-                      style: TextStyle(color: Colors.white, fontSize: 30),
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                            iconSize: 40,
+                            color: Colors.white,
+                            icon: Icon(Icons.arrow_back),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            }),
+                        Text(
+                          "日付",
+                          style: TextStyle(color: Colors.white, fontSize: 30),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          "合計: ",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        Text(
+                          order.items.length.toString() + "点",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        Text(
+                          order.totalPriceAmount.toString() + "円",
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "合計: ",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    Text(
-                      order.items.length.toString() + "点",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    Text(
-                      order.totalPriceAmount.toString() + "円",
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
               ),
-              child: TasksList(),
-            ),
-          ),
-        ],
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: TasksList(),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
