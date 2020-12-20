@@ -59,8 +59,18 @@ class CartService extends ChangeNotifier {
     _cart = documents.map((doc) => CartModel.fromMap(doc)).toList();
   }
 
-  void addTitle(double name) {
+  void addTitle(String name) {
     dataPath.doc().set({'name': name, 'createAt': DateTime.now()});
+  }
+
+  void addTask(
+    String newTaskTitle,
+    String newTaskMessage,
+  ) {
+    dataPath.doc().set({
+      'name': newTaskTitle,
+      'message': newTaskMessage,
+    });
   }
 
   void deleteDocument(docId) {

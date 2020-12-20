@@ -7,6 +7,7 @@ import 'product.dart';
 class CartModel {
   String _docId;
   String name;
+  String message;
   Timestamp _createAt;
 
   CartModel(

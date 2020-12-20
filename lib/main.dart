@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'add_task_screen.dart';
 import 'auth_service.dart';
 import 'order_notify.dart';
 
@@ -99,6 +100,48 @@ class DbProcess extends StatelessWidget {
 class ViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final todoService = Provider.of<CartService>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+          title: Center(
+              child: Text(
+                  'firestoreの動作確認\n(${isRelease() ? 'リリース' : 'デバック'}モード)'))),
+      body: Center(
+        child: ListView.builder(
+          itemCount: todoService.cart.length,
+          itemBuilder: (BuildContext context, int index) {
+            final _date = todoService.cart[index].createAt.toDate();
+            return ListTile(
+              title: Text(todoService.cart[index].name),
+              subtitle: Text(todoService.cart[index].message),
+              trailing: IconButton(
+                icon: Icon(Icons.delete, color: Colors.red),
+                onPressed: () {
+                  todoService.deleteDocument(todoService.cart[index].docId);
+                },
+              ),
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.pop(context);
+          return Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddTaskScreen()),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ViewPage2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     final cartService = Provider.of<CartService>(context);
 
     return Scaffold(
@@ -110,10 +153,8 @@ class ViewPage extends StatelessWidget {
         child: ListView.builder(
           itemCount: cartService.cart.length,
           itemBuilder: (BuildContext context, int index) {
-            final _date = cartService.cart[index].createAt.toDate();
             return ListTile(
-              title: Text(cartService.cart[index].name1),
-              subtitle: Text(_date.toString()),
+              title: Text(cartService.cart[index].name),
               trailing: IconButton(
                 icon: Icon(Icons.delete, color: Colors.red),
                 onPressed: () {
@@ -127,11 +168,10 @@ class ViewPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return NameInputDialog();
-            },
+          Navigator.pop(context);
+          return Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddTaskScreen()),
           );
         },
       ),
