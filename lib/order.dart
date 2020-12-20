@@ -1,6 +1,37 @@
+import 'dart:core';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'product.dart';
+
+class CartModel {
+  String _docId;
+  String name;
+  Timestamp _createAt;
+
+  CartModel(
+    this._docId,
+    this.name,
+    this._createAt,
+  );
+
+  String get docId => _docId;
+  String get name1 => name;
+  Timestamp get createAt => _createAt;
+
+  CartModel.fromMap(map) {
+    _docId = map.documentID;
+    name = map['name'];
+    _createAt = map['createAt'];
+  }
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{};
+    map['name'] = name;
+    map['createAt'] = _createAt;
+    return map;
+  }
+}
 
 class Order {
   String name;
