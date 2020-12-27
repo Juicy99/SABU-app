@@ -34,27 +34,6 @@ class OrderNotify extends ChangeNotifier {
     });
   }
 
-  Future getHistory() async {
-    final snapshot =
-        await FirebaseFirestore.instance.collection('cartHistory').get();
-    final docs = snapshot.docs;
-    final cartHistory = docs.map((doc) => CartHistory(doc)).toList();
-    this.cartHistory = cartHistory;
-    notifyListeners();
-  }
-
-  void getHistoryRealtime() {
-    final snapshots =
-        FirebaseFirestore.instance.collection('cartHistory').snapshots();
-    snapshots.listen((snapshot) {
-      final docs = snapshot.docs;
-      final cartHistory = docs.map((doc) => CartHistory(doc)).toList();
-      cartHistory.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-      this.cartHistory = cartHistory;
-      notifyListeners();
-    });
-  }
-
   Future fireAdd() async {
     final docRef =
         await FirebaseFirestore.instance.collection('cartHistory').add({

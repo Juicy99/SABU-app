@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'auth_service.dart';
-import 'main.dart';
+import 'order_notify.dart';
 import 'screen_order.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -180,10 +179,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                         onPressed: () {
                                           newTaskPrice = double.parse(
                                               _priceController2.text);
-                                          Provider.of<CartService>(context,
+                                          Provider.of<OrderNotify>(context,
                                                   listen: false)
-                                              .addTask(_nameController.text,
-                                                  _messageController3.text);
+                                              .addTask(
+                                                  newTaskTitle ?? '',
+                                                  newTaskMessage ?? '',
+                                                  newTaskPrice ?? '',
+                                                  qty = 1);
                                           _nameController.clear();
                                           _priceController2.clear();
                                           _messageController3.clear();
@@ -192,7 +194,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ViewPage()),
+                                                    ScreenOrder()),
                                           );
                                         },
                                       ),

@@ -72,7 +72,6 @@ class OrderHistory {
     this.createdAt = timestamp.toDate();
     documentId = doc.id;
   }
-
   String documentId;
   String name;
   String message;
@@ -84,19 +83,32 @@ class OrderHistory {
 }
 
 class CartHistory {
-  CartHistory(DocumentSnapshot doc) {
-    this.documentReference = doc.reference;
-    final totalPriceAmount = doc.data()['total'];
-    this.total = totalPriceAmount;
-
-    final Timestamp timestamp = doc.data()['createdAt'];
-    this.createdAt = timestamp.toDate();
-    documentId = doc.id;
-  }
-
-  String documentId;
+  String _docId;
   double total;
-  DateTime createdAt;
+  Timestamp _createAt;
   bool isDone = false;
   DocumentReference documentReference;
+
+  CartHistory(
+    this._docId,
+    this.total,
+    this._createAt,
+  );
+
+  String get docId => _docId;
+  double get totalPriceAmount => total;
+  Timestamp get createAt => _createAt;
+
+  CartHistory.fromMap(map) {
+    _docId = map.documentID;
+    total = map['total'];
+    _createAt = map['createAt'];
+  }
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{};
+    map['total'] = total;
+    map['createAt'] = _createAt;
+    return map;
+  }
 }

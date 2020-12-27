@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'add_task_screen.dart';
 import 'auth_service.dart';
+import 'home.dart';
+import 'individual_cart.dart';
 import 'order_notify.dart';
 
 void main() async {
@@ -17,6 +20,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService.instance()),
         ChangeNotifierProvider(create: (_) => CartService()),
+        ChangeNotifierProvider(create: (_) => HistoryService()),
       ],
       child: MyApp(),
     ),
@@ -63,7 +67,7 @@ class SignProcess extends StatelessWidget {
             break; // DbProcess();へ進む
 
         }
-        return DbProcess();
+        return MyHomePage();
       },
     );
   }
@@ -73,13 +77,13 @@ class DbProcess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
-    final cartService = Provider.of<CartService>(context);
+    final historyService = Provider.of<HistoryService>(context);
     // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
-    cartService.uid = authService.user.uid;
+    historyService.uid = authService.user.uid;
     // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
     return StreamBuilder<QuerySnapshot>(
       // firestoreからデータを拾ってくる
-      stream: cartService.dataPath.orderBy("createAt").snapshots(),
+      stream: historyService.dataPath.orderBy("createAt").snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
@@ -89,7 +93,7 @@ class DbProcess extends StatelessWidget {
             return CircularProgressIndicator();
           default:
             // streamからデータを取得できたので、使いやすい形にかえてあげる
-            cartService.init(snapshot.data.docs);
+            historyService.init(snapshot.data.docs);
             return ViewPage();
         }
       },
@@ -100,65 +104,40 @@ class DbProcess extends StatelessWidget {
 class ViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final todoService = Provider.of<CartService>(context);
+    final historyService = Provider.of<HistoryService>(context);
 
     return Scaffold(
       appBar: AppBar(
           title: Center(
-              child: Text(
-                  'firestoreの動作確認\n(${isRelease() ? 'リリース' : 'デバック'}モード)'))),
+              child: Text('買取履歴\n(${isRelease() ? 'リリース' : 'デバック'}モード)'))),
       body: Center(
         child: ListView.builder(
-          itemCount: todoService.cart.length,
+          itemCount: historyService.history.length,
           itemBuilder: (BuildContext context, int index) {
-            final _date = todoService.cart[index].createAt.toDate();
+            final _date = historyService.history[index].createAt.toDate();
             return ListTile(
-              title: Text(todoService.cart[index].name),
-              subtitle: Text(todoService.cart[index].message),
-              trailing: IconButton(
-                icon: Icon(Icons.delete, color: Colors.red),
-                onPressed: () {
-                  todoService.deleteDocument(todoService.cart[index].docId);
-                },
+              leading: Image.network(
+                'https://i.gyazo.com/c9ba1b20aa2689694a7314ddd06f1202.jpg',
+                width: 70,
               ),
-            );
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.pop(context);
-          return Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddTaskScreen()),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class ViewPage2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final cartService = Provider.of<CartService>(context);
-
-    return Scaffold(
-      appBar: AppBar(
-          title: Center(
-              child: Text(
-                  'firestoreの動作確認\n(${isRelease() ? 'リリース' : 'デバック'}モード)'))),
-      body: Center(
-        child: ListView.builder(
-          itemCount: cartService.cart.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(cartService.cart[index].name),
+              title: GestureDetector(
+                onTap: () {
+                  return Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => IndividualCart()),
+                  );
+                },
+                child: Text(
+                    '${historyService.history[index].total.toStringAsFixed(0)}円'),
+              ),
+              subtitle: Text(
+                DateFormat("yyyy年MM月dd日hh時mm分").format(_date),
+              ),
               trailing: IconButton(
                 icon: Icon(Icons.delete, color: Colors.red),
                 onPressed: () {
-                  cartService.deleteDocument(cartService.cart[index].docId);
+                  historyService
+                      .deleteDocument(historyService.history[index].docId);
                 },
               ),
             );

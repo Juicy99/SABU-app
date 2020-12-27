@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'add_task_screen.dart';
-import 'cart_page.dart';
+import 'main.dart';
 import 'schedule_page.dart';
 import 'zaiko_page.dart';
 
@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage>
     return [
       AddTaskScreen(),
       ZaikoPage(),
-      CartPage(),
+      ViewPage(),
       SchedulePage(),
     ];
   }
