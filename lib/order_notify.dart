@@ -109,4 +109,29 @@ class OrderNotify extends ChangeNotifier {
     });
     return total;
   }
+
+  String uid;
+  List _history;
+
+  OrderNotify();
+
+  CollectionReference get dataPath =>
+      FirebaseFirestore.instance.collection('users/$uid/history');
+  List get history => _history;
+
+  void init(List<DocumentSnapshot> documents) {
+    _history = documents.map((doc) => CartHistory.fromMap(doc)).toList();
+  }
+
+  void addTitle(double total) {
+    dataPath.doc().set({
+      'total': total,
+      'createAt': DateTime.now(),
+      'itemHistory': items.map((i) => i.toMap()).toList(),
+    });
+  }
+
+  void deleteDocument(docId) {
+    dataPath.doc(docId).delete();
+  }
 }

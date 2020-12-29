@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'auth_service.dart';
 import 'main.dart';
 import 'order_notify.dart';
 import 'tasks_list.dart';
@@ -10,7 +9,6 @@ class ScreenOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final order = Provider.of<OrderNotify>(context);
-    final history = Provider.of<HistoryService>(context);
     return Scaffold(
       backgroundColor: Colors.red,
       body: Column(
@@ -92,7 +90,7 @@ class ScreenOrder extends StatelessWidget {
                           color: Colors.white,
                         ),
                         onPressed: () async {
-                          history.addTitle(order.totalPriceAmount);
+                          order.addTitle(order.totalPriceAmount);
                           return Navigator.push(
                             context,
                             MaterialPageRoute(

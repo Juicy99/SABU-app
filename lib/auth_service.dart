@@ -77,26 +77,3 @@ class CartService extends ChangeNotifier {
     dataPath.doc(docId).delete();
   }
 }
-
-class HistoryService extends ChangeNotifier {
-  String uid;
-  List _history;
-
-  HistoryService();
-
-  CollectionReference get dataPath =>
-      FirebaseFirestore.instance.collection('users/$uid/history');
-  List get history => _history;
-
-  void init(List<DocumentSnapshot> documents) {
-    _history = documents.map((doc) => CartHistory.fromMap(doc)).toList();
-  }
-
-  void addTitle(double total) {
-    dataPath.doc().set({'total': total, 'createAt': DateTime.now()});
-  }
-
-  void deleteDocument(docId) {
-    dataPath.doc(docId).delete();
-  }
-}

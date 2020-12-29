@@ -20,7 +20,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService.instance()),
         ChangeNotifierProvider(create: (_) => CartService()),
-        ChangeNotifierProvider(create: (_) => HistoryService()),
+        ChangeNotifierProvider(create: (_) => OrderNotify()),
       ],
       child: MyApp(),
     ),
@@ -77,7 +77,7 @@ class DbProcess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
-    final historyService = Provider.of<HistoryService>(context);
+    final historyService = Provider.of<OrderNotify>(context);
     // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
     historyService.uid = authService.user.uid;
     // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
@@ -104,7 +104,7 @@ class DbProcess extends StatelessWidget {
 class ViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final historyService = Provider.of<HistoryService>(context);
+    final historyService = Provider.of<OrderNotify>(context);
 
     return Scaffold(
       appBar: AppBar(
