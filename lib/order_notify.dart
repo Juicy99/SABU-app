@@ -45,19 +45,6 @@ class OrderNotify extends ChangeNotifier {
     });
   }
 
-  Future deleteCheckedItems() async {
-    final checkedItems = cartHistory.where((cart) => cart.isDone).toList();
-    final references =
-        checkedItems.map((cart) => cart.documentReference).toList();
-
-    final batch = FirebaseFirestore.instance.batch();
-
-    references.forEach((reference) {
-      batch.delete(reference);
-    });
-    return batch.commit();
-  }
-
   bool checkShouldActiveCompleteButton() {
     final checkedItems = cartHistory.where((cart) => cart.isDone).toList();
     return checkedItems.length > 0;

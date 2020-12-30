@@ -40,13 +40,17 @@ class Order {
   int qty = 1;
   double price;
   Product product;
+  DocumentReference reference;
 
-  Order.fromMap(Map<String, dynamic> data) {
-    name = data['name'];
-    message = data['message'];
-    price = data['price'];
-    qty = data['qty'];
+  Order.fromMap(Map<String, dynamic> map(), {this.reference}) {
+    name = map()['name'];
+    message = map()['message'];
+    price = map()['price'];
+    qty = map()['qty'];
   }
+  Order.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,

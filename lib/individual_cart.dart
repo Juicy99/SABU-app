@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 
 class IndividualCart extends StatelessWidget {
   @override
+  String uid;
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('cartHistory').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('users/$uid/history/orderHistory')
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
 
@@ -22,7 +25,7 @@ class IndividualCart extends StatelessWidget {
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final record = Record.fromSnapshot(data);
+    final record = Order.fromSnapshot(data);
 
     return Padding(
       key: ValueKey(record.name),
@@ -34,31 +37,28 @@ class IndividualCart extends StatelessWidget {
         ),
         child: ListTile(
           title: Text(record.name),
-          trailing: Text(record.votes.toString()),
-          onTap: () =>
-              record.reference.update({'votes': FieldValue.increment(1)}),
+          trailing: Text(record.message),
         ),
       ),
     );
   }
 }
 
-class Record {
-  final String name;
-  final int votes;
-  final DocumentReference reference;
+class Order {
+  String name;
+  String message;
+  int qty = 1;
+  double price;
+  DocumentReference reference;
 
-  Record.fromMap(Map<String, dynamic> map(), {this.reference})
-      : assert(map()['name'] != null),
-        assert(map()['votes'] != null),
-        name = map()['name'],
-        votes = map()['votes'];
+  Order.fromMap(Map<String, dynamic> map(), {this.reference})
+      : name = map()['name'],
+        message = map()['message'],
+        price = map()['price'],
+        qty = map()['qty'];
 
-  Record.fromSnapshot(DocumentSnapshot snapshot)
+  Order.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
-
-  @override
-  String toString() => "Record<$name:$votes>";
 }
 
 class IndividualCart2 extends StatelessWidget {

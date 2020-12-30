@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'main.dart';
+import 'cart_page.dart';
 import 'order_notify.dart';
 import 'tasks_list.dart';
 
@@ -93,8 +93,7 @@ class ScreenOrder extends StatelessWidget {
                           order.addTitle(order.totalPriceAmount);
                           return Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => DbProcess()),
+                            MaterialPageRoute(builder: (context) => CartPage()),
                           );
                         },
                         color: Colors.redAccent,

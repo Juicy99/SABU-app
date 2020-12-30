@@ -1,1 +1,90 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:sateiv2_app/order_notify.dart';
 
+import 'add_task_screen.dart';
+import 'auth_service.dart';
+import 'individual_cart.dart';
+import 'main.dart';
+
+// ignore: must_be_immutable
+class CartPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+    final historyService = Provider.of<OrderNotify>(context);
+    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
+    historyService.uid = authService.user.uid;
+    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
+    return StreamBuilder<QuerySnapshot>(
+      // firestoreからデータを拾ってくる
+      stream: historyService.dataPath.orderBy("createAt").snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting: // データの取得まち
+            return CircularProgressIndicator();
+          default:
+            // streamからデータを取得できたので、使いやすい形にかえてあげる
+            historyService.init(snapshot.data.docs);
+            return Scaffold(
+              appBar: AppBar(
+                  title: Center(
+                      child:
+                          Text('買取履歴\n(${isRelease() ? 'リリース' : 'デバック'}モード)'))),
+              body: Center(
+                child: ListView.builder(
+                  itemCount: historyService.history.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final _date =
+                        historyService.history[index].createAt.toDate();
+                    return ListTile(
+                      leading: Image.network(
+                        'https://i.gyazo.com/c9ba1b20aa2689694a7314ddd06f1202.jpg',
+                        width: 70,
+                      ),
+                      title: GestureDetector(
+                        onTap: () {
+                          return Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => IndividualCart()),
+                          );
+                        },
+                        child: Text(
+                            '${historyService.history[index].total.toStringAsFixed(0)}円'),
+                      ),
+                      subtitle: Text(
+                        DateFormat("yyyy年MM月dd日hh時mm分").format(_date),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          historyService.deleteDocument(
+                              historyService.history[index].docId);
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.pop(context);
+                  return Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddTaskScreen()),
+                  );
+                },
+              ),
+            );
+        }
+      },
+    );
+  }
+}
