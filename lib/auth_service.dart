@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'order.dart';
 
 enum Status { uninitialized, authenticated, authenticating, unauthenticated }
 
@@ -42,38 +39,5 @@ class AuthService with ChangeNotifier {
       _status = Status.authenticated;
     }
     notifyListeners();
-  }
-}
-
-class CartService extends ChangeNotifier {
-  String uid;
-  List _cart;
-
-  CartService();
-
-  CollectionReference get dataPath =>
-      FirebaseFirestore.instance.collection('users/$uid/cart');
-  List get cart => _cart;
-
-  void init(List<DocumentSnapshot> documents) {
-    _cart = documents.map((doc) => CartModel.fromMap(doc)).toList();
-  }
-
-  void addTitle(String name) {
-    dataPath.doc().set({'name': name, 'createAt': DateTime.now()});
-  }
-
-  void addTask(
-    String newTaskTitle,
-    String newTaskMessage,
-  ) {
-    dataPath.doc().set({
-      'name': newTaskTitle,
-      'message': newTaskMessage,
-    });
-  }
-
-  void deleteDocument(docId) {
-    dataPath.doc(docId).delete();
   }
 }

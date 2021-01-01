@@ -13,27 +13,6 @@ class OrderNotify extends ChangeNotifier {
   List<CartHistory> cartHistory = [];
   List<OrderHistory> orderHistory = [];
 
-  Future getOrderHistory() async {
-    final snapshot =
-        await FirebaseFirestore.instance.collection('orderHistory').get();
-    final docs = snapshot.docs;
-    final orderHistory = docs.map((doc) => OrderHistory(doc)).toList();
-    this.orderHistory = orderHistory;
-    notifyListeners();
-  }
-
-  void getOrderHistoryRealtime() {
-    final snapshots =
-        FirebaseFirestore.instance.collection('orderHistory').snapshots();
-    snapshots.listen((snapshot) {
-      final docs = snapshot.docs;
-      final orderHistory = docs.map((doc) => OrderHistory(doc)).toList();
-      orderHistory.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-      this.orderHistory = orderHistory;
-      notifyListeners();
-    });
-  }
-
   Future fireAdd() async {
     final docRef =
         await FirebaseFirestore.instance.collection('cartHistory').add({
@@ -45,15 +24,6 @@ class OrderNotify extends ChangeNotifier {
     });
   }
 
-  bool checkShouldActiveCompleteButton() {
-    final checkedItems = cartHistory.where((cart) => cart.isDone).toList();
-    return checkedItems.length > 0;
-  }
-
-  void reload() {
-    notifyListeners();
-  }
-
   void addTask(String newTaskTitle, String newTaskMessage, double newTaskPrice,
       int qty) {
     items.add(
@@ -63,6 +33,12 @@ class OrderNotify extends ChangeNotifier {
           price: newTaskPrice,
           qty: 1),
     );
+    notifyListeners();
+  }
+
+  clearCart() {
+    items.forEach((f) => f.qty = 1);
+    items = [];
     notifyListeners();
   }
 
@@ -110,12 +86,24 @@ class OrderNotify extends ChangeNotifier {
     _history = documents.map((doc) => CartHistory.fromMap(doc)).toList();
   }
 
+  void init2(List<DocumentSnapshot> documents) {
+    _history = documents.map((doc) => OrderHistory.fromMap(doc)).toList();
+  }
+
   void addTitle(double total) {
     dataPath.doc().set({
       'total': total,
       'createAt': DateTime.now(),
-      'itemHistory': items.map((i) => i.toMap()).toList(),
     });
+  }
+
+  void addItem(
+    name,
+  ) {
+    dataPath.doc().set({
+      'name': name,
+    });
+    notifyListeners();
   }
 
   void deleteDocument(docId) {

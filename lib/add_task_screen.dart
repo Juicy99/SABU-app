@@ -56,6 +56,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final order = Provider.of<OrderNotify>(context);
     String newTaskTitle;
     String newTaskMessage;
     double newTaskPrice;
@@ -153,55 +154,21 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             MaterialPageRoute(
                                 builder: (context) => ScreenOrder()),
                           );
+                          newTaskPrice = double.parse(_priceController2.text);
+                          order.addItem(_nameController.text);
+                          Provider.of<OrderNotify>(context, listen: false)
+                              .addTask(newTaskTitle ?? '', newTaskMessage ?? '',
+                                  newTaskPrice ?? '', qty = 1);
+                          _nameController.clear();
+                          _priceController2.clear();
+                          _messageController3.clear();
+                          Navigator.pop(context);
+                          return Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ScreenOrder()),
+                          );
                         }),
-                    RaisedButton(
-                      child: Text('カートにこの商品を入れる'),
-                      onPressed: () {
-                        if (_formKey.currentState.validate())
-                          showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                    title: Text("確認"),
-                                    content: Text("この商品をカートに追加しますか？"),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          'キャンセル',
-                                          style: TextStyle(
-                                              color: Colors.redAccent),
-                                        ),
-                                      ),
-                                      FlatButton(
-                                        child: Text('追加'),
-                                        onPressed: () {
-                                          newTaskPrice = double.parse(
-                                              _priceController2.text);
-                                          Provider.of<OrderNotify>(context,
-                                                  listen: false)
-                                              .addTask(
-                                                  newTaskTitle ?? '',
-                                                  newTaskMessage ?? '',
-                                                  newTaskPrice ?? '',
-                                                  qty = 1);
-                                          _nameController.clear();
-                                          _priceController2.clear();
-                                          _messageController3.clear();
-                                          Navigator.pop(context);
-                                          return Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ScreenOrder()),
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ));
-                      },
-                    ),
                   ],
                 ),
               ],

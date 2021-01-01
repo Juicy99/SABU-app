@@ -22,7 +22,7 @@ class _MyHomePageState extends State<MyHomePage>
   List<Widget> _buildTabPages() {
     return [
       AddTaskScreen(),
-      ZaikoPage(),
+      ItemPage(),
       CartPage(),
       SchedulePage(),
     ];

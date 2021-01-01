@@ -90,10 +90,36 @@ class ScreenOrder extends StatelessWidget {
                           color: Colors.white,
                         ),
                         onPressed: () async {
-                          order.addTitle(order.totalPriceAmount);
-                          return Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => CartPage()),
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: Text("確認"),
+                              content: Text(
+                                  "合計金額を記録します。\n※カートはリセットされますが個数は記録されません。"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'キャンセル',
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
+                                ),
+                                FlatButton(
+                                  child: Text('登録'),
+                                  onPressed: () {
+                                    order.addTitle(order.totalPriceAmount);
+                                    order.clearCart();
+                                    return Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CartPage()),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           );
                         },
                         color: Colors.redAccent,

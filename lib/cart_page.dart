@@ -6,7 +6,6 @@ import 'package:sateiv2_app/order_notify.dart';
 
 import 'add_task_screen.dart';
 import 'auth_service.dart';
-import 'individual_cart.dart';
 import 'main.dart';
 
 // ignore: must_be_immutable
@@ -47,17 +46,8 @@ class CartPage extends StatelessWidget {
                         'https://i.gyazo.com/c9ba1b20aa2689694a7314ddd06f1202.jpg',
                         width: 70,
                       ),
-                      title: GestureDetector(
-                        onTap: () {
-                          return Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => IndividualCart()),
-                          );
-                        },
-                        child: Text(
-                            '${historyService.history[index].total.toStringAsFixed(0)}円'),
-                      ),
+                      title: Text(
+                          '${historyService.history[index].total.toStringAsFixed(0)}円'),
                       subtitle: Text(
                         DateFormat("yyyy年MM月dd日hh時mm分").format(_date),
                       ),

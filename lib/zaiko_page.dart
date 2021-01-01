@@ -1,45 +1,78 @@
-import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(ZaikoPage());
-}
+import 'add_task_screen.dart';
+import 'auth_service.dart';
+import 'main.dart';
+import 'order_notify.dart';
 
-class ZaikoPage extends StatefulWidget {
-  @override
-  _ZaikoPageState createState() => _ZaikoPageState();
-}
-
-Timer timer;
-var value = 0;
-
-class _ZaikoPageState extends State<ZaikoPage> {
+class ItemPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.white),
-      home: Scaffold(
-        appBar: AppBar(
-          leading: Icon(Icons.search),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.settings),
-            ),
-          ],
-          title: Text(
-            '在庫',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
-          backgroundColor: Colors.teal,
-        ),
-        body: Container(),
-      ),
-    ); // MaterialApp
+    final authService = Provider.of<AuthService>(context);
+    final historyService = Provider.of<OrderNotify>(context);
+    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
+    historyService.uid = authService.user.uid;
+    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
+    return StreamBuilder<QuerySnapshot>(
+      // firestoreからデータを拾ってくる
+      stream: historyService.dataPath.orderBy("createAt").snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting: // データの取得まち
+            return CircularProgressIndicator();
+          default:
+            // streamからデータを取得できたので、使いやすい形にかえてあげる
+            historyService.init(snapshot.data.docs);
+            return Scaffold(
+              appBar: AppBar(
+                  title: Center(
+                      child: Text(
+                          '在庫ページ\n(${isRelease() ? 'リリース' : 'デバック'}モード)'))),
+              body: Center(
+                child: ListView.builder(
+                  itemCount: historyService.history.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final _date =
+                        historyService.history[index].createAt.toDate();
+                    return ListTile(
+                      leading: Image.network(
+                        'https://i.gyazo.com/c9ba1b20aa2689694a7314ddd06f1202.jpg',
+                        width: 70,
+                      ),
+                      title: Text(historyService.history[index].name),
+                      subtitle: Text(
+                        DateFormat("yyyy年MM月dd日hh時mm分").format(_date),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          historyService.deleteDocument(
+                              historyService.history[index].docId);
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.pop(context);
+                  return Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddTaskScreen()),
+                  );
+                },
+              ),
+            );
+        }
+      },
+    );
   }
 }

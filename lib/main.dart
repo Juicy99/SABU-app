@@ -16,7 +16,6 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService.instance()),
-        ChangeNotifierProvider(create: (_) => CartService()),
         ChangeNotifierProvider(create: (_) => OrderNotify()),
       ],
       child: MyApp(),
@@ -91,45 +90,10 @@ class DbProcess extends StatelessWidget {
           default:
             // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
+            historyService.init2(snapshot.data.docs);
             return MyHomePage();
         }
       },
-    );
-  }
-}
-
-class NameInputDialog extends StatefulWidget {
-  @override
-  _NameInputDialogState createState() => _NameInputDialogState();
-}
-
-class _NameInputDialogState extends State<NameInputDialog> {
-  TextEditingController _nameController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    final cartService = Provider.of<CartService>(context);
-    return AlertDialog(
-      title: Text('予定を入力してください'),
-      content: TextField(
-        controller: _nameController,
-        autofocus: true,
-        decoration: InputDecoration(
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(16))),
-      ),
-      actions: <Widget>[
-        FlatButton(
-          child: Text('クリア'),
-          onPressed: _nameController.clear,
-        ),
-        FlatButton(
-          child: Text('決定'),
-          onPressed: () {
-            cartService.addTitle(_nameController.text);
-            Navigator.pop(context);
-          },
-        ),
-      ],
     );
   }
 }
