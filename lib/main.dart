@@ -90,7 +90,6 @@ class DbProcess extends StatelessWidget {
           default:
             // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
-            historyService.init2(snapshot.data.docs);
             return MyHomePage();
         }
       },
