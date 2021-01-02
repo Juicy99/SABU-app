@@ -12,17 +12,6 @@ class OrderNotify extends ChangeNotifier {
 
   List<CartHistory> cartHistory = [];
 
-  Future fireAdd() async {
-    final docRef =
-        await FirebaseFirestore.instance.collection('cartHistory').add({
-      'createdAt': Timestamp.now(),
-      'total': totalPriceAmount,
-    });
-    docRef.collection('orderHistory').add({
-      'itemHistory': items.map((i) => i.toMap()).toList(),
-    });
-  }
-
   void addTask(String newTaskTitle, String newTaskMessage, double newTaskPrice,
       int qty) {
     items.add(
@@ -83,9 +72,14 @@ class OrderNotify extends ChangeNotifier {
   CollectionReference get dataPath1 =>
       FirebaseFirestore.instance.collection('users/$uid/itemHistory');
   List get history => _history;
+  List get itemHistory => _itemHistory;
 
   void init(List<DocumentSnapshot> documents) {
     _history = documents.map((doc) => CartHistory.fromMap(doc)).toList();
+  }
+
+  void init2(List<DocumentSnapshot> documents) {
+    _itemHistory = documents.map((doc) => OrderHistory.fromMap(doc)).toList();
   }
 
   void addTitle(double total) {
@@ -95,62 +89,19 @@ class OrderNotify extends ChangeNotifier {
     });
   }
 
-  void addItem(
-    name,
-  ) {
-    FirebaseFirestore.instance.collection('users/$uid/itemHistory').doc().set({
-      'name': name,
+  void addItem(name) {
+    dataPath1.doc().set({
+      'createAt': DateTime.now(),
+      'orderHistory': items.map((i) => i.toMap()).toList(),
     });
     notifyListeners();
+  }
+
+  void deleteDocument2(docId) {
+    dataPath1.doc(docId).delete();
   }
 
   void deleteDocument(docId) {
     dataPath.doc(docId).delete();
-  }
-
-  List<Todo> itemHistory = [];
-
-  Future getTodoList() async {
-    final snapshot = await FirebaseFirestore.instance
-        .collection('users/$uid/itemHistory')
-        .get();
-    final docs = snapshot.docs;
-    final itemHistory = docs.map((doc) => Todo(doc)).toList();
-    this.itemHistory = itemHistory;
-    notifyListeners();
-  }
-
-  void getTodoListRealtime() {
-    final snapshots = FirebaseFirestore.instance
-        .collection('users/$uid/itemHistory')
-        .snapshots();
-    snapshots.listen((snapshot) {
-      final docs = snapshot.docs;
-      final itemHistory = docs.map((doc) => Todo(doc)).toList();
-      this.itemHistory = itemHistory;
-      notifyListeners();
-    });
-  }
-
-  void reload() {
-    notifyListeners();
-  }
-
-  Future deleteCheckedItems() async {
-    final checkedItems = itemHistory.where((todo) => todo.isDone).toList();
-    final references =
-        checkedItems.map((todo) => todo.documentReference).toList();
-
-    final batch = FirebaseFirestore.instance.batch();
-
-    references.forEach((reference) {
-      batch.delete(reference);
-    });
-    return batch.commit();
-  }
-
-  bool checkShouldActiveCompleteButton() {
-    final checkedItems = itemHistory.where((todo) => todo.isDone).toList();
-    return checkedItems.length > 0;
   }
 }

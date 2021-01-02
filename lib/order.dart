@@ -62,18 +62,31 @@ class CartHistory {
   }
 }
 
-class Todo {
-  Todo(DocumentSnapshot doc) {
-    this.documentReference = doc.reference;
+class OrderHistory {
+  String _docId;
+  String _name;
+  Timestamp _createAt;
 
-    this.name = doc.data()['name'];
+  OrderHistory(
+    this._docId,
+    this._name,
+    this._createAt,
+  );
 
-    final Timestamp timestamp = doc.data()['createdAt'];
-    this.createdAt = timestamp.toDate();
+  String get docId => _docId;
+  String get name => _name;
+  Timestamp get createAt => _createAt;
+
+  OrderHistory.fromMap(map) {
+    _docId = map.documentID;
+    _name = map['name'];
+    _createAt = map['createAt'];
   }
 
-  String name;
-  DateTime createdAt;
-  bool isDone = false;
-  DocumentReference documentReference;
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{};
+    map['name'] = name;
+    map['createAt'] = _createAt;
+    return map;
+  }
 }
