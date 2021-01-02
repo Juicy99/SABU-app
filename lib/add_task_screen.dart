@@ -155,6 +155,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 builder: (context) => ScreenOrder()),
                           );
                           newTaskPrice = double.parse(_priceController2.text);
+                          order.addItem(
+                            _nameController.text,
+                            _messageController3.text,
+                            double.parse(_priceController2.text),
+                          );
                           Provider.of<OrderNotify>(context, listen: false)
                               .addTask(newTaskTitle ?? '', newTaskMessage ?? '',
                                   newTaskPrice ?? '', qty = 1);

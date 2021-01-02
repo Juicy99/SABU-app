@@ -110,7 +110,6 @@ class ScreenOrder extends StatelessWidget {
                                   child: Text('登録'),
                                   onPressed: () {
                                     order.addTitle(order.totalPriceAmount);
-                                    order.addItem(order.totalPriceAmount);
                                     order.clearCart();
                                     return Navigator.push(
                                       context,

@@ -65,8 +65,6 @@ class OrderNotify extends ChangeNotifier {
   List _history;
   List _itemHistory;
 
-  OrderNotify();
-
   CollectionReference get dataPath =>
       FirebaseFirestore.instance.collection('users/$uid/history');
   CollectionReference get dataPath1 =>
@@ -89,10 +87,12 @@ class OrderNotify extends ChangeNotifier {
     });
   }
 
-  void addItem(name) {
+  void addItem(String name, String message, double price) {
     dataPath1.doc().set({
       'createAt': DateTime.now(),
-      'orderHistory': items.map((i) => i.toMap()).toList(),
+      'message': message,
+      'price': price,
+      'name': name,
     });
     notifyListeners();
   }

@@ -65,27 +65,37 @@ class CartHistory {
 class OrderHistory {
   String _docId;
   String _name;
+  String _message;
+  double _price;
   Timestamp _createAt;
 
   OrderHistory(
     this._docId,
     this._name,
     this._createAt,
+    this._price,
+    this._message,
   );
 
   String get docId => _docId;
   String get name => _name;
+  String get message => _message;
+  double get price => _price;
   Timestamp get createAt => _createAt;
 
   OrderHistory.fromMap(map) {
     _docId = map.documentID;
     _name = map['name'];
+    _message = map['message'];
+    _price = map['price'];
     _createAt = map['createAt'];
   }
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{};
-    map['name'] = name;
+    map['name'] = _name;
+    map['message'] = _message;
+    map['price'] = _price;
     map['createAt'] = _createAt;
     return map;
   }
