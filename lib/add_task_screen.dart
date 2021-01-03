@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sateiv2_app/zaiko_page.dart';
 
 import 'order_notify.dart';
 import 'screen_order.dart';
@@ -50,15 +51,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   var _priceController2 = TextEditingController();
   var _messageController3 = TextEditingController();
 
-  double newTaskPrice = 0;
-
   int qty = 1;
 
+  String newTaskTitle;
+  String newTaskMessage;
   @override
   Widget build(BuildContext context) {
     final order = Provider.of<OrderNotify>(context);
-    String newTaskTitle;
-    String newTaskMessage;
     double newTaskPrice;
     return Scaffold(
       body: Container(
@@ -154,25 +153,35 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             MaterialPageRoute(
                                 builder: (context) => ScreenOrder()),
                           );
+                        }),
+                    RaisedButton(
+                      // 送信ボタンクリック時の処理
+                      onPressed: () {
+                        // バリデーションチェック
+                        if (_formKey.currentState.validate()) {
                           newTaskPrice = double.parse(_priceController2.text);
-                          order.addItem(
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ItemPage()),
+                          );
+                          Provider.of<OrderNotify>(context, listen: false)
+                              .addItem(
                             _nameController.text,
                             _messageController3.text,
                             double.parse(_priceController2.text),
                           );
-                          Provider.of<OrderNotify>(context, listen: false)
-                              .addTask(newTaskTitle ?? '', newTaskMessage ?? '',
-                                  newTaskPrice ?? '', qty = 1);
                           _nameController.clear();
                           _priceController2.clear();
                           _messageController3.clear();
                           Navigator.pop(context);
                           return Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => ScreenOrder()),
+                            MaterialPageRoute(builder: (context) => ItemPage()),
                           );
-                        }),
+                        }
+                      },
+                      child: Text('送信する'),
+                    ),
                   ],
                 ),
               ],

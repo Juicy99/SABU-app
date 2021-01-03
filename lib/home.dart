@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage>
     return [
       AddTaskScreen(),
       ItemPage(),
-      CartPage(),
+      CartPage2(),
       SchedulePage(),
     ];
   }

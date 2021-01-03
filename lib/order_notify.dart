@@ -10,8 +10,6 @@ class OrderNotify extends ChangeNotifier {
   double newTaskPrice = 0;
   int qty = 1;
 
-  List<CartHistory> cartHistory = [];
-
   void addTask(String newTaskTitle, String newTaskMessage, double newTaskPrice,
       int qty) {
     items.add(
@@ -74,10 +72,12 @@ class OrderNotify extends ChangeNotifier {
 
   void init(List<DocumentSnapshot> documents) {
     _history = documents.map((doc) => CartHistory.fromMap(doc)).toList();
+    _history.sort((a, b) => b.createAt.compareTo(a.createAt));
   }
 
   void init2(List<DocumentSnapshot> documents) {
     _itemHistory = documents.map((doc) => OrderHistory.fromMap(doc)).toList();
+    _itemHistory.sort((a, b) => b.createAt.compareTo(a.createAt));
   }
 
   void addTitle(double total) {
