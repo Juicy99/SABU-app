@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sateiv2_app/zaiko_page.dart';
 
@@ -55,6 +58,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   String newTaskTitle;
   String newTaskMessage;
+  final picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     final order = Provider.of<OrderNotify>(context);
@@ -67,6 +71,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             key: _formKey,
             child: Column(
               children: <Widget>[
+                InkWell(
+                  onTap: () async {
+                    // TODO: カメラロール開いて写真選ぶ
+                    final pickedFile =
+                        await picker.getImage(source: ImageSource.camera);
+                    order.setImage(File(pickedFile.path));
+                  },
+                  child: SizedBox(
+                    width: 100,
+                    height: 160,
+                    child: order.imageFile != null
+                        ? Image.file(order.imageFile)
+                        : Container(
+                            color: Colors.grey,
+                          ),
+                  ),
+                ),
                 DropdownButton(
                   value: _selectedValue ?? valueList[0],
                   items: valueList.map((String value) {
@@ -169,6 +190,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             _nameController.text,
                             _messageController3.text,
                             double.parse(_priceController2.text),
+                            imageURL,
                           );
                           _nameController.clear();
                           _priceController2.clear();

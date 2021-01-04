@@ -11,12 +11,14 @@ class Order {
   double price;
   Product product;
   DocumentReference reference;
+  String imageURL;
 
   Order.fromMap(Map<String, dynamic> map()) {
     name = map()['name'];
     message = map()['message'];
     price = map()['price'];
     qty = map()['qty'];
+    imageURL = map()['imageURL'];
   }
 
   Map<String, dynamic> toMap() {
@@ -25,10 +27,17 @@ class Order {
       'message': message,
       'price': price,
       'qty': qty,
+      'imageURL': imageURL,
     };
   }
 
-  Order({this.qty, this.product, this.price, this.message, this.name});
+  Order(
+      {this.qty,
+      this.product,
+      this.price,
+      this.message,
+      this.name,
+      this.imageURL});
 }
 
 class CartHistory {
@@ -68,6 +77,7 @@ class OrderHistory {
   String _message;
   double _price;
   Timestamp _createAt;
+  String _imageURL;
 
   OrderHistory(
     this._docId,
@@ -75,6 +85,7 @@ class OrderHistory {
     this._createAt,
     this._price,
     this._message,
+    this._imageURL,
   );
 
   String get docId => _docId;
@@ -82,6 +93,7 @@ class OrderHistory {
   String get message => _message;
   double get price => _price;
   Timestamp get createAt => _createAt;
+  String get imageURL => _imageURL;
 
   OrderHistory.fromMap(map) {
     _docId = map.documentID;
@@ -89,6 +101,7 @@ class OrderHistory {
     _message = map['message'];
     _price = map['price'];
     _createAt = map['createAt'];
+    _imageURL = map['imageURL'];
   }
 
   Map<String, dynamic> toMap() {
@@ -97,6 +110,7 @@ class OrderHistory {
     map['message'] = _message;
     map['price'] = _price;
     map['createAt'] = _createAt;
+    map['imageURL'] = _imageURL;
     return map;
   }
 }

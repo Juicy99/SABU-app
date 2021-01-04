@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'order.dart';
@@ -9,6 +12,7 @@ class OrderNotify extends ChangeNotifier {
   String newTaskMessage = '';
   double newTaskPrice = 0;
   int qty = 1;
+  File imageFile;
 
   void addTask(String newTaskTitle, String newTaskMessage, double newTaskPrice,
       int qty) {
@@ -87,12 +91,15 @@ class OrderNotify extends ChangeNotifier {
     });
   }
 
-  void addItem(String name, String message, double price) {
+  void addItem(
+      String name, String message, double price, String imageURL) async {
+    final imageURL = await _uploadImageFile();
     dataPath1.doc().set({
       'createAt': DateTime.now(),
       'message': message,
       'price': price,
       'name': name,
+      'imageURL': imageURL,
     });
     notifyListeners();
   }
@@ -103,5 +110,25 @@ class OrderNotify extends ChangeNotifier {
 
   void deleteDocument(docId) {
     dataPath.doc(docId).delete();
+  }
+
+  setImage(File imageFile) {
+    this.imageFile = imageFile;
+    notifyListeners();
+  }
+
+  Future<String> _uploadImageFile() async {
+    if (imageFile == null) {
+      return '';
+    }
+    final storage = FirebaseStorage.instance;
+    final ref = storage.ref().child('books').child(bookTitle);
+    final snapshot = await ref
+        .putFile(
+          imageFile,
+        )
+        .onComplete;
+    final downloadURL = await snapshot.ref.getDownloadURL();
+    return downloadURL;
   }
 }
