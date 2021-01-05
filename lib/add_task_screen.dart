@@ -190,7 +190,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             _nameController.text,
                             _messageController3.text,
                             double.parse(_priceController2.text),
-                            imageURL,
                           );
                           _nameController.clear();
                           _priceController2.clear();
@@ -204,6 +203,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       },
                       child: Text('送信する'),
                     ),
+                    RaisedButton(
+                        child: Text('更新する'),
+                        onPressed: () {
+                          order.addBookToFirebase();
+                        }),
                   ],
                 ),
               ],
