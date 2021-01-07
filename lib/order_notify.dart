@@ -13,16 +13,21 @@ class OrderNotify extends ChangeNotifier {
   double newTaskPrice = 0;
   int qty = 1;
   File imageFile;
-  String name = '';
 
-  void addTask(String newTaskTitle, String newTaskMessage, double newTaskPrice,
-      int qty) {
+  void addTask(
+    String newTaskTitle,
+    String newTaskMessage,
+    double newTaskPrice,
+    int qty,
+    String imageURL,
+  ) {
     items.add(
       Order(
           name: newTaskTitle,
           message: newTaskMessage,
           price: newTaskPrice,
-          qty: 1),
+          qty: 1,
+          imageURL: imageURL),
     );
     notifyListeners();
   }
@@ -97,25 +102,15 @@ class OrderNotify extends ChangeNotifier {
     String message,
     double price,
   ) async {
+    final imageURL = await _uploadImageFile();
     dataPath1.doc().set({
       'createAt': DateTime.now(),
       'message': message,
       'price': price,
-      'name': name,
+      'name': newTaskTitle,
+      'imageURL': imageURL,
     });
     notifyListeners();
-  }
-
-  Future addBookToFirebase() async {
-    final imageURL = await _uploadImageFile();
-
-    dataPath1.add(
-      {
-        'name': name,
-        'imageURL': imageURL,
-        'createdAt': Timestamp.now(),
-      },
-    );
   }
 
   void deleteDocument2(docId) {
@@ -136,7 +131,7 @@ class OrderNotify extends ChangeNotifier {
       return '';
     }
     final storage = FirebaseStorage.instance;
-    final ref = storage.ref().child('itemHistory').child(name);
+    final ref = storage.ref().child('itemHistory').child(newTaskTitle);
     final snapshot = await ref.putFile(
       imageFile,
     );

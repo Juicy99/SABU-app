@@ -107,7 +107,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   decoration: InputDecoration(labelText: '商品名を記入'),
                   textAlign: TextAlign.center,
                   onChanged: (value) {
-                    newTaskTitle = value;
+                    order.newTaskTitle = value;
                   },
                   validator: (value) {
                     // 入力内容が空でないかチェック
@@ -203,11 +203,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       },
                       child: Text('送信する'),
                     ),
-                    RaisedButton(
-                        child: Text('更新する'),
-                        onPressed: () {
-                          order.addBookToFirebase();
-                        }),
                   ],
                 ),
               ],

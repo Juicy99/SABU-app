@@ -56,8 +56,8 @@ class ItemPage extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Image.network(
-                                      'https://i.gyazo.com/c9ba1b20aa2689694a7314ddd06f1202.jpg'),
+                                  Image.network(historyService
+                                      .itemHistory[index].imageURL),
                                 ],
                               ),
                             ),
@@ -74,12 +74,10 @@ class ItemPage extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Container(
-                                        padding: EdgeInsets.only(left: 1.0),
+                                        padding: EdgeInsets.only(left: 10.0),
                                         width: 150,
-                                        child: Text(
-                                          historyService
-                                              .itemHistory[index].name,
-                                        ),
+                                        child: Image.network(historyService
+                                            .itemHistory[index].name),
                                       ),
                                       IconButton(
                                         icon: Icon(
@@ -174,7 +172,10 @@ class ItemPage extends StatelessWidget {
                                                       historyService
                                                           .itemHistory[index]
                                                           .price,
-                                                      qty = 1);
+                                                      qty = 1,
+                                                      historyService
+                                                          .itemHistory[index]
+                                                          .imageURL);
                                               return Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

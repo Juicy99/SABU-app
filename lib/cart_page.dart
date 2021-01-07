@@ -46,10 +46,6 @@ class CartPage extends StatelessWidget {
                     final _date =
                         historyService.history[index].createAt.toDate();
                     return ListTile(
-                      leading: Image.network(
-                        'https://i.gyazo.com/c9ba1b20aa2689694a7314ddd06f1202.jpg',
-                        width: 70,
-                      ),
                       title: Text(
                           '${historyService.history[index].total.toStringAsFixed(0)}円'),
                       subtitle: Text(
@@ -132,10 +128,6 @@ class CartPage2 extends StatelessWidget {
                     final _date =
                         historyService.history[index].createAt.toDate();
                     return ListTile(
-                      leading: Image.network(
-                        'https://i.gyazo.com/c9ba1b20aa2689694a7314ddd06f1202.jpg',
-                        width: 70,
-                      ),
                       title: Text(
                           '${historyService.history[index].total.toStringAsFixed(0)}円'),
                       subtitle: Text(
