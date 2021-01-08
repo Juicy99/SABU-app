@@ -52,7 +52,7 @@ class ItemPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Container(
-                              width: (MediaQuery.of(context).size.width) / 3,
+                              width: (MediaQuery.of(context).size.width) / 4,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -76,7 +76,7 @@ class ItemPage extends StatelessWidget {
                                       Container(
                                         padding: EdgeInsets.only(left: 10.0),
                                         width: 150,
-                                        child: Image.network(historyService
+                                        child: Text(historyService
                                             .itemHistory[index].name),
                                       ),
                                       IconButton(
