@@ -15,39 +15,6 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-  List<String> valueList = [
-    'すべて',
-    'コンピュータ',
-    '家電、AV、カメラ',
-    '音楽',
-    '本、雑誌',
-    '映画、ビデオ',
-    'おもちゃ、ゲーム',
-    'ホビー、カルチャー',
-    'アンティーク、コレクション',
-    'スポーツ、レジャー',
-    '自動車、オートバイ',
-    'ファッション',
-    'アクセサリー、時計',
-    'ビューティ、ヘルスケア',
-    '食品、飲料',
-    '住まい、インテリア',
-    'ペット、生き物',
-    '事務、店舗用品',
-    '花、園芸',
-    'チケット、金券、宿泊予約',
-    'ベビー用品',
-    'タレントグッズ',
-    'コミック、アニメグッズ',
-    '不動産',
-    'チャリティー',
-    'その他'
-  ];
-  String _selectedValue;
-
-  List<String> valueList2 = ['新品', '未使用', '動作品', 'ジャンク品'];
-  String _selectedValue2;
-
   final _formKey = GlobalKey<FormState>();
 
   var _nameController = TextEditingController();
@@ -88,20 +55,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           ),
                   ),
                 ),
-                DropdownButton(
-                  value: _selectedValue ?? valueList[0],
-                  items: valueList.map((String value) {
-                    return DropdownMenuItem(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedValue = value;
-                    });
-                  },
-                ),
                 TextFormField(
                   controller: _nameController,
                   decoration: InputDecoration(labelText: '商品名を記入'),
@@ -115,20 +68,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       return '商品名を入力してください。';
                     }
                     return null;
-                  },
-                ),
-                DropdownButton(
-                  value: _selectedValue2 ?? valueList2[0],
-                  items: valueList2.map((String value) {
-                    return DropdownMenuItem(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedValue2 = value;
-                    });
                   },
                 ),
                 TextFormField(

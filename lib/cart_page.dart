@@ -84,6 +84,29 @@ class CartPage extends StatelessWidget {
                           );
                         },
                       ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) {
+                            return AlertDialog(
+                              title: Text("タイトル"),
+                              content: Text(
+                                  'クーリングオフ期間の終了まであと${_date.add(Duration(days: 14)).difference(_date).inDays.toString()}日'),
+                              actions: <Widget>[
+                                // ボタン領域
+                                FlatButton(
+                                  child: Text("Cancel"),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                                FlatButton(
+                                  child: Text("OK"),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     );
                   },
                 ),
@@ -166,6 +189,29 @@ class CartPage2 extends StatelessWidget {
                           );
                         },
                       ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) {
+                            return AlertDialog(
+                              title: Text("タイトル"),
+                              content: Text(
+                                  'クーリングオフ期間の終了まであと${_date.add(Duration(days: 14)).difference(_date).inDays.toString()}日'),
+                              actions: <Widget>[
+                                // ボタン領域
+                                FlatButton(
+                                  child: Text("Cancel"),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                                FlatButton(
+                                  child: Text("OK"),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     );
                   },
                 ),

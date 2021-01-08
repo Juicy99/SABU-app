@@ -140,7 +140,4 @@ class OrderNotify extends ChangeNotifier {
     final downloadURL = await snapshot.ref.getDownloadURL();
     return downloadURL;
   }
-
-
-
 }

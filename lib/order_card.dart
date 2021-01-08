@@ -21,7 +21,7 @@ class OrderCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Container(
-              width: (MediaQuery.of(context).size.width) / 3,
+              width: (MediaQuery.of(context).size.width) / 4,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
