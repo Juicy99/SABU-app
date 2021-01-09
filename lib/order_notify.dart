@@ -9,6 +9,7 @@ import 'order.dart';
 
 class OrderNotify extends ChangeNotifier {
   List<Order> items = [];
+  List<OrderList> orderList = [];
   String newTaskTitle = '';
   String newTaskMessage = '';
   double newTaskPrice = 0;
@@ -73,6 +74,7 @@ class OrderNotify extends ChangeNotifier {
   String uid;
   List _history;
   List _itemHistory;
+  String docId;
 
   CollectionReference get dataPath =>
       FirebaseFirestore.instance.collection('users/$uid/history');
@@ -89,13 +91,6 @@ class OrderNotify extends ChangeNotifier {
   void init2(List<DocumentSnapshot> documents) {
     _itemHistory = documents.map((doc) => OrderHistory.fromMap(doc)).toList();
     _itemHistory.sort((a, b) => b.createAt.compareTo(a.createAt));
-  }
-
-  void addTitle(double total) {
-    dataPath.doc().set({
-      'total': total,
-      'createAt': DateTime.now(),
-    });
   }
 
   void addItem(
@@ -139,5 +134,23 @@ class OrderNotify extends ChangeNotifier {
     );
     final downloadURL = await snapshot.ref.getDownloadURL();
     return downloadURL;
+  }
+
+  Future<List<OrderList>> getOrderList() async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('users/$uid/history/$docId/orderHistory')
+        .get();
+    List<QueryDocumentSnapshot> docs = querySnapshot.docs;
+    final orderList =
+        docs.map((doc) => OrderList.fromJson(doc.data())).toList();
+    return orderList;
+  }
+
+  void addTitle(double total) {
+    dataPath.doc().set({
+      'total': total,
+      'createAt': DateTime.now(),
+      'orderHistory': items.map((i) => i.toJson()).toList(),
+    });
   }
 }

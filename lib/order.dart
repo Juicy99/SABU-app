@@ -2,42 +2,60 @@ import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'product.dart';
-
 class Order {
   String name;
   String message;
   int qty = 1;
   double price;
-  Product product;
-  DocumentReference reference;
   String imageURL;
 
-  Order.fromMap(Map<String, dynamic> map()) {
-    name = map()['name'];
-    message = map()['message'];
-    price = map()['price'];
-    qty = map()['qty'];
-    imageURL = map()['imageURL'];
-  }
+  Order({this.name, this.message, this.price, this.qty, this.imageURL});
 
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'message': message,
-      'price': price,
-      'qty': qty,
-      'imageURL': imageURL,
-    };
-  }
+  dynamic toJson() => {
+        'name': name,
+        'message': message,
+        'price': price,
+        'qty': qty,
+        'imageURL': imageURL,
+      };
 
-  Order(
-      {this.qty,
-      this.product,
-      this.price,
-      this.message,
-      this.name,
-      this.imageURL});
+  factory Order.fromJson(Map<String, dynamic> json) {
+    return Order(
+      name: json['name'],
+      message: json['message'],
+      price: json['price'],
+      qty: json['qty'],
+      imageURL: json['imageURL'],
+    );
+  }
+}
+
+class OrderList {
+  String name;
+  String message;
+  int qty = 1;
+  double price;
+  String imageURL;
+
+  OrderList({this.name, this.message, this.price, this.qty, this.imageURL});
+
+  dynamic toJson() => {
+        'name': name,
+        'message': message,
+        'price': price,
+        'qty': qty,
+        'imageURL': imageURL,
+      };
+
+  factory OrderList.fromJson(Map<String, dynamic> json) {
+    return OrderList(
+      name: json['name'],
+      message: json['message'],
+      price: json['price'],
+      qty: json['qty'],
+      imageURL: json['imageURL'],
+    );
+  }
 }
 
 class CartHistory {
