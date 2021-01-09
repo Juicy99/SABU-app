@@ -36,8 +36,11 @@ class OrderList {
   int qty = 1;
   double price;
   String imageURL;
+  double total;
+  Timestamp createAt;
 
-  OrderList({this.name, this.message, this.price, this.qty, this.imageURL});
+  OrderList({this.name, this.message, this.price, this.qty, this.imageURL,this.total,
+    this.createAt,});
 
   dynamic toJson() => {
         'name': name,
@@ -45,6 +48,8 @@ class OrderList {
         'price': price,
         'qty': qty,
         'imageURL': imageURL,
+    'total': total,
+    'createAt': createAt,
       };
 
   factory OrderList.fromJson(Map<String, dynamic> json) {
@@ -54,6 +59,8 @@ class OrderList {
       price: json['price'],
       qty: json['qty'],
       imageURL: json['imageURL'],
+      total: json['total'],
+      createAt: json['createAt'],
     );
   }
 }
@@ -62,7 +69,6 @@ class CartHistory {
   String _docId;
   double total;
   Timestamp _createAt;
-  bool isDone = false;
   DocumentReference documentReference;
 
   CartHistory(

@@ -137,9 +137,8 @@ class OrderNotify extends ChangeNotifier {
   }
 
   Future<List<OrderList>> getOrderList() async {
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('users/$uid/history/$docId/orderHistory')
-        .get();
+    final querySnapshot =
+        await FirebaseFirestore.instance.collection('users/$uid/history').get();
     List<QueryDocumentSnapshot> docs = querySnapshot.docs;
     final orderList =
         docs.map((doc) => OrderList.fromJson(doc.data())).toList();
@@ -151,6 +150,16 @@ class OrderNotify extends ChangeNotifier {
       'total': total,
       'createAt': DateTime.now(),
       'orderHistory': items.map((i) => i.toJson()).toList(),
+    });
+  }
+
+  void onPressed(docId) {
+    FirebaseFirestore.instance
+        .collection('users/$uid/history')
+        .doc(docId)
+        .get()
+        .then((value) {
+      print(value.data());
     });
   }
 }

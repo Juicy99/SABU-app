@@ -6,7 +6,6 @@ import 'package:sateiv2_app/order_notify.dart';
 
 import 'auth_service.dart';
 import 'main.dart';
-import 'order_history_list.dart';
 
 // ignore: must_be_immutable
 class CartPage extends StatelessWidget {
@@ -191,12 +190,8 @@ class CartPage2 extends StatelessWidget {
                         },
                       ),
                       onTap: () {
-                        historyService.getOrderList();
-                        return Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ScreenOrder1()),
-                        );
+                        historyService
+                            .onPressed(historyService.history[index].docId);
                       },
                     );
                   },

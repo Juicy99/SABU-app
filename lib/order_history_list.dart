@@ -36,7 +36,7 @@ class ScreenOrder1 extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  order.items.length.toString() + '点の商品がカートに入っています。',
+                  order.orderList.length.toString() + '点の商品がカートに入っています。',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -71,7 +71,7 @@ class ScreenOrder1 extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        order.items.length.toString() + "点",
+                        order.orderList.length.toString() + "点",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
