@@ -162,4 +162,16 @@ class OrderNotify extends ChangeNotifier {
         docs.map((doc) => CartHistory.fromMap(doc.data())).toList();
     return cartList;
   }
+
+  List<String> fieldNames = [];
+
+  void onPressed5(docId) {
+    FirebaseFirestore.instance
+        .collection('users/$uid/history')
+        .doc(docId)
+        .get()
+        .then((value) {
+      fieldNames.addAll(value.data().keys.toList());
+    });
+  }
 }
