@@ -9,7 +9,7 @@ import 'order.dart';
 
 class OrderNotify extends ChangeNotifier {
   List<Order> items = [];
-  List<OrderList> orderList = [];
+  List<OrderList> cartList = [];
   String newTaskTitle = '';
   String newTaskMessage = '';
   double newTaskPrice = 0;
@@ -136,24 +136,15 @@ class OrderNotify extends ChangeNotifier {
     return downloadURL;
   }
 
-  Future<List<OrderList>> getOrderList() async {
-    final querySnapshot =
-        await FirebaseFirestore.instance.collection('users/$uid/history').get();
-    List<QueryDocumentSnapshot> docs = querySnapshot.docs;
-    final orderList =
-        docs.map((doc) => OrderList.fromJson(doc.data())).toList();
-    return orderList;
-  }
-
   void addTitle(double total) {
     dataPath.doc().set({
       'total': total,
       'createAt': DateTime.now(),
-      'orderHistory': items.map((i) => i.toJson()).toList(),
+      'historyHistory': items.map((i) => i.toJson()).toList(),
     });
   }
 
-  void onPressed(docId) {
+  void onPressed1(docId) {
     FirebaseFirestore.instance
         .collection('users/$uid/history')
         .doc(docId)
@@ -161,5 +152,14 @@ class OrderNotify extends ChangeNotifier {
         .then((value) {
       print(value.data());
     });
+  }
+
+  Future<List<CartHistory>> getCartList() async {
+    final querySnapshot =
+        await FirebaseFirestore.instance.collection('users/$uid/history').get();
+    List<QueryDocumentSnapshot> docs = querySnapshot.docs;
+    final cartList =
+        docs.map((doc) => CartHistory.fromMap(doc.data())).toList();
+    return cartList;
   }
 }

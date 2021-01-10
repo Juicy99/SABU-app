@@ -152,7 +152,7 @@ class CartPage2 extends StatelessWidget {
                         historyService.history[index].createAt.toDate();
                     return ListTile(
                       title: Text(
-                          '${historyService.history[index].total.toStringAsFixed(0)}円'),
+                          '${historyService.history[index].historyHistory.join(',')}円'),
                       subtitle: Text(
                         DateFormat("yyyy年MM月dd日hh時mm分").format(_date),
                       ),
@@ -190,8 +190,7 @@ class CartPage2 extends StatelessWidget {
                         },
                       ),
                       onTap: () {
-                        historyService
-                            .onPressed(historyService.history[index].docId);
+                        historyService.getCartList();
                       },
                     );
                   },
