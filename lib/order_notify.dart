@@ -9,7 +9,6 @@ import 'order.dart';
 
 class OrderNotify extends ChangeNotifier {
   List<Order> items = [];
-  List<OrderList> cartList = [];
   String newTaskTitle = '';
   String newTaskMessage = '';
   double newTaskPrice = 0;
@@ -74,7 +73,6 @@ class OrderNotify extends ChangeNotifier {
   String uid;
   List _history;
   List _itemHistory;
-  String docId;
 
   CollectionReference get dataPath =>
       FirebaseFirestore.instance.collection('users/$uid/history');
@@ -91,6 +89,13 @@ class OrderNotify extends ChangeNotifier {
   void init2(List<DocumentSnapshot> documents) {
     _itemHistory = documents.map((doc) => OrderHistory.fromMap(doc)).toList();
     _itemHistory.sort((a, b) => b.createAt.compareTo(a.createAt));
+  }
+
+  void addTitle(double total) {
+    dataPath.doc().set({
+      'total': total,
+      'createAt': DateTime.now(),
+    });
   }
 
   void addItem(
@@ -124,54 +129,15 @@ class OrderNotify extends ChangeNotifier {
 
   Future<String> _uploadImageFile() async {
     if (imageFile == null) {
-      return '';
+      return 'https://firebasestorage.googleapis.com/v0/b/satei-d8f8a.appspot.com/o/itemHistory%2Fghjj.jpeg?alt=media&token=47ea369a-c080-43a1-a156-2174c940ded1';
     }
     final storage = FirebaseStorage.instance;
     final ref = storage.ref().child('itemHistory').child(newTaskTitle);
-    await FlutterNativeImage.compressImage(imageFile.path, quality: 70);
+    await FlutterNativeImage.compressImage(imageFile.path, quality: 10);
     final snapshot = await ref.putFile(
       imageFile,
     );
     final downloadURL = await snapshot.ref.getDownloadURL();
     return downloadURL;
-  }
-
-  void addTitle(double total) {
-    dataPath.doc().set({
-      'total': total,
-      'createAt': DateTime.now(),
-      'historyHistory': items.map((i) => i.toJson()).toList(),
-    });
-  }
-
-  void onPressed1(docId) {
-    FirebaseFirestore.instance
-        .collection('users/$uid/history')
-        .doc(docId)
-        .get()
-        .then((value) {
-      print(value.data());
-    });
-  }
-
-  Future<List<CartHistory>> getCartList() async {
-    final querySnapshot =
-        await FirebaseFirestore.instance.collection('users/$uid/history').get();
-    List<QueryDocumentSnapshot> docs = querySnapshot.docs;
-    final cartList =
-        docs.map((doc) => CartHistory.fromMap(doc.data())).toList();
-    return cartList;
-  }
-
-  List<String> fieldNames = [];
-
-  void onPressed5(docId) {
-    FirebaseFirestore.instance
-        .collection('users/$uid/history')
-        .doc(docId)
-        .get()
-        .then((value) {
-      fieldNames.addAll(value.data().keys.toList());
-    });
   }
 }

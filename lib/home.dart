@@ -46,7 +46,10 @@ class _MyHomePageState extends State<MyHomePage>
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.settings),
+              child: IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () => setState(() {}),
+              ),
             ),
           ],
           bottom: TabBar(
