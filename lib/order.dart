@@ -35,8 +35,6 @@ class CartHistory {
   String _docId;
   double total;
   Timestamp _createAt;
-  bool isDone = false;
-  DocumentReference documentReference;
 
   CartHistory(
     this._docId,
@@ -60,6 +58,31 @@ class CartHistory {
     map['createAt'] = _createAt;
     return map;
   }
+}
+
+class CartHistory2 {
+  double total;
+  Timestamp createAt;
+  CartHistory2(
+    this.total,
+    this.createAt,
+  );
+
+  CartHistory2.fromMap(Map<String, dynamic> map())
+      : assert(map()['total'] != null),
+        assert(map()['createAt'] != null),
+        total = map()['total'],
+        createAt = map()['createAt'];
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{};
+    map['total'] = total;
+    map['createAt'] = createAt;
+    return map;
+  }
+
+  @override
+  String toString() => "Record<$total:$createAt>";
 }
 
 class OrderHistory {

@@ -6,7 +6,6 @@ import 'package:sateiv2_app/order_notify.dart';
 import 'package:sateiv2_app/screen_order.dart';
 
 import 'auth_service.dart';
-import 'main.dart';
 import 'order_notify.dart';
 
 // ignore: must_be_immutable
@@ -33,10 +32,6 @@ class ItemPage extends StatelessWidget {
             // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init2(snapshot.data.docs);
             return Scaffold(
-              appBar: AppBar(
-                  title: Center(
-                      child: Text(
-                          '在庫ページ\n(${isRelease() ? 'リリース' : 'デバック'}モード)'))),
               body: Center(
                 child: ListView.builder(
                   itemCount: historyService.itemHistory.length,

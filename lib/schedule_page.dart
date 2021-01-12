@@ -1,40 +1,175 @@
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(SchedulePage());
-}
+import 'auth_service.dart';
+import 'order.dart';
+import 'order_notify.dart';
 
-class SchedulePage extends StatefulWidget {
+// ignore: must_be_immutable
+class SchedulePage extends StatelessWidget {
+  List<charts.Series<CartHistory2, String>> _seriesBarData;
+  List<CartHistory2> mydata;
+  _generateData(mydata) {
+    _seriesBarData = List<charts.Series<CartHistory2, String>>();
+    _seriesBarData.add(
+      charts.Series(
+        domainFn: (CartHistory2 sales, _) => sales.createAt.toString(),
+        measureFn: (CartHistory2 sales, _) => sales.total,
+        id: 'Sales',
+        data: mydata,
+        labelAccessorFn: (CartHistory2 row, _) => "${row.createAt}",
+      ),
+    );
+  }
+
   @override
-  _SchedulePageState createState() => _SchedulePageState();
+  Widget build(
+    BuildContext context,
+  ) {
+    final authService = Provider.of<AuthService>(context);
+    final historyService = Provider.of<OrderNotify>(context);
+    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
+    historyService.uid = authService.user.uid;
+    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
+    return StreamBuilder<QuerySnapshot>(
+      // firestoreからデータを拾ってくる
+      stream: historyService.dataPath.orderBy("createAt").snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting: // データの取得まち
+            return CircularProgressIndicator();
+          default:
+            // streamからデータを取得できたので、使いやすい形にかえてあげる
+            historyService.init(snapshot.data.docs);
+            List<CartHistory2> sales = snapshot.data.docs
+                .map((documentSnapshot) =>
+                    CartHistory2.fromMap(documentSnapshot.data))
+                .toList();
+            return _buildChart(context, sales);
+        }
+      },
+    );
+  }
+
+  Widget _buildChart(BuildContext context, List<CartHistory2> saledata) {
+    mydata = saledata;
+    _generateData(mydata);
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Container(
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Text(
+                'Sales by Year',
+                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Expanded(
+                child: charts.BarChart(
+                  _seriesBarData,
+                  animate: true,
+                  animationDuration: Duration(seconds: 5),
+                  behaviors: [
+                    new charts.DatumLegend(
+                      entryTextStyle: charts.TextStyleSpec(
+                          color: charts.MaterialPalette.purple.shadeDefault,
+                          fontFamily: 'Georgia',
+                          fontSize: 18),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class _SchedulePageState extends State<SchedulePage> {
+class TimeSeriesBar extends StatelessWidget {
+  final List<charts.Series<TimeSeriesSales, DateTime>> seriesList;
+  final bool animate;
+
+  TimeSeriesBar(this.seriesList, {this.animate});
+
+  /// Creates a [TimeSeriesChart] with sample data and no transition.
+  factory TimeSeriesBar.withSampleData() {
+    return new TimeSeriesBar(
+      _createSampleData(),
+      // Disable animations for image tests.
+      animate: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.white),
-      home: Scaffold(
-        appBar: AppBar(
-          leading: Icon(Icons.search),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.settings),
-            ),
-          ],
-          title: Text(
-            'スケジュール管理',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
-          backgroundColor: Colors.teal,
-        ),
-        body: Container(),
-      ),
-    ); // MaterialApp
+    return new charts.TimeSeriesChart(
+      seriesList,
+      animate: animate,
+      // Set the default renderer to a bar renderer.
+      // This can also be one of the custom renderers of the time series chart.
+      defaultRenderer: new charts.BarRendererConfig<DateTime>(),
+      // It is recommended that default interactions be turned off if using bar
+      // renderer, because the line point highlighter is the default for time
+      // series chart.
+      defaultInteractions: false,
+      // If default interactions were removed, optionally add select nearest
+      // and the domain highlighter that are typical for bar charts.
+      behaviors: [new charts.SelectNearest(), new charts.DomainHighlighter()],
+    );
   }
+
+  /// Create one series with sample hard coded data.
+  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
+    final data = [
+      new TimeSeriesSales(new DateTime(2017, 9, 1), 5),
+      new TimeSeriesSales(new DateTime(2017, 9, 2), 5),
+      new TimeSeriesSales(new DateTime(2017, 9, 3), 25),
+      new TimeSeriesSales(new DateTime(2017, 9, 4), 100),
+      new TimeSeriesSales(new DateTime(2017, 9, 5), 75),
+      new TimeSeriesSales(new DateTime(2017, 9, 6), 88),
+      new TimeSeriesSales(new DateTime(2017, 9, 7), 65),
+      new TimeSeriesSales(new DateTime(2017, 9, 8), 91),
+      new TimeSeriesSales(new DateTime(2017, 9, 9), 100),
+      new TimeSeriesSales(new DateTime(2017, 9, 10), 111),
+      new TimeSeriesSales(new DateTime(2017, 9, 11), 90),
+      new TimeSeriesSales(new DateTime(2017, 9, 12), 50),
+      new TimeSeriesSales(new DateTime(2017, 9, 13), 40),
+      new TimeSeriesSales(new DateTime(2017, 9, 14), 30),
+      new TimeSeriesSales(new DateTime(2017, 9, 15), 40),
+      new TimeSeriesSales(new DateTime(2017, 9, 16), 50),
+      new TimeSeriesSales(new DateTime(2017, 9, 17), 30),
+      new TimeSeriesSales(new DateTime(2017, 9, 18), 35),
+      new TimeSeriesSales(new DateTime(2017, 9, 19), 40),
+      new TimeSeriesSales(new DateTime(2017, 9, 20), 32),
+      new TimeSeriesSales(new DateTime(2017, 9, 21), 31),
+    ];
+
+    return [
+      new charts.Series<TimeSeriesSales, DateTime>(
+        id: 'Sales',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (TimeSeriesSales sales, _) => sales.time,
+        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        data: data,
+      )
+    ];
+  }
+}
+
+/// Sample time series data type.
+class TimeSeriesSales {
+  final DateTime time;
+  final int sales;
+
+  TimeSeriesSales(this.time, this.sales);
 }

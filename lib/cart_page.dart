@@ -140,10 +140,6 @@ class CartPage2 extends StatelessWidget {
             // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
             return Scaffold(
-              appBar: AppBar(
-                  title: Center(
-                      child:
-                          Text('買取履歴\n(${isRelease() ? 'リリース' : 'デバック'}モード)'))),
               body: Center(
                 child: ListView.builder(
                   itemCount: historyService.history.length,

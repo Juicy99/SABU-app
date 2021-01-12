@@ -95,6 +95,7 @@ class OrderNotify extends ChangeNotifier {
     dataPath.doc().set({
       'total': total,
       'createAt': DateTime.now(),
+      'orderHistory': items.map((i) => i.toMap()).toList(),
     });
   }
 
