@@ -128,3 +128,31 @@ class OrderHistory {
     return map;
   }
 }
+
+class OrderList {
+  String name;
+  String message;
+  int qty;
+  double price;
+  String imageURL;
+
+  OrderList({this.name, this.message, this.price, this.qty, this.imageURL});
+
+  dynamic toJson() => {
+        'name': name,
+        'message': message,
+        'price': price,
+        'qty': qty,
+        'imageURL': imageURL,
+      };
+
+  factory OrderList.fromJson(Map<String, dynamic> json) {
+    return OrderList(
+      name: json['name'],
+      message: json['message'],
+      price: json['price'],
+      qty: json['qty'],
+      imageURL: json['imageURL'],
+    );
+  }
+}

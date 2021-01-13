@@ -9,17 +9,17 @@ import 'order_notify.dart';
 
 // ignore: must_be_immutable
 class SchedulePage extends StatelessWidget {
-  List<charts.Series<CartHistory2, String>> _seriesBarData;
+  List<charts.Series<CartHistory2, DateTime>> _seriesBarData;
   List<CartHistory2> mydata;
   _generateData(mydata) {
-    _seriesBarData = List<charts.Series<CartHistory2, String>>();
+    _seriesBarData = List<charts.Series<CartHistory2, DateTime>>();
     _seriesBarData.add(
       charts.Series(
-        domainFn: (CartHistory2 sales, _) => sales.createAt.toString(),
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (CartHistory2 sales, _) => sales.createAt.toDate(),
         measureFn: (CartHistory2 sales, _) => sales.total,
         id: 'Sales',
         data: mydata,
-        labelAccessorFn: (CartHistory2 row, _) => "${row.createAt}",
       ),
     );
   }
@@ -73,17 +73,21 @@ class SchedulePage extends StatelessWidget {
                 height: 10.0,
               ),
               Expanded(
-                child: charts.BarChart(
+                child: charts.TimeSeriesChart(
                   _seriesBarData,
                   animate: true,
-                  animationDuration: Duration(seconds: 5),
+                  // Set the default renderer to a bar renderer.
+                  // This can also be one of the custom renderers of the time series chart.
+                  defaultRenderer: new charts.BarRendererConfig<DateTime>(),
+                  // It is recommended that default interactions be turned off if using bar
+                  // renderer, because the line point highlighter is the default for time
+                  // series chart.
+                  defaultInteractions: false,
+                  // If default interactions were removed, optionally add select nearest
+                  // and the domain highlighter that are typical for bar charts.
                   behaviors: [
-                    new charts.DatumLegend(
-                      entryTextStyle: charts.TextStyleSpec(
-                          color: charts.MaterialPalette.purple.shadeDefault,
-                          fontFamily: 'Georgia',
-                          fontSize: 18),
-                    )
+                    new charts.SelectNearest(),
+                    new charts.DomainHighlighter()
                   ],
                 ),
               ),
@@ -114,7 +118,7 @@ class TimeSeriesBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return new charts.TimeSeriesChart(
       seriesList,
-      animate: animate,
+      animate: true,
       // Set the default renderer to a bar renderer.
       // This can also be one of the custom renderers of the time series chart.
       defaultRenderer: new charts.BarRendererConfig<DateTime>(),
