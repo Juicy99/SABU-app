@@ -31,7 +31,7 @@ class ScreenOrder1 extends StatelessWidget {
               itemCount: snapshot.data.docs.length,
               itemBuilder: (BuildContext context, int index) {
                 List steps =
-                    List.castFrom(snapshot.data.docs[index]["historyHistory"]);
+                    List.castFrom(snapshot.data.docs[index]["orderHistory"]);
                 return Container(
                   padding: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
                   height: 200,

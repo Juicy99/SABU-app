@@ -147,11 +147,9 @@ class CartPage2 extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     final _date =
                         historyService.history[index].createAt.toDate();
-
-                    List steps = List.castFrom(
-                        snapshot.data.docs[index]["historyHistory"]);
                     return ListTile(
-                      title: Text('${steps[index]['name']}円'),
+                      title: Text(
+                          '${historyService.history[index].total.toStringAsFixed(0)}円'),
                       subtitle: Text(
                         DateFormat("yyyy年MM月dd日hh時mm分").format(_date),
                       ),
