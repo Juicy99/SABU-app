@@ -25,10 +25,9 @@ class ScreenOrder1 extends StatelessWidget {
           case ConnectionState.waiting: // データの取得まち
             return CircularProgressIndicator();
           default:
-            // streamからデータを取得できたので、使いやすい形にかえてあげる
-            historyService.init(snapshot.data.docs);
+            List<DocumentSnapshot> steps = snapshot.data.docs;
             return ListView.builder(
-              itemCount: snapshot.data.docs.length,
+              itemCount: steps.length,
               itemBuilder: (BuildContext context, int index) {
                 List steps =
                     List.castFrom(snapshot.data.docs[index]["orderHistory"]);
