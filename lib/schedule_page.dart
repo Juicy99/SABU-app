@@ -318,13 +318,6 @@ class SchedulePage3 extends StatelessWidget {
 }
 
 class SchedulePage extends StatelessWidget {
-  void countDocuments() async {
-    QuerySnapshot _myDoc =
-        await Firestore.instance.collection('product').getDocuments();
-    List<DocumentSnapshot> _myDocCount = _myDoc.docs;
-    print(_myDocCount.length); // Count of Documents in Collection
-  }
-
   Widget _top() {
     return Container();
   }
