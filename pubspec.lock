@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.2"
+  basics:
+    dependency: "direct main"
+    description:
+      name: basics
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0+1"
   boolean_selector:
     dependency: transitive
     description:
@@ -174,13 +181,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_native_image:
-    dependency: "direct main"
-    description:
-      name: flutter_native_image
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.5+3"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:

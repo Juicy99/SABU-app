@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -105,6 +106,19 @@ class ItemPage extends StatelessWidget {
                                                   ),
                                                   FlatButton(
                                                     onPressed: () {
+                                                      FirebaseStorage.instance
+                                                          // ignore: deprecated_member_use
+                                                          .getReferenceFromUrl(
+                                                            historyService
+                                                                .itemHistory[
+                                                                    index]
+                                                                .imageURL,
+                                                          )
+                                                          .then((reference) =>
+                                                              reference
+                                                                  .delete())
+                                                          .catchError(
+                                                              (e) => print(e));
                                                       historyService
                                                           .deleteDocument2(
                                                               historyService

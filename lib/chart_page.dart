@@ -333,7 +333,7 @@ class ChartPage extends StatelessWidget {
                     text: "1週間（時間）",
                   ),
                   Tab(text: "1ヶ月（日）"),
-                  Tab(text: "総て（月）"),
+                  Tab(text: "全期間（月）"),
                 ],
                 labelColor: Colors.black,
                 indicatorSize: TabBarIndicatorSize.tab,

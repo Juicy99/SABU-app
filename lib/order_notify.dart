@@ -140,7 +140,7 @@ class OrderNotify extends ChangeNotifier {
 
   Future<String> _uploadImageFile() async {
     if (imageFile == null) {
-      return 'https://firebasestorage.googleapis.com/v0/b/satei-d8f8a.appspot.com/o/itemHistory%2Fghjj.jpeg?alt=media&token=47ea369a-c080-43a1-a156-2174c940ded1';
+      return '';
     }
     final storage = FirebaseStorage.instance;
     final ref = storage.ref().child('itemHistory').child(newTaskTitle);

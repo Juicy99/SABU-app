@@ -92,7 +92,7 @@ class CartPage extends StatelessWidget {
                             return AlertDialog(
                               title: Text("タイトル"),
                               content: Text(
-                                  'クーリングオフ期間の終了まであと${_date.add(Duration(days: 14)).difference(_date).inDays.toString()}日'),
+                                  'クーリングオフ期間の終了まであと${_date.add(Duration(days: 14)).difference(DateTime.now()).inDays.toString()}日'),
                               actions: <Widget>[
                                 // ボタン領域
                                 FlatButton(
