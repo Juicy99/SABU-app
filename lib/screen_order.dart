@@ -128,6 +128,16 @@ class ScreenOrder extends StatelessWidget {
                           style: TextStyle(color: Colors.white, fontSize: 25.0),
                         ),
                       ),
+                      Consumer<OrderNotify>(builder: (context, model, child) {
+                        return model.isLoading
+                            ? Container(
+                                color: Colors.black.withOpacity(0.3),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                            : SizedBox();
+                      }),
                     ],
                   ),
                 ),

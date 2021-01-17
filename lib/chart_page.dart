@@ -9,7 +9,7 @@ import 'order.dart';
 import 'order_notify.dart';
 
 // ignore: must_be_immutable
-class SchedulePage1 extends StatelessWidget {
+class ChartPage1 extends StatelessWidget {
   List<charts.Series<CartHistory2, String>> _seriesBarData;
   List<CartHistory2> mydata;
   _generateData(mydata) {
@@ -42,11 +42,7 @@ class SchedulePage1 extends StatelessWidget {
               isGreaterThanOrEqualTo: new DateTime(
                 DateTime.now().year,
                 DateTime.now().month,
-                1,
-                0,
                 DateTime.now().weekday,
-                1,
-                0,
               ))
           .orderBy("createAt")
           .snapshots(),
@@ -85,6 +81,7 @@ class SchedulePage1 extends StatelessWidget {
                   animate: true,
                   domainAxis: new charts.OrdinalAxisSpec(
                       renderSpec: new charts.SmallTickRendererSpec(
+                          labelRotation: 60,
                           minimumPaddingBetweenLabelsPx: 0,
                           // Tick and Label styling here.
                           labelStyle: new charts.TextStyleSpec(
@@ -118,7 +115,7 @@ class SchedulePage1 extends StatelessWidget {
 }
 
 // ignore: must_be_immutable
-class SchedulePage2 extends StatelessWidget {
+class ChartPage2 extends StatelessWidget {
   List<charts.Series<CartHistory2, String>> _seriesBarData;
   List<CartHistory2> mydata;
   _generateData(mydata) {
@@ -187,6 +184,7 @@ class SchedulePage2 extends StatelessWidget {
                   animate: true,
                   domainAxis: new charts.OrdinalAxisSpec(
                       renderSpec: new charts.SmallTickRendererSpec(
+                          labelRotation: 60,
                           minimumPaddingBetweenLabelsPx: 0,
                           // Tick and Label styling here.
                           labelStyle: new charts.TextStyleSpec(
@@ -220,7 +218,7 @@ class SchedulePage2 extends StatelessWidget {
 }
 
 // ignore: must_be_immutable
-class SchedulePage3 extends StatelessWidget {
+class ChartPage3 extends StatelessWidget {
   List<charts.Series<CartHistory2, String>> _seriesBarData;
   List<CartHistory2> mydata;
   _generateData(mydata) {
@@ -317,7 +315,7 @@ class SchedulePage3 extends StatelessWidget {
   }
 }
 
-class SchedulePage extends StatelessWidget {
+class ChartPage extends StatelessWidget {
   Widget _top() {
     return Container();
   }
@@ -343,9 +341,9 @@ class SchedulePage extends StatelessWidget {
             ),
             Expanded(
               child: TabBarView(children: [
-                SchedulePage1(),
-                SchedulePage2(),
-                SchedulePage3(),
+                ChartPage1(),
+                ChartPage2(),
+                ChartPage3(),
               ]),
             )
           ],

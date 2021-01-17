@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
 
 import 'order.dart';
 
@@ -14,6 +13,17 @@ class OrderNotify extends ChangeNotifier {
   double newTaskPrice = 0;
   int qty = 1;
   File imageFile;
+  bool isLoading = false;
+
+  startLoading() {
+    isLoading = true;
+    notifyListeners();
+  }
+
+  endLoading() {
+    isLoading = false;
+    notifyListeners();
+  }
 
   void addTask(
     String newTaskTitle,
@@ -134,7 +144,6 @@ class OrderNotify extends ChangeNotifier {
     }
     final storage = FirebaseStorage.instance;
     final ref = storage.ref().child('itemHistory').child(newTaskTitle);
-    await FlutterNativeImage.compressImage(imageFile.path, quality: 10);
     final snapshot = await ref.putFile(
       imageFile,
     );

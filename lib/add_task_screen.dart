@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:sateiv2_app/zaiko_page.dart';
+import 'package:sateiv2_app/Item_page.dart';
 
 import 'order_notify.dart';
 import 'screen_order.dart';
@@ -41,8 +41,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 InkWell(
                   onTap: () async {
                     // TODO: カメラロール開いて写真選ぶ
-                    final pickedFile =
-                        await picker.getImage(source: ImageSource.camera);
+                    final pickedFile = await picker.getImage(
+                        source: ImageSource.camera, imageQuality: 10);
                     order.setImage(File(pickedFile.path));
                   },
                   child: SizedBox(
@@ -144,6 +144,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     ),
                   ],
                 ),
+                Consumer<OrderNotify>(builder: (context, model, child) {
+                  return model.isLoading
+                      ? Container(
+                          color: Colors.black.withOpacity(0.3),
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : SizedBox();
+                }),
               ],
             ),
           ),

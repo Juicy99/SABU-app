@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'Item_page.dart';
 import 'add_task_screen.dart';
 import 'cart_page.dart';
-import 'schedule_page.dart';
-import 'zaiko_page.dart';
+import 'chart_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _MyHomePageState extends State<MyHomePage>
     Tab(text: '査定', icon: Icon(Icons.shopping_basket)),
     Tab(text: '在庫', icon: Icon(Icons.widgets)),
     Tab(text: '買取履歴', icon: Icon(Icons.shopping_cart)),
-    Tab(text: 'カレンダー', icon: Icon(Icons.perm_contact_calendar)),
+    Tab(text: '比較', icon: Icon(Icons.show_chart)),
   ];
 
   List<Widget> _buildTabPages() {
@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage>
       AddTaskScreen(),
       ItemPage(),
       CartPage2(),
-      SchedulePage(),
+      ChartPage(),
     ];
   }
 

@@ -25,7 +25,13 @@ class OrderCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.network(order.imageURL),
+                  Image.network(
+                    order.imageURL,
+                    errorBuilder: (BuildContext context, Object error,
+                        StackTrace stackTrace) {
+                      return Text('NO IMAGE'.toString());
+                    },
+                  ),
                 ],
               ),
             ),

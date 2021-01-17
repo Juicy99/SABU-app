@@ -51,8 +51,13 @@ class ItemPage extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Image.network(historyService
-                                      .itemHistory[index].imageURL),
+                                  Image.network(
+                                    historyService.itemHistory[index].imageURL,
+                                    errorBuilder: (BuildContext context,
+                                        Object error, StackTrace stackTrace) {
+                                      return Text('NO IMAGE'.toString());
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
