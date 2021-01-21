@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.2"
-  basics:
-    dependency: "direct main"
-    description:
-      name: basics
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0+1"
   boolean_selector:
     dependency: transitive
     description:
@@ -176,6 +169,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.1+1"
+  flappy_search_bar:
+    dependency: "direct main"
+    description:
+      name: flappy_search_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.7.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -188,6 +188,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.11"
+  flutter_staggered_grid_view:
+    dependency: transitive
+    description:
+      name: flutter_staggered_grid_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
