@@ -4,7 +4,6 @@ import 'Item_page.dart';
 import 'add_task_screen.dart';
 import 'cart_page.dart';
 import 'chart_page.dart';
-import 'search_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -47,14 +46,7 @@ class _MyHomePageState extends State<MyHomePage>
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                  icon: Icon(Icons.settings),
-                  onPressed: () {
-                    return Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SearchPage()),
-                    );
-                  }),
+              child: IconButton(icon: Icon(Icons.settings), onPressed: () {}),
             ),
           ],
           bottom: TabBar(
