@@ -4,6 +4,7 @@ import 'Item_page.dart';
 import 'add_task_screen.dart';
 import 'cart_page.dart';
 import 'chart_page.dart';
+import 'screen_order.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -14,15 +15,17 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   List<Widget> _tab = [
     Tab(text: '査定', icon: Icon(Icons.shopping_basket)),
-    Tab(text: '在庫', icon: Icon(Icons.widgets)),
-    Tab(text: '買取履歴', icon: Icon(Icons.shopping_cart)),
-    Tab(text: '比較', icon: Icon(Icons.show_chart)),
+    Tab(text: '記録', icon: Icon(Icons.widgets)),
+    Tab(text: 'カート', icon: Icon(Icons.shopping_cart)),
+    Tab(text: '履歴', icon: Icon(Icons.history)),
+    Tab(text: '比較', icon: Icon(Icons.insert_chart)),
   ];
 
   List<Widget> _buildTabPages() {
     return [
       AddTaskScreen(),
       ItemPage(),
+      ScreenOrder(),
       CartPage2(),
       ChartPage(),
     ];

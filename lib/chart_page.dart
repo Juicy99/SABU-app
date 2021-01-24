@@ -146,7 +146,7 @@ class ChartPage2 extends StatelessWidget {
       stream: historyService.dataPath
           .where('createAt',
               isGreaterThanOrEqualTo:
-                  new DateTime(DateTime.now().year, DateTime.now().month, 1, 0))
+                  new DateTime(DateTime.now().year, DateTime.now().month, 1))
           .orderBy("createAt")
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

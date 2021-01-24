@@ -41,9 +41,10 @@ class _ItemPageState extends State<ItemPage> {
       body: StreamBuilder<QuerySnapshot>(
         stream: (name != "" && name != null)
             ? historyService.dataPath1
+                .orderBy("createAt")
                 .where("name", isEqualTo: name)
                 .snapshots()
-            : historyService.dataPath1.snapshots(),
+            : historyService.dataPath1.orderBy("createAt").snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
