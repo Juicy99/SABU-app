@@ -169,13 +169,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.1+1"
-  flappy_search_bar:
+  flappy_search_bar_fork:
     dependency: "direct main"
     description:
-      name: flappy_search_bar
+      name: flappy_search_bar_fork
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.2"
+    version: "1.7.4"
   flutter:
     dependency: "direct main"
     description: flutter
