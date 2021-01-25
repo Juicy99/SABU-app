@@ -14,8 +14,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   List<Widget> _tab = [
-    Tab(text: '査定', icon: Icon(Icons.shopping_basket)),
-    Tab(text: '記録', icon: Icon(Icons.widgets)),
+    Tab(text: '査定', icon: Icon(Icons.search)),
+    Tab(text: '商品', icon: Icon(Icons.note)),
     Tab(text: 'カート', icon: Icon(Icons.shopping_cart)),
     Tab(text: '履歴', icon: Icon(Icons.history)),
     Tab(text: '比較', icon: Icon(Icons.insert_chart)),
@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage>
       length: _tab.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("出張買取管理アプリ"),
+          title: Text("出張買取管理アプリ「Sabu」"),
           backgroundColor: Colors.teal,
           actions: [
             Padding(
@@ -55,9 +55,14 @@ class _MyHomePageState extends State<MyHomePage>
           bottom: TabBar(
             controller: _controller,
             tabs: _tab,
-            labelColor: Colors.black,
-            indicatorColor: Colors.black,
+            labelColor: Colors.teal,
+            indicatorColor: Colors.teal,
             unselectedLabelColor: Colors.white,
+            indicator: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+                color: Colors.white),
           ),
         ),
         body: TabBarView(

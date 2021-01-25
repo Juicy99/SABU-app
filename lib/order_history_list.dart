@@ -27,7 +27,7 @@ class ScreenOrder1 extends StatelessWidget {
           default:
             List<DocumentSnapshot> steps = snapshot.data.docs;
             return ListView.builder(
-              itemCount: steps.length,
+              itemCount: snapshot.data.docs.length,
               itemBuilder: (BuildContext context, int index) {
                 List steps =
                     List.castFrom(snapshot.data.docs[index]["orderHistory"]);

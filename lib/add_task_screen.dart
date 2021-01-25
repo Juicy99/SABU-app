@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:sateiv2_app/Item_page.dart';
 
 import 'order_notify.dart';
-import 'screen_order.dart';
 
 class AddTaskScreen extends StatefulWidget {
   @override
@@ -105,15 +104,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    RaisedButton(
-                        child: Text('カートを確認'),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ScreenOrder()),
-                          );
-                        }),
                     RaisedButton(
                       // 送信ボタンクリック時の処理
                       onPressed: () {
