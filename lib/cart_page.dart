@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:sateiv2_app/order_notify.dart';
 
 import 'auth_service.dart';
-import 'main.dart';
 import 'order_history_list.dart';
 
 // ignore: must_be_immutable
@@ -32,14 +31,13 @@ class CartPage extends StatelessWidget {
             historyService.init(snapshot.data.docs);
             return Scaffold(
               appBar: AppBar(
+                  backgroundColor: Colors.teal,
                   leading: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.black),
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () => Navigator.of(context)
                         .popUntil((route) => route.isFirst),
                   ),
-                  title: Center(
-                      child:
-                          Text('買取履歴\n(${isRelease() ? 'リリース' : 'デバック'}モード)'))),
+                  title: Text('買取履歴')),
               body: Center(
                 child: ListView.builder(
                   itemCount: historyService.history.length,

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sateiv2_app/Item_page.dart';
 
 import 'order_notify.dart';
+import 'screen_order.dart';
 
 class AddTaskScreen extends StatefulWidget {
   @override
@@ -104,6 +105,25 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
+                    RaisedButton.icon(
+                      // 送信ボタンクリック時の処理
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ScreenOrder()),
+                        );
+                      },
+                      label: Text(
+                        order.items.length.toString() + '点を見る',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      icon: Icon(Icons.shopping_cart, color: Colors.white),
+                      splashColor: Colors.black,
+                      color: Colors.teal,
+                    ),
                     RaisedButton(
                       // 送信ボタンクリック時の処理
                       onPressed: () {
@@ -130,7 +150,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           );
                         }
                       },
-                      child: Text('送信する'),
+                      child: Text(
+                        '査定結果を記録',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      splashColor: Colors.teal,
+                      color: Colors.black,
                     ),
                   ],
                 ),

@@ -10,7 +10,7 @@ class ScreenOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     final order = Provider.of<OrderNotify>(context);
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.teal,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -66,21 +66,27 @@ class ScreenOrder extends StatelessWidget {
                       Text(
                         "合計: ",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
                       Text(
                         order.items.length.toString() + "点",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
                       Text(
                         order.totalPriceAmount.toStringAsFixed(0) + "円",
                         style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
@@ -89,6 +95,7 @@ class ScreenOrder extends StatelessWidget {
                           Icons.shopping_cart,
                           color: Colors.white,
                         ),
+                        splashColor: Colors.teal,
                         onPressed: () async {
                           showDialog(
                             context: context,
@@ -122,7 +129,7 @@ class ScreenOrder extends StatelessWidget {
                             ),
                           );
                         },
-                        color: Colors.redAccent,
+                        color: Colors.black,
                         label: Text(
                           '買取',
                           style: TextStyle(color: Colors.white, fontSize: 25.0),

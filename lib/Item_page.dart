@@ -26,10 +26,11 @@ class _ItemPageState extends State<ItemPage> {
     // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.teal,
         title: Card(
           child: TextField(
             decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search), hintText: 'Search...'),
+                prefixIcon: Icon(Icons.search), hintText: '商品情報を検索'),
             onChanged: (val) {
               setState(() {
                 name = val;
@@ -67,7 +68,7 @@ class _ItemPageState extends State<ItemPage> {
                             EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
                         height: 200,
                         child: Card(
-                          color: Colors.white70,
+                          color: Colors.teal,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
@@ -81,7 +82,12 @@ class _ItemPageState extends State<ItemPage> {
                                           .itemHistory[index].imageURL,
                                       errorBuilder: (BuildContext context,
                                           Object error, StackTrace stackTrace) {
-                                        return Text('NO IMAGE'.toString());
+                                        return Text(
+                                          'NO IMAGE'.toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        );
                                       },
                                     ),
                                   ],
@@ -103,13 +109,19 @@ class _ItemPageState extends State<ItemPage> {
                                         Container(
                                           padding: EdgeInsets.only(left: 10.0),
                                           width: 150,
-                                          child: Text(historyService
-                                              .itemHistory[index].name),
+                                          child: Text(
+                                            historyService
+                                                .itemHistory[index].name,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ),
                                         IconButton(
                                           icon: Icon(
                                             Icons.close,
                                             size: 26,
+                                            color: Colors.white,
                                           ),
                                           onPressed: () {
                                             showDialog<int>(
@@ -175,7 +187,9 @@ class _ItemPageState extends State<ItemPage> {
                                             child: Text(
                                               historyService
                                                   .itemHistory[index].message,
-                                              style: TextStyle(fontSize: 16),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16),
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                             ),
@@ -183,6 +197,9 @@ class _ItemPageState extends State<ItemPage> {
                                           Text(
                                             DateFormat("yyyy年MM月dd日hh時mm分")
                                                 .format(_date),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
                                           ),
                                           Padding(
                                             padding:
@@ -193,6 +210,7 @@ class _ItemPageState extends State<ItemPage> {
                                                       .toStringAsFixed(0) +
                                                   '\円 ',
                                               style: TextStyle(
+                                                  color: Colors.white,
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.bold),
                                               overflow: TextOverflow.ellipsis,
@@ -200,7 +218,14 @@ class _ItemPageState extends State<ItemPage> {
                                             ),
                                           ),
                                           RaisedButton(
-                                              child: Text('カートに追加'),
+                                              color: Colors.black,
+                                              splashColor: Colors.teal,
+                                              child: Text(
+                                                'カートに追加',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                               onPressed: () {
                                                 Provider.of<OrderNotify>(
                                                         context,

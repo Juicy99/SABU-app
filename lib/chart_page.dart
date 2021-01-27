@@ -16,7 +16,7 @@ class ChartPage1 extends StatelessWidget {
     _seriesBarData = List<charts.Series<CartHistory2, String>>();
     _seriesBarData.add(
       charts.Series(
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.teal.shadeDefault,
         domainFn: (CartHistory2 sales, _) =>
             DateFormat("dd日hh時mm分").format(sales.createAt.toDate()),
         measureFn: (CartHistory2 sales, _) => sales.total,
@@ -42,7 +42,7 @@ class ChartPage1 extends StatelessWidget {
               isGreaterThanOrEqualTo: new DateTime(
                 DateTime.now().year,
                 DateTime.now().month,
-                DateTime.now().weekday,
+                DateTime.now().day,
               ))
           .orderBy("createAt")
           .snapshots(),
@@ -122,9 +122,9 @@ class ChartPage2 extends StatelessWidget {
     _seriesBarData = List<charts.Series<CartHistory2, String>>();
     _seriesBarData.add(
       charts.Series(
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.teal.shadeDefault,
         domainFn: (CartHistory2 sales, _) =>
-            DateFormat("dd日").format(sales.createAt.toDate()),
+            DateFormat("dd日hh時mm分").format(sales.createAt.toDate()),
         measureFn: (CartHistory2 sales, _) => sales.total,
         id: 'Sales',
         data: mydata,
@@ -225,9 +225,9 @@ class ChartPage3 extends StatelessWidget {
     _seriesBarData = List<charts.Series<CartHistory2, String>>();
     _seriesBarData.add(
       charts.Series(
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.teal.shadeDefault,
         domainFn: (CartHistory2 sales, _) =>
-            DateFormat("yyyy日MM月").format(sales.createAt.toDate()),
+            DateFormat("yyyy年MM月dd日hh時mm分").format(sales.createAt.toDate()),
         measureFn: (CartHistory2 sales, _) => sales.total,
         id: 'Sales',
         data: mydata,
@@ -286,8 +286,8 @@ class ChartPage3 extends StatelessWidget {
                           minimumPaddingBetweenLabelsPx: 0,
                           // Tick and Label styling here.
                           labelStyle: new charts.TextStyleSpec(
-                              fontSize: 18, // size in Pts.
-                              color: charts.MaterialPalette.black),
+                              fontSize: 0, // size in Pts.
+                              color: charts.MaterialPalette.white),
 
                           // Change the line colors to match text color.
                           lineStyle: new charts.LineStyleSpec(
@@ -330,12 +330,14 @@ class ChartPage extends StatelessWidget {
               child: TabBar(
                 tabs: [
                   Tab(
-                    text: "1週間（時間）",
+                    text: "1日",
                   ),
-                  Tab(text: "1ヶ月（日）"),
-                  Tab(text: "全期間（月）"),
+                  Tab(text: "1ヶ月"),
+                  Tab(text: "全期間"),
                 ],
                 labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: Colors.teal,
                 indicatorSize: TabBarIndicatorSize.tab,
               ),
             ),

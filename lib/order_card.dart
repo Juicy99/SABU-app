@@ -16,7 +16,7 @@ class OrderCard extends StatelessWidget {
       padding: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
       height: 200,
       child: Card(
-        color: Colors.white70,
+        color: Colors.teal,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -29,7 +29,12 @@ class OrderCard extends StatelessWidget {
                     order.imageURL,
                     errorBuilder: (BuildContext context, Object error,
                         StackTrace stackTrace) {
-                      return Text('NO IMAGE'.toString());
+                      return Text(
+                        'NO IMAGE'.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -50,16 +55,15 @@ class OrderCard extends StatelessWidget {
                         child: Text(
                           order.name,
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                         ),
                       ),
                       IconButton(
-                        icon: Icon(
-                          Icons.close,
-                          size: 26,
-                        ),
+                        icon: Icon(Icons.close, size: 26, color: Colors.white),
                         onPressed: () {
                           showDialog<int>(
                             context: context,
@@ -101,7 +105,7 @@ class OrderCard extends StatelessWidget {
                           padding: EdgeInsets.only(left: 12.0),
                           child: Text(
                             order.message,
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(color: Colors.white, fontSize: 16),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),
@@ -112,7 +116,8 @@ class OrderCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               IconButton(
-                                icon: Icon(Icons.remove_circle_outline),
+                                icon: Icon(Icons.remove_circle_outline,
+                                    color: Colors.white),
                                 onPressed: () {
                                   po.decrementQty(order);
                                 },
@@ -120,10 +125,13 @@ class OrderCard extends StatelessWidget {
                               Text(
                                 order.qty.toString(),
                                 style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
                               ),
                               IconButton(
-                                icon: Icon(Icons.add_circle_outline),
+                                icon: Icon(Icons.add_circle_outline,
+                                    color: Colors.white),
                                 onPressed: () {
                                   po.incrementQty(order);
                                 },
@@ -137,7 +145,9 @@ class OrderCard extends StatelessWidget {
                             (order.qty * order.price).toStringAsFixed(0) +
                                 '\円 ',
                             style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),

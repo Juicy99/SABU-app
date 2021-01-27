@@ -4,7 +4,7 @@ import 'Item_page.dart';
 import 'add_task_screen.dart';
 import 'cart_page.dart';
 import 'chart_page.dart';
-import 'screen_order.dart';
+import 'my_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -16,18 +16,18 @@ class _MyHomePageState extends State<MyHomePage>
   List<Widget> _tab = [
     Tab(text: '査定', icon: Icon(Icons.search)),
     Tab(text: '商品', icon: Icon(Icons.note)),
-    Tab(text: 'カート', icon: Icon(Icons.shopping_cart)),
     Tab(text: '履歴', icon: Icon(Icons.history)),
-    Tab(text: '比較', icon: Icon(Icons.insert_chart)),
+    Tab(text: 'グラフ', icon: Icon(Icons.insert_chart)),
+    Tab(text: '設定', icon: Icon(Icons.settings)),
   ];
 
   List<Widget> _buildTabPages() {
     return [
       AddTaskScreen(),
       ItemPage(),
-      ScreenOrder(),
       CartPage2(),
       ChartPage(),
+      MyPage(),
     ];
   }
 
