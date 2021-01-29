@@ -50,11 +50,6 @@ class MyPageState extends State<MyPage> {
       }
     });
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Google Sign-In Demo',
-        ),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
