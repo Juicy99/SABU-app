@@ -43,26 +43,22 @@ class _MyHomePageState extends State<MyHomePage>
     return DefaultTabController(
       length: _tab.length,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("出張買取管理アプリ「Sabu」"),
-          backgroundColor: Colors.teal,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(icon: Icon(Icons.settings), onPressed: () {}),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80.0),
+          child: AppBar(
+            backgroundColor: Colors.teal,
+            bottom: TabBar(
+              controller: _controller,
+              tabs: _tab,
+              labelColor: Colors.teal,
+              indicatorColor: Colors.teal,
+              unselectedLabelColor: Colors.white,
+              indicator: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
+                  color: Colors.white),
             ),
-          ],
-          bottom: TabBar(
-            controller: _controller,
-            tabs: _tab,
-            labelColor: Colors.teal,
-            indicatorColor: Colors.teal,
-            unselectedLabelColor: Colors.white,
-            indicator: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10)),
-                color: Colors.white),
           ),
         ),
         body: TabBarView(
