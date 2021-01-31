@@ -39,6 +39,7 @@ dependencies:
   charts_flutter: ^0.9.0
   google_sign_in: ^4.5.9
   flutter_signin_button: ^1.1.0
+  flutter_dialogs: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -87,5 +88,5 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_native_splash:
-    image: "images/Subu-logo2.png"
+    image: "images/Subu-logo3.png"
     color: "008080"

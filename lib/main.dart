@@ -35,14 +35,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// 本番かリリースかを判断するには bool.fromEnvironment('dart.vm.product')を使う。
-// よりわかりやすくするためにラップして使っている。
-bool isRelease() {
-  bool _bool;
-  bool.fromEnvironment('dart.vm.product') ? _bool = true : _bool = false;
-  return _bool;
-}
-
 class SignProcess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:sateiv2_app/order_notify.dart';
 
 import 'auth_service.dart';
+import 'cart_page.dart';
 import 'order_notify.dart';
-import 'screen_order.dart';
 
 class ItemPage extends StatefulWidget {
   @override
@@ -119,18 +119,18 @@ class _ItemPageState extends State<ItemPage> {
                                         ),
                                         IconButton(
                                           icon: Icon(
-                                            Icons.close,
+                                            Icons.delete,
                                             size: 26,
-                                            color: Colors.white,
+                                            color: Colors.redAccent,
                                           ),
                                           onPressed: () {
                                             showDialog<int>(
                                               context: context,
                                               barrierDismissible: false,
                                               builder: (BuildContext context) {
-                                                return SimpleDialog(
+                                                return AlertDialog(
                                                   title: Text("本当に削除しますか？"),
-                                                  children: <Widget>[
+                                                  actions: <Widget>[
                                                     FlatButton(
                                                       onPressed: () {
                                                         Navigator.pop(context);
@@ -248,7 +248,7 @@ class _ItemPageState extends State<ItemPage> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          ScreenOrder()),
+                                                          CartPage()),
                                                 );
                                               }),
                                         ],

@@ -6,15 +6,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sateiv2_app/Item_page.dart';
 
+import 'cart_page.dart';
 import 'order_notify.dart';
-import 'screen_order.dart';
 
-class AddTaskScreen extends StatefulWidget {
+class AddItemPage extends StatefulWidget {
   @override
-  _AddTaskScreenState createState() => _AddTaskScreenState();
+  _AddItemPageState createState() => _AddItemPageState();
 }
 
-class _AddTaskScreenState extends State<AddTaskScreen> {
+class _AddItemPageState extends State<AddItemPage> {
   final _formKey = GlobalKey<FormState>();
 
   var _nameController = TextEditingController();
@@ -23,13 +23,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   int qty = 1;
 
-  String newTaskTitle;
-  String newTaskMessage;
+  String newItemTitle;
+  String newItemMessage;
   final picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     final order = Provider.of<OrderNotify>(context);
-    double newTaskPrice;
+    double newItemPrice;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -60,7 +60,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   decoration: InputDecoration(labelText: '商品名を記入'),
                   textAlign: TextAlign.center,
                   onChanged: (value) {
-                    order.newTaskTitle = value;
+                    order.newItemTitle = value;
                   },
                   validator: (value) {
                     // 入力内容が空でないかチェック
@@ -85,7 +85,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ],
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
-                    newTaskPrice.toString();
+                    newItemPrice.toString();
                   },
                   validator: (value) {
                     if (value.length == 0 || double.parse(value) <= 0) {
@@ -99,7 +99,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   decoration: InputDecoration(
                       hintText: '例（限定品）', labelText: '何かメモがあれば記入してください'),
                   onChanged: (value) {
-                    newTaskMessage = value;
+                    newItemMessage = value;
                   },
                 ),
                 Row(
@@ -110,8 +110,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ScreenOrder()),
+                          MaterialPageRoute(builder: (context) => CartPage()),
                         );
                       },
                       label: Text(
@@ -129,7 +128,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       onPressed: () {
                         // バリデーションチェック
                         if (_formKey.currentState.validate()) {
-                          newTaskPrice = double.parse(_priceController2.text);
+                          newItemPrice = double.parse(_priceController2.text);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ItemPage()),

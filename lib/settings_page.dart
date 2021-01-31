@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class MyPage extends StatefulWidget {
+class SettingsPage extends StatefulWidget {
   @override
-  State createState() => MyPageState();
+  State createState() => SettingsPageState();
 }
 
-class MyPageState extends State<MyPage> {
+class SettingsPageState extends State<SettingsPage> {
   final _auth = FirebaseAuth.instance;
 
   @override

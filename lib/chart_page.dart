@@ -5,21 +5,21 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'auth_service.dart';
-import 'order.dart';
+import 'model.dart';
 import 'order_notify.dart';
 
 // ignore: must_be_immutable
 class ChartPage1 extends StatelessWidget {
-  List<charts.Series<CartHistory2, String>> _seriesBarData;
-  List<CartHistory2> mydata;
+  List<charts.Series<CartHistoryChartModel, String>> _seriesBarData;
+  List<CartHistoryChartModel> mydata;
   _generateData(mydata) {
-    _seriesBarData = List<charts.Series<CartHistory2, String>>();
+    _seriesBarData = List<charts.Series<CartHistoryChartModel, String>>();
     _seriesBarData.add(
       charts.Series(
         colorFn: (_, __) => charts.MaterialPalette.teal.shadeDefault,
-        domainFn: (CartHistory2 sales, _) =>
+        domainFn: (CartHistoryChartModel sales, _) =>
             DateFormat("dd日hh時mm分").format(sales.createAt.toDate()),
-        measureFn: (CartHistory2 sales, _) => sales.total,
+        measureFn: (CartHistoryChartModel sales, _) => sales.total,
         id: 'Sales',
         data: mydata,
       ),
@@ -56,9 +56,9 @@ class ChartPage1 extends StatelessWidget {
           default:
             // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
-            List<CartHistory2> sales = snapshot.data.docs
+            List<CartHistoryChartModel> sales = snapshot.data.docs
                 .map((documentSnapshot) =>
-                    CartHistory2.fromMap(documentSnapshot.data))
+                    CartHistoryChartModel.fromMap(documentSnapshot.data))
                 .toList();
             return _buildChart(context, sales);
         }
@@ -66,7 +66,8 @@ class ChartPage1 extends StatelessWidget {
     );
   }
 
-  Widget _buildChart(BuildContext context, List<CartHistory2> saledata) {
+  Widget _buildChart(
+      BuildContext context, List<CartHistoryChartModel> saledata) {
     mydata = saledata;
     _generateData(mydata);
     return Padding(
@@ -116,16 +117,16 @@ class ChartPage1 extends StatelessWidget {
 
 // ignore: must_be_immutable
 class ChartPage2 extends StatelessWidget {
-  List<charts.Series<CartHistory2, String>> _seriesBarData;
-  List<CartHistory2> mydata;
+  List<charts.Series<CartHistoryChartModel, String>> _seriesBarData;
+  List<CartHistoryChartModel> mydata;
   _generateData(mydata) {
-    _seriesBarData = List<charts.Series<CartHistory2, String>>();
+    _seriesBarData = List<charts.Series<CartHistoryChartModel, String>>();
     _seriesBarData.add(
       charts.Series(
         colorFn: (_, __) => charts.MaterialPalette.teal.shadeDefault,
-        domainFn: (CartHistory2 sales, _) =>
+        domainFn: (CartHistoryChartModel sales, _) =>
             DateFormat("dd日hh時mm分").format(sales.createAt.toDate()),
-        measureFn: (CartHistory2 sales, _) => sales.total,
+        measureFn: (CartHistoryChartModel sales, _) => sales.total,
         id: 'Sales',
         data: mydata,
       ),
@@ -159,9 +160,9 @@ class ChartPage2 extends StatelessWidget {
           default:
             // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
-            List<CartHistory2> sales = snapshot.data.docs
+            List<CartHistoryChartModel> sales = snapshot.data.docs
                 .map((documentSnapshot) =>
-                    CartHistory2.fromMap(documentSnapshot.data))
+                    CartHistoryChartModel.fromMap(documentSnapshot.data))
                 .toList();
             return _buildChart(context, sales);
         }
@@ -169,7 +170,8 @@ class ChartPage2 extends StatelessWidget {
     );
   }
 
-  Widget _buildChart(BuildContext context, List<CartHistory2> saledata) {
+  Widget _buildChart(
+      BuildContext context, List<CartHistoryChartModel> saledata) {
     mydata = saledata;
     _generateData(mydata);
     return Padding(
@@ -188,7 +190,7 @@ class ChartPage2 extends StatelessWidget {
                           minimumPaddingBetweenLabelsPx: 0,
                           // Tick and Label styling here.
                           labelStyle: new charts.TextStyleSpec(
-                              fontSize: 10, // size in Pts.
+                              fontSize: 0, // size in Pts.
                               color: charts.MaterialPalette.black),
 
                           // Change the line colors to match text color.
@@ -219,16 +221,16 @@ class ChartPage2 extends StatelessWidget {
 
 // ignore: must_be_immutable
 class ChartPage3 extends StatelessWidget {
-  List<charts.Series<CartHistory2, String>> _seriesBarData;
-  List<CartHistory2> mydata;
+  List<charts.Series<CartHistoryChartModel, String>> _seriesBarData;
+  List<CartHistoryChartModel> mydata;
   _generateData(mydata) {
-    _seriesBarData = List<charts.Series<CartHistory2, String>>();
+    _seriesBarData = List<charts.Series<CartHistoryChartModel, String>>();
     _seriesBarData.add(
       charts.Series(
         colorFn: (_, __) => charts.MaterialPalette.teal.shadeDefault,
-        domainFn: (CartHistory2 sales, _) =>
+        domainFn: (CartHistoryChartModel sales, _) =>
             DateFormat("yyyy年MM月dd日hh時mm分").format(sales.createAt.toDate()),
-        measureFn: (CartHistory2 sales, _) => sales.total,
+        measureFn: (CartHistoryChartModel sales, _) => sales.total,
         id: 'Sales',
         data: mydata,
       ),
@@ -257,9 +259,9 @@ class ChartPage3 extends StatelessWidget {
           default:
             // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
-            List<CartHistory2> sales = snapshot.data.docs
+            List<CartHistoryChartModel> sales = snapshot.data.docs
                 .map((documentSnapshot) =>
-                    CartHistory2.fromMap(documentSnapshot.data))
+                    CartHistoryChartModel.fromMap(documentSnapshot.data))
                 .toList();
             return _buildChart(context, sales);
         }
@@ -267,7 +269,8 @@ class ChartPage3 extends StatelessWidget {
     );
   }
 
-  Widget _buildChart(BuildContext context, List<CartHistory2> saledata) {
+  Widget _buildChart(
+      BuildContext context, List<CartHistoryChartModel> saledata) {
     mydata = saledata;
     _generateData(mydata);
     return Padding(

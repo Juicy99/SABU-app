@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'order.dart';
+import 'model.dart';
 import 'order_notify.dart';
 
 // ignore: must_be_immutable
-class OrderCard extends StatelessWidget {
-  Order order;
+class ItemCard extends StatelessWidget {
+  Item item;
 
-  OrderCard(this.order);
+  ItemCard(this.item);
   @override
   Widget build(BuildContext context) {
     final po = Provider.of<OrderNotify>(context, listen: false);
@@ -26,7 +26,7 @@ class OrderCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image.network(
-                    order.imageURL,
+                    item.imageURL,
                     errorBuilder: (BuildContext context, Object error,
                         StackTrace stackTrace) {
                       return Text(
@@ -53,7 +53,7 @@ class OrderCard extends StatelessWidget {
                         padding: EdgeInsets.only(left: 1.0),
                         width: 150,
                         child: Text(
-                          order.name,
+                          item.name,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -69,9 +69,9 @@ class OrderCard extends StatelessWidget {
                             context: context,
                             barrierDismissible: false,
                             builder: (BuildContext context) {
-                              return SimpleDialog(
+                              return AlertDialog(
                                 title: Text("本当に削除しますか？"),
-                                children: <Widget>[
+                                actions: <Widget>[
                                   FlatButton(
                                     onPressed: () {
                                       Navigator.pop(context);
@@ -84,7 +84,7 @@ class OrderCard extends StatelessWidget {
                                   FlatButton(
                                     onPressed: () {
                                       Navigator.pop(context);
-                                      po.removeOrder(order);
+                                      po.removeOrder(item);
                                     },
                                     child: Text('削除'),
                                   ),
@@ -104,7 +104,7 @@ class OrderCard extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: 12.0),
                           child: Text(
-                            order.message,
+                            item.message,
                             style: TextStyle(color: Colors.white, fontSize: 16),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
@@ -119,11 +119,11 @@ class OrderCard extends StatelessWidget {
                                 icon: Icon(Icons.remove_circle_outline,
                                     color: Colors.white),
                                 onPressed: () {
-                                  po.decrementQty(order);
+                                  po.decrementQty(item);
                                 },
                               ),
                               Text(
-                                order.qty.toString(),
+                                item.qty.toString(),
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
@@ -133,7 +133,7 @@ class OrderCard extends StatelessWidget {
                                 icon: Icon(Icons.add_circle_outline,
                                     color: Colors.white),
                                 onPressed: () {
-                                  po.incrementQty(order);
+                                  po.incrementQty(item);
                                 },
                               ),
                             ],
@@ -142,8 +142,7 @@ class OrderCard extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: 12.0),
                           child: Text(
-                            (order.qty * order.price).toStringAsFixed(0) +
-                                '\円 ',
+                            (item.qty * item.price).toStringAsFixed(0) + '\円 ',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,

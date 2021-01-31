@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'Item_page.dart';
-import 'add_task_screen.dart';
-import 'cart_page.dart';
+import 'add_item_screen.dart';
+import 'cart_history_page.dart';
 import 'chart_page.dart';
-import 'my_page.dart';
+import 'settings_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -23,11 +23,11 @@ class _MyHomePageState extends State<MyHomePage>
 
   List<Widget> _buildTabPages() {
     return [
-      AddTaskScreen(),
+      AddItemPage(),
       ItemPage(),
-      CartPage2(),
+      CartHistoryPage(),
       ChartPage(),
-      MyPage(),
+      SettingsPage(),
     ];
   }
 

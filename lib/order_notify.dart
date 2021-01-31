@@ -4,13 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-import 'order.dart';
+import 'model.dart';
 
 class OrderNotify extends ChangeNotifier {
-  List<Order> items = [];
-  String newTaskTitle = '';
-  String newTaskMessage = '';
-  double newTaskPrice = 0;
+  List<Item> items = [];
+  String newItemTitle = '';
+  String newItemMessage = '';
+  double newItemPrice = 0;
   int qty = 1;
   File imageFile;
   bool isLoading = false;
@@ -33,7 +33,7 @@ class OrderNotify extends ChangeNotifier {
     String imageURL,
   ) {
     items.add(
-      Order(
+      Item(
           name: newTaskTitle,
           message: newTaskMessage,
           price: newTaskPrice,
@@ -119,7 +119,7 @@ class OrderNotify extends ChangeNotifier {
       'createAt': DateTime.now(),
       'message': message,
       'price': price,
-      'name': newTaskTitle,
+      'name': newItemTitle,
       'imageURL': imageURL,
     });
     notifyListeners();
@@ -143,13 +143,11 @@ class OrderNotify extends ChangeNotifier {
       return '';
     }
     final storage = FirebaseStorage.instance;
-    final ref = storage.ref().child('itemHistory').child(newTaskTitle);
+    final ref = storage.ref().child('itemHistory').child(newItemTitle);
     final snapshot = await ref.putFile(
       imageFile,
     );
     final downloadURL = await snapshot.ref.getDownloadURL();
     return downloadURL;
   }
-
-  List orderList = [];
 }

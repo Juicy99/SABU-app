@@ -1,205 +1,158 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sateiv2_app/order_notify.dart';
 
-import 'auth_service.dart';
-import 'order_history_list.dart';
+import 'cart_history_page.dart';
+import 'items_list.dart';
+import 'order_notify.dart';
 
-// ignore: must_be_immutable
 class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
-    final historyService = Provider.of<OrderNotify>(context);
-    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
-    historyService.uid = authService.user.uid;
-    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
-    return StreamBuilder<QuerySnapshot>(
-      // firestoreからデータを拾ってくる
-      stream: historyService.dataPath.orderBy("createAt").snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting: // データの取得まち
-            return CircularProgressIndicator();
-          default:
-            // streamからデータを取得できたので、使いやすい形にかえてあげる
-            historyService.init(snapshot.data.docs);
-            return Scaffold(
-              appBar: AppBar(
-                  backgroundColor: Colors.teal,
-                  leading: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.of(context)
-                        .popUntil((route) => route.isFirst),
-                  ),
-                  title: Text('買取履歴')),
-              body: Center(
-                child: ListView.builder(
-                  itemCount: historyService.history.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final _date =
-                        historyService.history[index].createAt.toDate();
-                    return ListTile(
-                      title: Text(
-                          '${historyService.history[index].total.toStringAsFixed(0)}円'),
-                      subtitle: Text(
-                        DateFormat("yyyy年MM月dd日hh時mm分").format(_date),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
+    final order = Provider.of<OrderNotify>(context);
+    return Scaffold(
+      backgroundColor: Colors.teal,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(
+                top: 20.0, left: 30.0, right: 30.0, bottom: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    IconButton(
+                        iconSize: 40,
+                        color: Colors.white,
+                        icon: Icon(Icons.arrow_back),
                         onPressed: () {
-                          showDialog<int>(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return SimpleDialog(
-                                title: Text("本当に削除しますか？"),
-                                children: <Widget>[
-                                  FlatButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                      'キャンセル',
-                                      style: TextStyle(color: Colors.redAccent),
-                                    ),
-                                  ),
-                                  FlatButton(
-                                    onPressed: () {
-                                      historyService.deleteDocument(
-                                          historyService.history[index].docId);
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('削除'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
+                          Navigator.of(context).pop();
+                        }),
+                    Text(
+                      "カート",
+                      style: TextStyle(color: Colors.white, fontSize: 30),
+                    ),
+                  ],
+                ),
+                Text(
+                  order.items.length.toString() + '点の商品がカートに入っています。',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: ItemsList(),
+            ),
+          ),
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "合計: ",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) {
-                            return AlertDialog(
-                              title: Text("タイトル"),
-                              content: Text(
-                                  'クーリングオフ期間の終了まであと${_date.add(Duration(days: 14)).difference(DateTime.now()).inDays.toString()}日'),
+                      Text(
+                        order.items.length.toString() + "点",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      Text(
+                        order.totalPriceAmount.toStringAsFixed(0) + "円",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      RaisedButton.icon(
+                        icon: Icon(
+                          Icons.shopping_cart,
+                          color: Colors.white,
+                        ),
+                        splashColor: Colors.teal,
+                        onPressed: () async {
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: Text("合計金額を記録します。"),
+                              content: Text("※カートがリセットされます。"),
                               actions: <Widget>[
-                                // ボタン領域
                                 FlatButton(
-                                  child: Text("Cancel"),
-                                  onPressed: () => Navigator.pop(context),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'キャンセル',
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
                                 ),
                                 FlatButton(
-                                  child: Text("OK"),
-                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('登録'),
+                                  onPressed: () {
+                                    order.addTitle(order.totalPriceAmount);
+                                    order.clearCart();
+                                    return Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CartHistoryPage2()),
+                                    );
+                                  },
                                 ),
                               ],
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-            );
-        }
-      },
-    );
-  }
-}
-
-class CartPage2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
-    final historyService = Provider.of<OrderNotify>(context);
-    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
-    historyService.uid = authService.user.uid;
-    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
-    return StreamBuilder<QuerySnapshot>(
-      // firestoreからデータを拾ってくる
-      stream: historyService.dataPath.orderBy("createAt").snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting: // データの取得まち
-            return CircularProgressIndicator();
-          default:
-            // streamからデータを取得できたので、使いやすい形にかえてあげる
-            historyService.init(snapshot.data.docs);
-            return Scaffold(
-              body: Center(
-                child: ListView.builder(
-                  itemCount: historyService.history.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final _date =
-                        historyService.history[index].createAt.toDate();
-                    return ListTile(
-                      title: Text(
-                          '${historyService.history[index].total.toStringAsFixed(0)}円'),
-                      subtitle: Text(
-                        DateFormat("yyyy年MM月dd日hh時mm分").format(_date),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
-                        onPressed: () {
-                          showDialog<int>(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return SimpleDialog(
-                                title: Text("本当に削除しますか？"),
-                                children: <Widget>[
-                                  FlatButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                      'キャンセル',
-                                      style: TextStyle(color: Colors.redAccent),
-                                    ),
-                                  ),
-                                  FlatButton(
-                                    onPressed: () {
-                                      historyService.deleteDocument(
-                                          historyService.history[index].docId);
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('削除'),
-                                  ),
-                                ],
-                              );
-                            },
+                            ),
                           );
                         },
+                        color: Colors.black,
+                        label: Text(
+                          '買取',
+                          style: TextStyle(color: Colors.white, fontSize: 25.0),
+                        ),
                       ),
-                      onTap: () {
-                        historyService.orderList
-                            .add(historyService.history[index].docId);
-                        return Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ScreenOrder1()),
-                        );
-                      },
-                    );
-                  },
+                      Consumer<OrderNotify>(builder: (context, model, child) {
+                        return model.isLoading
+                            ? Container(
+                                color: Colors.black.withOpacity(0.3),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                            : SizedBox();
+                      }),
+                    ],
+                  ),
                 ),
-              ),
-            );
-        }
-      },
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Order {
+class Item {
   String name;
   String message;
   int qty = 1;
@@ -10,7 +10,7 @@ class Order {
   DocumentReference reference;
   String imageURL;
 
-  Order.fromMap(Map<String, dynamic> map()) {
+  Item.fromMap(Map<String, dynamic> map()) {
     name = map()['name'];
     message = map()['message'];
     price = map()['price'];
@@ -28,7 +28,7 @@ class Order {
     };
   }
 
-  Order({this.qty, this.price, this.message, this.name, this.imageURL});
+  Item({this.qty, this.price, this.message, this.name, this.imageURL});
 }
 
 class CartHistory {
@@ -60,15 +60,15 @@ class CartHistory {
   }
 }
 
-class CartHistory2 {
+class CartHistoryChartModel {
   double total;
   Timestamp createAt;
-  CartHistory2(
+  CartHistoryChartModel(
     this.total,
     this.createAt,
   );
 
-  CartHistory2.fromMap(Map<String, dynamic> map())
+  CartHistoryChartModel.fromMap(Map<String, dynamic> map())
       : assert(map()['total'] != null),
         assert(map()['createAt'] != null),
         total = map()['total'],
@@ -126,33 +126,5 @@ class OrderHistory {
     map['createAt'] = _createAt;
     map['imageURL'] = _imageURL;
     return map;
-  }
-}
-
-class OrderList {
-  String name;
-  String message;
-  int qty;
-  double price;
-  String imageURL;
-
-  OrderList({this.name, this.message, this.price, this.qty, this.imageURL});
-
-  dynamic toJson() => {
-        'name': name,
-        'message': message,
-        'price': price,
-        'qty': qty,
-        'imageURL': imageURL,
-      };
-
-  factory OrderList.fromJson(Map<String, dynamic> json) {
-    return OrderList(
-      name: json['name'],
-      message: json['message'],
-      price: json['price'],
-      qty: json['qty'],
-      imageURL: json['imageURL'],
-    );
   }
 }
