@@ -185,6 +185,8 @@ class CartPage2 extends StatelessWidget {
                         },
                       ),
                       onTap: () {
+                        historyService.orderList
+                            .add(historyService.history[index].docId);
                         return Navigator.push(
                           context,
                           MaterialPageRoute(

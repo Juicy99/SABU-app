@@ -46,18 +46,18 @@ class _MyHomePageState extends State<MyHomePage>
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80.0),
           child: AppBar(
-            backgroundColor: Colors.teal,
+            backgroundColor: Colors.white,
             bottom: TabBar(
               controller: _controller,
               tabs: _tab,
-              labelColor: Colors.teal,
-              indicatorColor: Colors.teal,
-              unselectedLabelColor: Colors.white,
+              labelColor: Colors.white,
+              indicatorColor: Colors.white,
+              unselectedLabelColor: Colors.teal,
               indicator: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10)),
-                  color: Colors.white),
+                  color: Colors.teal),
             ),
           ),
         ),

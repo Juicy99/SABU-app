@@ -30,7 +30,7 @@ class _ItemPageState extends State<ItemPage> {
         title: Card(
           child: TextField(
             decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search), hintText: '商品情報を検索'),
+                prefixIcon: Icon(Icons.search), hintText: '査定結果を検索'),
             onChanged: (val) {
               setState(() {
                 name = val;
