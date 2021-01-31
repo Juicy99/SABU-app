@@ -2,18 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sateiv2_app/order_notify.dart';
+import 'package:sateiv2_app/auth_service.dart';
+import 'package:sateiv2_app/provider/order_notify.dart';
 
-import 'auth_service.dart';
 
 class CartHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
     final historyService = Provider.of<OrderNotify>(context);
-    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
     historyService.uid = authService.user.uid;
-    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
     return StreamBuilder<QuerySnapshot>(
       // firestoreからデータを拾ってくる
       stream: historyService.dataPath.orderBy("createAt").snapshots(),
@@ -102,9 +100,7 @@ class CartHistoryPage2 extends StatelessWidget {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
     final historyService = Provider.of<OrderNotify>(context);
-    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
     historyService.uid = authService.user.uid;
-    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
     return StreamBuilder<QuerySnapshot>(
       // firestoreからデータを拾ってくる
       stream: historyService.dataPath.orderBy("createAt").snapshots(),

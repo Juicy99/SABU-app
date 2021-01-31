@@ -29,14 +29,11 @@ class SettingsPageState extends State<SettingsPage> {
     final googleUser = await GoogleSignIn(scopes: [
       'email',
     ]).signIn();
-    // リクエストから、認証情報を取得
     final googleAuth = await googleUser.authentication;
-    // クレデンシャルを新しく作成
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    // サインインしたら、UserCredentialを返す
     return FirebaseAuth.instance.signInWithCredential(credential);
   }
 

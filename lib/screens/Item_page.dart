@@ -3,11 +3,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:sateiv2_app/order_notify.dart';
-
-import 'auth_service.dart';
-import 'cart_page.dart';
-import 'order_notify.dart';
+import 'package:sateiv2_app/auth_service.dart';
+import 'package:sateiv2_app/provider/order_notify.dart';
+import 'package:sateiv2_app/screens/cart_page.dart';
 
 class ItemPage extends StatefulWidget {
   @override
@@ -21,9 +19,7 @@ class _ItemPageState extends State<ItemPage> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
     final historyService = Provider.of<OrderNotify>(context);
-    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
     historyService.uid = authService.user.uid;
-    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
@@ -51,10 +47,9 @@ class _ItemPageState extends State<ItemPage> {
             return Text('Error: ${snapshot.error}');
           }
           switch (snapshot.connectionState) {
-            case ConnectionState.waiting: // データの取得まち
+            case ConnectionState.waiting:
               return CircularProgressIndicator();
             default:
-              // streamからデータを取得できたので、使いやすい形にかえてあげる
               historyService.init2(snapshot.data.docs);
               return Scaffold(
                 body: Center(

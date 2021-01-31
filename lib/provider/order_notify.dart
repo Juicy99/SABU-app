@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
-import 'model.dart';
+import 'package:sateiv2_app/model/model.dart';
 
 class OrderNotify extends ChangeNotifier {
   List<Item> items = [];

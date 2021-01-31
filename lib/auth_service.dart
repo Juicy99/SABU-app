@@ -16,7 +16,6 @@ class AuthService with ChangeNotifier {
   FirebaseAuth get auth => _auth;
   Status get status => _status;
 
-  // firebase auth側の匿名認証を有効にするのを忘れずに
   Future<void> signInAnonymously() async {
     try {
       _status = Status.authenticating;

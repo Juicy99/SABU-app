@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'item_card.dart';
-import 'order_notify.dart';
+import 'package:sateiv2_app/model/item_card.dart';
+import 'package:sateiv2_app/provider/order_notify.dart';
 
 class ItemsList extends StatelessWidget {
   @override

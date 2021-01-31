@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sateiv2_app/provider/order_notify.dart';
+import 'package:sateiv2_app/screens/cart_history_page.dart';
+import 'package:sateiv2_app/screens/items_list.dart';
 
-import 'cart_history_page.dart';
-import 'items_list.dart';
-import 'order_notify.dart';
 
 class CartPage extends StatelessWidget {
   @override

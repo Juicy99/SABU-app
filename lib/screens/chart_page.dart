@@ -3,10 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import 'auth_service.dart';
-import 'model.dart';
-import 'order_notify.dart';
+import 'package:sateiv2_app/auth_service.dart';
+import 'package:sateiv2_app/model/model.dart';
+import 'package:sateiv2_app/provider/order_notify.dart';
 
 // ignore: must_be_immutable
 class ChartPage1 extends StatelessWidget {
@@ -32,9 +31,7 @@ class ChartPage1 extends StatelessWidget {
   ) {
     final authService = Provider.of<AuthService>(context);
     final historyService = Provider.of<OrderNotify>(context);
-    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
     historyService.uid = authService.user.uid;
-    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
     return StreamBuilder<QuerySnapshot>(
       // firestoreからデータを拾ってくる
       stream: historyService.dataPath
@@ -54,7 +51,6 @@ class ChartPage1 extends StatelessWidget {
           case ConnectionState.waiting: // データの取得まち
             return CircularProgressIndicator();
           default:
-            // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
             List<CartHistoryChartModel> sales = snapshot.data.docs
                 .map((documentSnapshot) =>
@@ -84,25 +80,18 @@ class ChartPage1 extends StatelessWidget {
                       renderSpec: new charts.SmallTickRendererSpec(
                           labelRotation: 60,
                           minimumPaddingBetweenLabelsPx: 0,
-                          // Tick and Label styling here.
                           labelStyle: new charts.TextStyleSpec(
-                              fontSize: 10, // size in Pts.
+                              fontSize: 10,
                               color: charts.MaterialPalette.black),
 
-                          // Change the line colors to match text color.
                           lineStyle: new charts.LineStyleSpec(
                               color: charts.MaterialPalette.black))),
-
-                  /// Assign a custom style for the measure axis.
                   primaryMeasureAxis: new charts.NumericAxisSpec(
                       renderSpec: new charts.GridlineRendererSpec(
 
-                          // Tick and Label styling here.
                           labelStyle: new charts.TextStyleSpec(
-                              fontSize: 10, // size in Pts.
+                              fontSize: 10,
                               color: charts.MaterialPalette.black),
-
-                          // Change the line colors to match text color.
                           lineStyle: new charts.LineStyleSpec(
                               color: charts.MaterialPalette.black))),
                 ),
@@ -139,11 +128,8 @@ class ChartPage2 extends StatelessWidget {
   ) {
     final authService = Provider.of<AuthService>(context);
     final historyService = Provider.of<OrderNotify>(context);
-    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
     historyService.uid = authService.user.uid;
-    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
     return StreamBuilder<QuerySnapshot>(
-      // firestoreからデータを拾ってくる
       stream: historyService.dataPath
           .where('createAt',
               isGreaterThanOrEqualTo:
@@ -155,10 +141,9 @@ class ChartPage2 extends StatelessWidget {
           return Text('Error: ${snapshot.error}');
         }
         switch (snapshot.connectionState) {
-          case ConnectionState.waiting: // データの取得まち
+          case ConnectionState.waiting:
             return CircularProgressIndicator();
           default:
-            // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
             List<CartHistoryChartModel> sales = snapshot.data.docs
                 .map((documentSnapshot) =>
@@ -188,12 +173,9 @@ class ChartPage2 extends StatelessWidget {
                       renderSpec: new charts.SmallTickRendererSpec(
                           labelRotation: 60,
                           minimumPaddingBetweenLabelsPx: 0,
-                          // Tick and Label styling here.
                           labelStyle: new charts.TextStyleSpec(
-                              fontSize: 0, // size in Pts.
                               color: charts.MaterialPalette.black),
 
-                          // Change the line colors to match text color.
                           lineStyle: new charts.LineStyleSpec(
                               color: charts.MaterialPalette.black))),
 
@@ -201,12 +183,10 @@ class ChartPage2 extends StatelessWidget {
                   primaryMeasureAxis: new charts.NumericAxisSpec(
                       renderSpec: new charts.GridlineRendererSpec(
 
-                          // Tick and Label styling here.
                           labelStyle: new charts.TextStyleSpec(
                               fontSize: 10, // size in Pts.
                               color: charts.MaterialPalette.black),
 
-                          // Change the line colors to match text color.
                           lineStyle: new charts.LineStyleSpec(
                               color: charts.MaterialPalette.black))),
                 ),
@@ -243,9 +223,7 @@ class ChartPage3 extends StatelessWidget {
   ) {
     final authService = Provider.of<AuthService>(context);
     final historyService = Provider.of<OrderNotify>(context);
-    // firestoreのデータはuidごとに分けているので、データの取得前にcartServiceにuidを渡してあげる
     historyService.uid = authService.user.uid;
-    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
     return StreamBuilder<QuerySnapshot>(
       // firestoreからデータを拾ってくる
       stream: historyService.dataPath.orderBy("createAt").snapshots(),
@@ -254,10 +232,9 @@ class ChartPage3 extends StatelessWidget {
           return Text('Error: ${snapshot.error}');
         }
         switch (snapshot.connectionState) {
-          case ConnectionState.waiting: // データの取得まち
+          case ConnectionState.waiting:
             return CircularProgressIndicator();
           default:
-            // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
             List<CartHistoryChartModel> sales = snapshot.data.docs
                 .map((documentSnapshot) =>
@@ -287,25 +264,18 @@ class ChartPage3 extends StatelessWidget {
                       renderSpec: new charts.SmallTickRendererSpec(
                           labelRotation: 60,
                           minimumPaddingBetweenLabelsPx: 0,
-                          // Tick and Label styling here.
                           labelStyle: new charts.TextStyleSpec(
                               fontSize: 0, // size in Pts.
                               color: charts.MaterialPalette.white),
-
-                          // Change the line colors to match text color.
                           lineStyle: new charts.LineStyleSpec(
                               color: charts.MaterialPalette.black))),
 
                   /// Assign a custom style for the measure axis.
                   primaryMeasureAxis: new charts.NumericAxisSpec(
                       renderSpec: new charts.GridlineRendererSpec(
-
-                          // Tick and Label styling here.
                           labelStyle: new charts.TextStyleSpec(
-                              fontSize: 10, // size in Pts.
+                              fontSize: 10,
                               color: charts.MaterialPalette.black),
-
-                          // Change the line colors to match text color.
                           lineStyle: new charts.LineStyleSpec(
                               color: charts.MaterialPalette.black))),
                 ),

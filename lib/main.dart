@@ -2,17 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'auth_service.dart';
-import 'home.dart';
-import 'order_notify.dart';
+import 'package:sateiv2_app/auth_service.dart';
+import 'package:sateiv2_app/home.dart';
+import 'package:sateiv2_app/provider/order_notify.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(
-    // providerを複数使うときはMultiProviderを使う。
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService.instance()),
@@ -40,7 +38,6 @@ class SignProcess extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, AuthService authService, _) {
-        // ログインの状態に応じて処理を遷移させる。
         switch (authService.status) {
           case Status.uninitialized:
             print('uninitialized');
@@ -52,7 +49,7 @@ class SignProcess extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           case Status.authenticated:
             print("authenticated");
-            break; // DbProcess();へ進む
+            break;
 
         }
         return DbProcess();
@@ -66,21 +63,17 @@ class DbProcess extends StatelessWidget {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
     final historyService = Provider.of<OrderNotify>(context);
-    // firestoreのデータはuidごとに分けているので、データの取得前にtodoServiceにuidを渡してあげる
     historyService.uid = authService.user.uid;
-    // streamのデータ(firestore)のデータが変更される度に自動でリビルドしてくれる
     return StreamBuilder<QuerySnapshot>(
-      // firestoreからデータを拾ってくる
       stream: historyService.dataPath.orderBy("createAt").snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
         switch (snapshot.connectionState) {
-          case ConnectionState.waiting: // データの取得まち
+          case ConnectionState.waiting:
             return CircularProgressIndicator();
           default:
-            // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
             return MyHomePage();
         }

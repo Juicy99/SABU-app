@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'Item_page.dart';
-import 'add_item_screen.dart';
-import 'cart_history_page.dart';
-import 'chart_page.dart';
-import 'settings_page.dart';
+import 'package:sateiv2_app/screens/Item_page.dart';
+import 'package:sateiv2_app/screens/add_item_screen.dart';
+import 'package:sateiv2_app/screens/cart_history_page.dart';
+import 'package:sateiv2_app/screens/chart_page.dart';
+import 'package:sateiv2_app/screens/settings_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override

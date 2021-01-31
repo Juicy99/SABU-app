@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'model.dart';
-import 'order_notify.dart';
+import 'package:sateiv2_app/model/model.dart';
+import 'package:sateiv2_app/provider/order_notify.dart';
 
 // ignore: must_be_immutable
 class ItemCard extends StatelessWidget {

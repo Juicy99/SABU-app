@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:sateiv2_app/Item_page.dart';
-
-import 'cart_page.dart';
-import 'order_notify.dart';
+import 'package:sateiv2_app/provider/order_notify.dart';
+import 'package:sateiv2_app/screens/Item_page.dart';
+import 'package:sateiv2_app/screens/cart_page.dart';
 
 class AddItemPage extends StatefulWidget {
   @override
@@ -40,7 +39,6 @@ class _AddItemPageState extends State<AddItemPage> {
               children: <Widget>[
                 InkWell(
                   onTap: () async {
-                    // TODO: カメラロール開いて写真選ぶ
                     final pickedFile = await picker.getImage(
                         source: ImageSource.camera, imageQuality: 10);
                     order.setImage(File(pickedFile.path));
