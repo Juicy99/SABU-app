@@ -50,7 +50,6 @@ class SignProcess extends StatelessWidget {
           case Status.authenticated:
             print("authenticated");
             break;
-
         }
         return DbProcess();
       },

@@ -83,12 +83,10 @@ class ChartPage1 extends StatelessWidget {
                           labelStyle: new charts.TextStyleSpec(
                               fontSize: 10,
                               color: charts.MaterialPalette.black),
-
                           lineStyle: new charts.LineStyleSpec(
                               color: charts.MaterialPalette.black))),
                   primaryMeasureAxis: new charts.NumericAxisSpec(
                       renderSpec: new charts.GridlineRendererSpec(
-
                           labelStyle: new charts.TextStyleSpec(
                               fontSize: 10,
                               color: charts.MaterialPalette.black),
@@ -175,18 +173,15 @@ class ChartPage2 extends StatelessWidget {
                           minimumPaddingBetweenLabelsPx: 0,
                           labelStyle: new charts.TextStyleSpec(
                               color: charts.MaterialPalette.black),
-
                           lineStyle: new charts.LineStyleSpec(
                               color: charts.MaterialPalette.black))),
 
                   /// Assign a custom style for the measure axis.
                   primaryMeasureAxis: new charts.NumericAxisSpec(
                       renderSpec: new charts.GridlineRendererSpec(
-
                           labelStyle: new charts.TextStyleSpec(
                               fontSize: 10, // size in Pts.
                               color: charts.MaterialPalette.black),
-
                           lineStyle: new charts.LineStyleSpec(
                               color: charts.MaterialPalette.black))),
                 ),

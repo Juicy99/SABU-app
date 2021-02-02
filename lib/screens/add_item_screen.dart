@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sateiv2_app/provider/order_notify.dart';
-import 'package:sateiv2_app/screens/Item_page.dart';
 import 'package:sateiv2_app/screens/cart_page.dart';
 
 class AddItemPage extends StatefulWidget {
@@ -95,7 +94,7 @@ class _AddItemPageState extends State<AddItemPage> {
                 TextFormField(
                   controller: _messageController3,
                   decoration: InputDecoration(
-                      hintText: '例（限定品）', labelText: '何かメモがあれば記入してください'),
+                      hintText: '例（限定品）', labelText: 'メモがあれば記入してください'),
                   onChanged: (value) {
                     newItemMessage = value;
                   },
@@ -122,15 +121,9 @@ class _AddItemPageState extends State<AddItemPage> {
                       color: Colors.teal,
                     ),
                     RaisedButton(
-                      // 送信ボタンクリック時の処理
                       onPressed: () {
-                        // バリデーションチェック
                         if (_formKey.currentState.validate()) {
                           newItemPrice = double.parse(_priceController2.text);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ItemPage()),
-                          );
                           Provider.of<OrderNotify>(context, listen: false)
                               .addItem(
                             _nameController.text,
@@ -140,12 +133,24 @@ class _AddItemPageState extends State<AddItemPage> {
                           _nameController.clear();
                           _priceController2.clear();
                           _messageController3.clear();
-                          Navigator.pop(context);
-                          return Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ItemPage()),
-                          );
                         }
+                        showDialog<int>(
+                            context: context,
+                            builder: (BuildContext context) => new AlertDialog(
+                                  title: Text(
+                                    "商品ページに記録しました",
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ));
                       },
                       child: Text(
                         '査定結果を記録',

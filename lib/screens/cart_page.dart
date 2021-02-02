@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sateiv2_app/model/item_card.dart';
 import 'package:sateiv2_app/provider/order_notify.dart';
 import 'package:sateiv2_app/screens/cart_history_page.dart';
-import 'package:sateiv2_app/screens/items_list.dart';
-
 
 class CartPage extends StatelessWidget {
   @override
@@ -51,7 +50,18 @@ class CartPage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: ItemsList(),
+              child: Scaffold(
+                body: ListView(
+                  children: order.items
+                      .map(
+                        (e) => Container(
+                          child: ItemCard(e),
+                          key: Key(UniqueKey().toString()),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
             ),
           ),
           Container(

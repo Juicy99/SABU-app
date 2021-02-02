@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:sateiv2_app/auth_service.dart';
 import 'package:sateiv2_app/provider/order_notify.dart';
 
-
 class CartHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -102,17 +101,15 @@ class CartHistoryPage2 extends StatelessWidget {
     final historyService = Provider.of<OrderNotify>(context);
     historyService.uid = authService.user.uid;
     return StreamBuilder<QuerySnapshot>(
-      // firestoreからデータを拾ってくる
       stream: historyService.dataPath.orderBy("createAt").snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
         switch (snapshot.connectionState) {
-          case ConnectionState.waiting: // データの取得まち
+          case ConnectionState.waiting:
             return CircularProgressIndicator();
           default:
-            // streamからデータを取得できたので、使いやすい形にかえてあげる
             historyService.init(snapshot.data.docs);
             return Scaffold(
               appBar: AppBar(

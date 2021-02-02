@@ -5,6 +5,7 @@ import 'package:sateiv2_app/screens/cart_history_page.dart';
 import 'package:sateiv2_app/screens/chart_page.dart';
 import 'package:sateiv2_app/screens/settings_page.dart';
 
+// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -38,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage>
     _controller = TabController(length: _tab.length, vsync: this);
   }
 
+  int selectedPage;
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: _tab.length,
