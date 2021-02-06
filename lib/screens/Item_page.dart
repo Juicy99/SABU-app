@@ -108,8 +108,9 @@ class _ItemPageState extends State<ItemPage> {
                                             historyService
                                                 .itemHistory[index].name,
                                             style: TextStyle(
-                                              color: Colors.white,
-                                            ),
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                         IconButton(
@@ -184,7 +185,7 @@ class _ItemPageState extends State<ItemPage> {
                                                   .itemHistory[index].message,
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 16),
+                                                  fontSize: 10),
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                             ),

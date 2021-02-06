@@ -58,11 +58,15 @@ class ItemCard extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
+                          maxLines: 2,
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.close, size: 26, color: Colors.white),
+                        icon: Icon(
+                          Icons.delete,
+                          size: 26,
+                          color: Colors.redAccent,
+                        ),
                         onPressed: () {
                           showDialog<int>(
                             context: context,

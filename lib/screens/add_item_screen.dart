@@ -55,6 +55,8 @@ class _AddItemPageState extends State<AddItemPage> {
                 TextFormField(
                   controller: _nameController,
                   decoration: InputDecoration(labelText: '商品名を記入'),
+                  maxLines: 1,
+                  maxLength: 20,
                   textAlign: TextAlign.center,
                   onChanged: (value) {
                     order.newItemTitle = value;
@@ -72,7 +74,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   decoration: InputDecoration(labelText: '査定金額を記入してください'),
                   obscureText: false,
                   maxLines: 1,
-                  maxLength: 10,
+                  maxLength: 8,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
@@ -95,6 +97,8 @@ class _AddItemPageState extends State<AddItemPage> {
                   controller: _messageController3,
                   decoration: InputDecoration(
                       hintText: '例（限定品）', labelText: 'メモがあれば記入してください'),
+                  maxLines: 1,
+                  maxLength: 20,
                   onChanged: (value) {
                     newItemMessage = value;
                   },
