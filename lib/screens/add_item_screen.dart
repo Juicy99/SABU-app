@@ -140,7 +140,7 @@ class _AddItemPageState extends State<AddItemPage> {
                         }
                         showDialog<int>(
                             context: context,
-                            builder: (BuildContext context) => new AlertDialog(
+                            builder: (BuildContext context) => AlertDialog(
                                   title: Text(
                                     "商品ページに記録しました",
                                   ),

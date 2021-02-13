@@ -3,7 +3,6 @@ import 'package:sateiv2_app/screens/Item_page.dart';
 import 'package:sateiv2_app/screens/add_item_screen.dart';
 import 'package:sateiv2_app/screens/cart_history_page.dart';
 import 'package:sateiv2_app/screens/chart_page.dart';
-import 'package:sateiv2_app/screens/settings_page.dart';
 
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
@@ -18,7 +17,6 @@ class _MyHomePageState extends State<MyHomePage>
     Tab(text: '商品', icon: Icon(Icons.note)),
     Tab(text: '履歴', icon: Icon(Icons.history)),
     Tab(text: 'グラフ', icon: Icon(Icons.insert_chart)),
-    Tab(text: '設定', icon: Icon(Icons.settings)),
   ];
 
   List<Widget> _buildTabPages() {
@@ -27,7 +25,6 @@ class _MyHomePageState extends State<MyHomePage>
       ItemPage(),
       CartHistoryPage(),
       ChartPage(),
-      SettingsPage(),
     ];
   }
 

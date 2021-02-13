@@ -45,7 +45,7 @@ class CartHistoryPage extends StatelessWidget {
                         subtitle: Text(
                           DateFormat("yyyy年MM月dd日hh時mm分　　　　　　　　　　　　　　　")
                                   .format(_date) +
-                              ("クーリングオフ終了まで${_date.add(Duration(days: 14)).difference(DateTime.now()).inDays.toString()}日"),
+                              ("クーリングオフ終了まで${_date.add(Duration(days: 8)).difference(DateTime.now()).inDays.toString()}日"),
                         ),
                         trailing: IconButton(
                           icon: Icon(Icons.delete, color: Colors.red),
@@ -140,7 +140,7 @@ class CartHistoryPage2 extends StatelessWidget {
                         subtitle: Text(
                           DateFormat("yyyy年MM月dd日hh時mm分　　　　　　　　　　　　　　　")
                                   .format(_date) +
-                              ("クーリングオフ終了まで${_date.add(Duration(days: 14)).difference(DateTime.now()).inDays.toString()}日"),
+                              ("クーリングオフ終了まで${_date.add(Duration(days: 8)).difference(DateTime.now()).inDays.toString()}日"),
                         ),
                         trailing: IconButton(
                           icon: Icon(Icons.delete, color: Colors.red),

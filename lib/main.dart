@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       builder: (context) => OrderNotify(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: SignProcess(),
       ),
     );
