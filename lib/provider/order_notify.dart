@@ -100,11 +100,10 @@ class OrderNotify extends ChangeNotifier {
     _itemHistory.sort((a, b) => b.createAt.compareTo(a.createAt));
   }
 
-  void addTitle(double total) {
+  void addTotal(double total) {
     dataPath.doc().set({
       'total': total,
       'createAt': DateTime.now(),
-      'orderHistory': items.map((i) => i.toMap()).toList(),
     });
   }
 

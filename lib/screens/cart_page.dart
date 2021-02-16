@@ -125,7 +125,7 @@ class CartPage extends StatelessWidget {
                                 FlatButton(
                                   child: Text('登録'),
                                   onPressed: () {
-                                    order.addTitle(order.totalPriceAmount);
+                                    order.addTotal(order.totalPriceAmount);
                                     order.clearCart();
                                     return Navigator.push(
                                       context,
