@@ -7,8 +7,8 @@
 ![iPhone 12 - 8](https://user-images.githubusercontent.com/69748880/115954116-33ba7800-a52a-11eb-8e16-00a38c19dbdb.png)
 
 #  使用技術
-  Flutter 2.1  
-  Dart 2.13  
+  Flutter 1.20.1   
+  Dart 2.9  
   Firebase 
   cupertino_icons0.1.3  
   provider5.0  
