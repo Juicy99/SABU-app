@@ -9,7 +9,7 @@
 #  使用技術
   Flutter 1.20.1   
   Dart 2.9  
-  Firebase 
+  Firebase  
   cupertino_icons0.1.3  
   provider5.0  
   intl0.17.0  
